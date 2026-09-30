@@ -1,8 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, Badge, StatCard, TutorCard, StarRating } from '../components/ui';
 import { tutors, subjects } from '../data/mockData';
 
-export default function Landing({ onNavigate }: { onNavigate: (page: string) => void }) {
+export default function Landing() {
+  const navigate = useNavigate();
   return (
     <div className="fade-in">
       {/* Hero */}
@@ -19,7 +21,7 @@ export default function Landing({ onNavigate }: { onNavigate: (page: string) => 
               Connect with verified, qualified tutors for live online lessons. From WASSCE preparation to university-level support — TutorKonnect has you covered.
             </p>
             <div className="flex flex-wrap gap-3 mt-8">
-              <Button size="lg" variant="secondary" onClick={() => onNavigate('discover')}>
+              <Button size="lg" variant="secondary" onClick={() => navigate('/tutors')}>
                 Find a Tutor
               </Button>
               <Button size="lg" variant="ghost" className="text-white border border-white/30 hover:bg-white/10">
@@ -79,7 +81,7 @@ export default function Landing({ onNavigate }: { onNavigate: (page: string) => 
             <option>All Subjects</option>
             {subjects.map(s => <option key={s.id}>{s.name}</option>)}
           </select>
-          <Button size="md" onClick={() => onNavigate('discover')}>Search Tutors</Button>
+          <Button size="md" onClick={() => navigate('/tutors')}>Search Tutors</Button>
         </div>
       </section>
 
@@ -93,7 +95,7 @@ export default function Landing({ onNavigate }: { onNavigate: (page: string) => 
           {subjects.map(subject => (
             <button
               key={subject.id}
-              onClick={() => onNavigate('discover')}
+              onClick={() => navigate('/tutors')}
               className="bg-white rounded-[14px] p-4 card-shadow text-left hover:shadow-md transition-all hover:-translate-y-0.5 group"
             >
               <div className="text-2xl mb-2">{subject.icon}</div>
@@ -111,11 +113,13 @@ export default function Landing({ onNavigate }: { onNavigate: (page: string) => 
             <h2 className="text-2xl font-bold font-display text-slate-900">Top-Rated Tutors</h2>
             <p className="text-slate-500 mt-1">Highly reviewed and verified by TutorKonnect</p>
           </div>
-          <Button variant="outline" size="sm" onClick={() => onNavigate('discover')}>View All</Button>
+          <Button variant="outline" size="sm" onClick={() => navigate('/tutors')}>View All</Button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {tutors.slice(0, 3).map(tutor => (
-            <TutorCard key={tutor.id} tutor={tutor} onBook={() => onNavigate('booking')} />
+            <div key={tutor.id} role="link" tabIndex={0} onClick={() => navigate(`/tutors/${tutor.id}`)} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') navigate(`/tutors/${tutor.id}`); }}>
+              <TutorCard tutor={tutor} onBook={() => navigate(`/tutors/${tutor.id}`)} />
+            </div>
           ))}
         </div>
       </section>
@@ -179,7 +183,7 @@ export default function Landing({ onNavigate }: { onNavigate: (page: string) => 
           <h2 className="text-2xl font-bold font-display text-white mb-3">Ready to Start Learning?</h2>
           <p className="text-white/70 mb-8">Join thousands of students already learning with TutorKonnect</p>
           <div className="flex flex-wrap gap-3 justify-center">
-            <Button size="lg" variant="secondary" onClick={() => onNavigate('register')}>Get Started Free</Button>
+            <Button size="lg" variant="secondary" onClick={() => navigate('/register')}>Get Started Free</Button>
             <Button size="lg" className="border border-white/30 text-white hover:bg-white/10 bg-transparent">Browse Tutors</Button>
           </div>
         </div>

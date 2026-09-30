@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, Badge, TutorCard, Input, SkeletonCard } from '../components/ui';
 import { tutors, subjects } from '../data/mockData';
 
-export default function TutorDiscovery({ onNavigate }: { onNavigate: (page: string) => void }) {
+export default function TutorDiscovery() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('All');
   const [sortBy, setSortBy] = useState('rating');
@@ -101,7 +103,9 @@ export default function TutorDiscovery({ onNavigate }: { onNavigate: (page: stri
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {filtered.map(tutor => (
-              <TutorCard key={tutor.id} tutor={tutor} onBook={() => onNavigate('booking')} />
+              <div key={tutor.id} role="link" tabIndex={0} onClick={() => navigate(`/tutors/${tutor.id}`)} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') navigate(`/tutors/${tutor.id}`); }}>
+                <TutorCard tutor={tutor} onBook={() => navigate(`/tutors/${tutor.id}`)} />
+              </div>
             ))}
           </div>
         )}

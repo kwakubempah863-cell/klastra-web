@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Avatar } from './ui';
 
 type Role = 'public' | 'student' | 'parent' | 'tutor' | 'admin';
@@ -61,18 +62,34 @@ const roleProfiles: Record<Role, { name: string; sub: string; avatar?: string }>
 };
 
 interface LayoutProps {
-  currentPage: string;
-  onNavigate: (page: string) => void;
-  role: Role;
-  onRoleChange: (role: Role) => void;
   children: React.ReactNode;
 }
 
-export default function Layout({ currentPage, onNavigate, role, onRoleChange, children }: LayoutProps) {
+function getPath(id: string) {
+  if (id === 'admin-analytics') return '/admin/analytics';
+  if (id === 'admin-dashboard') return '/admin';
+  if (id.startsWith('admin-')) return `/admin?nav=${id}`;
+  if (id === 'discover') return '/tutors';
+  if (id === 'subjects') return '/subjects';
+  if (id === 'login') return '/login';
+  return '/';
+}
+
+function isActive(id: string, pathname: string, search: string) {
+  if (id === 'admin-analytics') return pathname === '/admin/analytics';
+  if (id === 'admin-dashboard') return pathname === '/admin' && !new URLSearchParams(search).has('nav');
+  if (id.startsWith('admin-')) return pathname === '/admin' && new URLSearchParams(search).get('nav') === id;
+  return pathname === getPath(id);
+}
+
+export default function Layout({ children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isPublic = !location.pathname.startsWith('/admin');
+  const role: Role = isPublic ? 'public' : 'admin';
   const navItems = navByRole[role];
   const profile = roleProfiles[role];
-  const isPublic = role === 'public';
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: '#f4f6fb' }}>
@@ -93,14 +110,14 @@ export default function Layout({ currentPage, onNavigate, role, onRoleChange, ch
           {/* Nav */}
           <nav className="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
             {navItems.map(item => (
-              <button
+              <Link
                 key={item.id}
-                className={`sidebar-nav-item w-full text-left ${currentPage === item.id ? 'active' : ''}`}
-                onClick={() => onNavigate(item.id)}
+                to={getPath(item.id)}
+                className={`sidebar-nav-item w-full text-left ${isActive(item.id, location.pathname, location.search) ? 'active' : ''}`}
               >
                 <span className="nav-icon w-5 flex-shrink-0">{item.icon}</span>
                 <span>{item.label}</span>
-              </button>
+              </Link>
             ))}
           </nav>
 
@@ -136,17 +153,21 @@ export default function Layout({ currentPage, onNavigate, role, onRoleChange, ch
           <div className="flex-1" />
 
           {/* Role switcher */}
-          <div className="flex items-center gap-1 bg-slate-100 rounded-xl p-1">
-            {(['public', 'student', 'parent', 'tutor', 'admin'] as Role[]).map(r => (
-              <button
-                key={r}
-                onClick={() => { onRoleChange(r); }}
-                className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${role === r ? 'bg-[#1b3d7e] text-white' : 'text-slate-500 hover:text-slate-900'}`}
-              >
-                {r.charAt(0).toUpperCase() + r.slice(1)}
-              </button>
-            ))}
-          </div>
+          {import.meta.env.DEV && (
+            <div className="flex items-center gap-1 bg-slate-100 rounded-xl p-1">
+              {(['public', 'student', 'parent', 'tutor', 'admin'] as Role[]).map(itemRole => (
+                <button
+                  key={itemRole}
+                  onClick={() => {
+                    if (itemRole === 'admin' || itemRole === 'public') navigate(itemRole === 'admin' ? '/admin' : '/');
+                  }}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${role === itemRole ? 'bg-[#1b3d7e] text-white' : 'text-slate-500 hover:text-slate-900'}`}
+                >
+                  {itemRole.charAt(0).toUpperCase() + itemRole.slice(1)}
+                </button>
+              ))}
+            </div>
+          )}
 
           <button className="relative p-2 rounded-xl text-slate-500 hover:bg-slate-100">
             <BellIcon />
@@ -164,14 +185,14 @@ export default function Layout({ currentPage, onNavigate, role, onRoleChange, ch
         {!isPublic && (
           <nav className="md:hidden flex-shrink-0 bg-white border-t border-slate-100 flex items-center justify-around px-2 py-2 z-10">
             {navItems.slice(0, 5).map(item => (
-              <button
+              <Link
                 key={item.id}
-                onClick={() => onNavigate(item.id)}
-                className={`flex flex-col items-center gap-1 px-3 py-1 rounded-xl transition-all ${currentPage === item.id ? 'text-[#1b3d7e]' : 'text-slate-400'}`}
+                to={getPath(item.id)}
+                className={`flex flex-col items-center gap-1 px-3 py-1 rounded-xl transition-all ${isActive(item.id, location.pathname, location.search) ? 'text-[#1b3d7e]' : 'text-slate-400'}`}
               >
                 <span className="w-5 h-5">{item.icon}</span>
                 <span className="text-[10px] font-medium">{item.label}</span>
-              </button>
+              </Link>
             ))}
           </nav>
         )}
@@ -191,14 +212,15 @@ export default function Layout({ currentPage, onNavigate, role, onRoleChange, ch
             </div>
             <nav className="flex-1 px-3 py-4 space-y-0.5">
               {navItems.map(item => (
-                <button
+                <Link
                   key={item.id}
-                  className={`sidebar-nav-item w-full text-left ${currentPage === item.id ? 'active' : ''}`}
-                  onClick={() => { onNavigate(item.id); setSidebarOpen(false); }}
+                  to={getPath(item.id)}
+                  className={`sidebar-nav-item w-full text-left ${isActive(item.id, location.pathname, location.search) ? 'active' : ''}`}
+                  onClick={() => setSidebarOpen(false)}
                 >
                   <span className="nav-icon w-5">{item.icon}</span>
                   <span>{item.label}</span>
-                </button>
+                </Link>
               ))}
             </nav>
           </aside>
