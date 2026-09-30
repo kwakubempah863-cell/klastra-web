@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Avatar, Badge, StarRating } from '../components/ui';
+import DownloadAppButton from '../components/DownloadAppButton';
 import { tutors } from '../data/mockData';
 
 const tutorReviews = [
@@ -34,7 +35,9 @@ export default function TutorDetail() {
     <div className="min-h-full pb-24">
       <div className="fade-in">
       <section className="relative h-56 sm:h-64 bg-gradient-to-r from-[#0f2048] via-[#1b3d7e] to-[#2f54a8]">
-        <button onClick={() => navigate(-1)} aria-label="Go back" className="absolute top-5 left-5 z-10 w-10 h-10 rounded-full bg-white/15 text-white hover:bg-white/25 flex items-center justify-center text-2xl">←</button>
+        <button onClick={() => navigate(-1)} aria-label="Go back" className="absolute top-4 left-4 z-10 w-12 h-12 rounded-full bg-white/90 text-[#1b3d7e] hover:bg-white shadow-md flex items-center justify-center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5" aria-hidden="true"><path d="m15 18-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </button>
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0f2048]/30 to-transparent" />
       </section>
 
@@ -128,7 +131,7 @@ export default function TutorDetail() {
       <div className="fixed inset-x-0 bottom-0 z-20 bg-white border-t border-slate-200 px-5 py-3 shadow-[0_-4px_16px_rgba(15,32,72,0.08)]">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
           <div><span className="text-lg font-bold font-display text-[#1b3d7e]">GH₵{tutor.rate}</span><span className="text-sm text-slate-400"> /hr</span></div>
-          <button onClick={() => console.log('Book')} className="px-6 py-3 rounded-xl bg-[#f07a22] text-white font-bold text-sm hover:bg-[#d45f10] transition-colors">Book a session on the app</button>
+          <DownloadAppButton variant="secondary" size="lg" label="Book a session on the app" />
         </div>
       </div>
     </div>

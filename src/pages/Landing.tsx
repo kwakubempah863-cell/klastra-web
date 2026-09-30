@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Badge, StatCard, TutorCard, StarRating } from '../components/ui';
+import DownloadAppButton from '../components/DownloadAppButton';
 import { tutors, subjects } from '../data/mockData';
 
 export default function Landing() {
@@ -27,6 +28,7 @@ export default function Landing() {
               <Button size="lg" variant="ghost" className="text-white border border-white/30 hover:bg-white/10">
                 How it Works
               </Button>
+              <DownloadAppButton size="lg" variant="ghost" label="Get the app" className="text-white border border-white/30 hover:bg-white/10" />
             </div>
             <div className="flex items-center gap-6 mt-10">
               <div>
@@ -185,6 +187,7 @@ export default function Landing() {
           <div className="flex flex-wrap gap-3 justify-center">
             <Button size="lg" variant="secondary" onClick={() => navigate('/register')}>Get Started Free</Button>
             <Button size="lg" className="border border-white/30 text-white hover:bg-white/10 bg-transparent">Browse Tutors</Button>
+            <DownloadAppButton size="lg" variant="outline" label="Get the app" className="!border-white/30 !bg-transparent !text-white hover:!bg-white/10" />
           </div>
         </div>
       </section>
@@ -201,6 +204,7 @@ export default function Landing() {
             <a href="#" className="hover:text-[#1b3d7e]">Privacy</a>
             <a href="#" className="hover:text-[#1b3d7e]">Terms</a>
             <a href="#" className="hover:text-[#1b3d7e]">Support</a>
+            <DownloadAppButton size="sm" variant="ghost" label="Download the app" />
           </div>
         </div>
       </footer>
