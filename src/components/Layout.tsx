@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Avatar } from './ui';
+import { useAuth } from '../contexts/AuthContext';
 
 type Role = 'public' | 'student' | 'parent' | 'tutor' | 'admin';
 
@@ -84,11 +85,24 @@ function isActive(id: string, pathname: string, search: string) {
 
 export default function Layout({ children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+  const [accountError, setAccountError] = useState<string | null>(null);
+  const { profile: authProfile, loading: authLoading, signOut } = useAuth();
   const location = useLocation();
   const isPublic = !location.pathname.startsWith('/admin');
   const role: Role = isPublic ? 'public' : 'admin';
   const navItems = navByRole[role];
   const profile = roleProfiles[role];
+
+  const handleSignOut = async () => {
+    setAccountError(null);
+    try {
+      await signOut();
+      setAccountMenuOpen(false);
+    } catch (error) {
+      setAccountError(error instanceof Error ? error.message : 'Unable to sign out.');
+    }
+  };
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: '#f4f6fb' }}>
@@ -151,7 +165,27 @@ export default function Layout({ children }: LayoutProps) {
 
           <div className="flex-1" />
 
-          {!isPublic && <Avatar src={profile.avatar} name={profile.name} size={32} />}
+          {!authLoading && (authProfile ? (
+            <div className="relative">
+              <button type="button" onClick={() => setAccountMenuOpen(open => !open)} aria-haspopup="menu" aria-expanded={accountMenuOpen} className="flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-slate-50">
+                <Avatar src={authProfile.avatar_url ?? undefined} name={authProfile.first_name || 'User'} size={32} />
+                <span className="hidden sm:inline text-sm font-semibold text-slate-700">{authProfile.first_name || authProfile.email?.split('@')[0] || 'Account'}</span>
+                <span className="text-xs text-slate-400" aria-hidden="true">▾</span>
+              </button>
+              {accountMenuOpen && (
+                <div role="menu" className="absolute right-0 top-full mt-2 w-44 rounded-xl border border-slate-100 bg-white py-1 shadow-lg">
+                  <button type="button" role="menuitem" disabled className="w-full px-4 py-2 text-left text-sm text-slate-400 disabled:cursor-default">My Profile</button>
+                  <button type="button" role="menuitem" onClick={() => void handleSignOut()} className="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">Sign out</button>
+                  {accountError && <p role="alert" className="px-4 py-2 text-xs text-red-600">{accountError}</p>}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link to="/login" className="px-3 py-2 text-sm font-semibold text-[#1b3d7e] hover:bg-[#eef2fb] rounded-lg">Sign in</Link>
+              <Link to="/register" className="px-3 py-2 text-sm font-semibold text-white bg-[#1b3d7e] hover:bg-[#152e61] rounded-lg">Sign up</Link>
+            </div>
+          ))}
         </header>
 
         {/* Page content */}
