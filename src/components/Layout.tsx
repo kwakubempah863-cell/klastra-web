@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Avatar } from './ui';
 
 type Role = 'public' | 'student' | 'parent' | 'tutor' | 'admin';
@@ -85,7 +85,6 @@ function isActive(id: string, pathname: string, search: string) {
 export default function Layout({ children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
   const isPublic = !location.pathname.startsWith('/admin');
   const role: Role = isPublic ? 'public' : 'admin';
   const navItems = navByRole[role];
@@ -152,27 +151,6 @@ export default function Layout({ children }: LayoutProps) {
 
           <div className="flex-1" />
 
-          {/* Role switcher */}
-          {import.meta.env.DEV && (
-            <div className="flex items-center gap-1 bg-slate-100 rounded-xl p-1">
-              {(['public', 'student', 'parent', 'tutor', 'admin'] as Role[]).map(itemRole => (
-                <button
-                  key={itemRole}
-                  onClick={() => {
-                    if (itemRole === 'admin' || itemRole === 'public') navigate(itemRole === 'admin' ? '/admin' : '/');
-                  }}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${role === itemRole ? 'bg-[#1b3d7e] text-white' : 'text-slate-500 hover:text-slate-900'}`}
-                >
-                  {itemRole.charAt(0).toUpperCase() + itemRole.slice(1)}
-                </button>
-              ))}
-            </div>
-          )}
-
-          <button className="relative p-2 rounded-xl text-slate-500 hover:bg-slate-100">
-            <BellIcon />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#f07a22] rounded-full" />
-          </button>
           {!isPublic && <Avatar src={profile.avatar} name={profile.name} size={32} />}
         </header>
 
@@ -243,5 +221,4 @@ function WalletIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="curr
 function ShieldIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>; }
 function AlertIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>; }
 function ChartIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>; }
-function BellIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>; }
 function MenuIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>; }

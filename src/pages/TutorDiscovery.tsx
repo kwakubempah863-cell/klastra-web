@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Badge, TutorCard, Input, SkeletonCard } from '../components/ui';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Button, Badge, TutorCard, Input } from '../components/ui';
 import { tutors, subjects } from '../data/mockData';
 
 export default function TutorDiscovery() {
   const navigate = useNavigate();
-  const [search, setSearch] = useState('');
-  const [selectedSubject, setSelectedSubject] = useState('All');
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(() => searchParams.get('q') ?? '');
+  const [selectedSubject, setSelectedSubject] = useState(() => searchParams.get('subject') || 'All');
   const [sortBy, setSortBy] = useState('rating');
   const [minRating, setMinRating] = useState(0);
   const [maxRate, setMaxRate] = useState(200);
   const [onlyAvailable, setOnlyAvailable] = useState(false);
-  const [loading] = useState(false);
 
   const filtered = tutors.filter(t => {
     const matchSearch = !search || t.name.toLowerCase().includes(search.toLowerCase()) || t.subjects.some(s => s.toLowerCase().includes(search.toLowerCase()));
@@ -89,11 +89,7 @@ export default function TutorDiscovery() {
           </div>
         </div>
 
-        {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-            {[1, 2, 3, 4, 5, 6].map(i => <SkeletonCard key={i} />)}
-          </div>
-        ) : filtered.length === 0 ? (
+        {filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="text-5xl mb-4">🔍</div>
             <h3 className="text-lg font-bold font-display text-slate-800 mb-2">No tutors found</h3>

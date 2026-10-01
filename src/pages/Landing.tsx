@@ -1,11 +1,19 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Badge, StatCard, TutorCard, StarRating } from '../components/ui';
 import DownloadAppButton from '../components/DownloadAppButton';
 import { tutors, subjects } from '../data/mockData';
 
 export default function Landing() {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [selectedSubject, setSelectedSubject] = React.useState('All');
+
+  const searchTutors = () => {
+    const params = new URLSearchParams({ q: searchQuery, subject: selectedSubject });
+    navigate(`/tutors?${params.toString()}`);
+  };
+
   return (
     <div className="fade-in">
       {/* Hero */}
@@ -25,7 +33,7 @@ export default function Landing() {
               <Button size="lg" variant="secondary" onClick={() => navigate('/tutors')}>
                 Find a Tutor
               </Button>
-              <Button size="lg" variant="ghost" className="text-white border border-white/30 hover:bg-white/10">
+              <Button size="lg" variant="ghost" className="text-white border border-white/30 hover:bg-white/10" onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
                 How it Works
               </Button>
               <DownloadAppButton size="lg" variant="ghost" label="Get the app" className="text-white border border-white/30 hover:bg-white/10" />
@@ -76,14 +84,16 @@ export default function Landing() {
             <input
               type="text"
               placeholder="Search subjects, tutors, or topics..."
+              value={searchQuery}
+              onChange={event => setSearchQuery(event.target.value)}
               className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#1b3d7e]/20 focus:border-[#1b3d7e]"
             />
           </div>
-          <select className="px-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-700 outline-none focus:ring-2 focus:ring-[#1b3d7e]/20 bg-white">
-            <option>All Subjects</option>
-            {subjects.map(s => <option key={s.id}>{s.name}</option>)}
+          <select value={selectedSubject} onChange={event => setSelectedSubject(event.target.value)} className="px-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-700 outline-none focus:ring-2 focus:ring-[#1b3d7e]/20 bg-white">
+            <option value="All">All Subjects</option>
+            {subjects.map(s => <option key={s.id} value={s.name}>{s.name}</option>)}
           </select>
-          <Button size="md" onClick={() => navigate('/tutors')}>Search Tutors</Button>
+          <Button size="md" onClick={searchTutors}>Search Tutors</Button>
         </div>
       </section>
 
@@ -127,7 +137,7 @@ export default function Landing() {
       </section>
 
       {/* How it works */}
-      <section className="bg-white border-y border-slate-100 py-16">
+      <section id="how-it-works" className="bg-white border-y border-slate-100 py-16 scroll-mt-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-2xl font-bold font-display text-slate-900">How TutorKonnect Works</h2>
@@ -186,7 +196,7 @@ export default function Landing() {
           <p className="text-white/70 mb-8">Join thousands of students already learning with TutorKonnect</p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Button size="lg" variant="secondary" onClick={() => navigate('/register')}>Get Started Free</Button>
-            <Button size="lg" className="border border-white/30 text-white hover:bg-white/10 bg-transparent">Browse Tutors</Button>
+            <Link to="/tutors" className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-base font-semibold rounded-xl border border-white/30 text-white hover:bg-white/10 bg-transparent transition-all duration-150">Browse Tutors</Link>
             <DownloadAppButton size="lg" variant="outline" label="Get the app" className="!border-white/30 !bg-transparent !text-white hover:!bg-white/10" />
           </div>
         </div>
@@ -200,10 +210,12 @@ export default function Landing() {
             <span className="font-display font-bold text-[#1b3d7e] text-sm">Tutor<span className="text-[#f07a22]">Konnect</span></span>
           </div>
           <div className="text-xs text-slate-400">© 2026 TutorKonnect · Kumasi, Ghana · All rights reserved</div>
-          <div className="flex gap-4 text-xs text-slate-500">
-            <a href="#" className="hover:text-[#1b3d7e]">Privacy</a>
-            <a href="#" className="hover:text-[#1b3d7e]">Terms</a>
-            <a href="#" className="hover:text-[#1b3d7e]">Support</a>
+          <div className="flex flex-wrap justify-center gap-4 text-xs text-slate-500">
+            <Link to="/privacy" className="hover:text-[#1b3d7e]">Privacy</Link>
+            <Link to="/terms" className="hover:text-[#1b3d7e]">Terms</Link>
+            <Link to="/support" className="hover:text-[#1b3d7e]">Support</Link>
+            <Link to="/about" className="hover:text-[#1b3d7e]">About</Link>
+            <Link to="/contact" className="hover:text-[#1b3d7e]">Contact</Link>
             <DownloadAppButton size="sm" variant="ghost" label="Download the app" />
           </div>
         </div>

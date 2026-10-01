@@ -9,6 +9,12 @@ import Subjects from './pages/Subjects';
 import AdminDashboard from './pages/AdminDashboard';
 import Analytics from './pages/Analytics';
 import NotFound from './pages/NotFound';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import Support from './pages/Support';
+import HealthCheck from './pages/HealthCheck';
 
 export default function App() {
   return (
@@ -22,6 +28,12 @@ export default function App() {
         <Route path="/register" element={<Layout><Register /></Layout>} />
         <Route path="/admin" element={<Layout><AdminDashboard /></Layout>} />
         <Route path="/admin/analytics" element={<Layout><Analytics /></Layout>} />
+        <Route path="/about" element={<Layout><About /></Layout>} />
+        <Route path="/contact" element={<Layout><Contact /></Layout>} />
+        <Route path="/privacy" element={<Layout><Privacy /></Layout>} />
+        <Route path="/terms" element={<Layout><Terms /></Layout>} />
+        <Route path="/support" element={<Layout><Support /></Layout>} />
+        <Route path="/health" element={<Layout><HealthCheck /></Layout>} />
         <Route path="*" element={<Layout><NotFound /></Layout>} />
       </Routes>
     </BrowserRouter>
