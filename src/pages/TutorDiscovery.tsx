@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Badge, TutorCard, Input } from '../components/ui';
-import { tutors, subjects } from '../data/mockData';
+import { Button, TutorCard, Input, SkeletonCard } from '../components/ui';
+import { subjects } from '../data/mockData';
+import { useTutors } from '../hooks/useTutors';
+import { adaptTutor } from '../services/tutorsService';
 
 export default function TutorDiscovery() {
   const navigate = useNavigate();
@@ -12,15 +14,15 @@ export default function TutorDiscovery() {
   const [minRating, setMinRating] = useState(0);
   const [maxRate, setMaxRate] = useState(200);
   const [onlyAvailable, setOnlyAvailable] = useState(false);
-
-  const filtered = tutors.filter(t => {
-    const matchSearch = !search || t.name.toLowerCase().includes(search.toLowerCase()) || t.subjects.some(s => s.toLowerCase().includes(search.toLowerCase()));
-    const matchSubject = selectedSubject === 'All' || t.subjects.includes(selectedSubject);
-    const matchRating = t.rating >= minRating;
-    const matchRate = t.rate <= maxRate;
-    const matchAvail = !onlyAvailable || t.available;
-    return matchSearch && matchSubject && matchRating && matchRate && matchAvail;
-  }).sort((a, b) => sortBy === 'rating' ? b.rating - a.rating : sortBy === 'rate_asc' ? a.rate - b.rate : b.rate - a.rate);
+  const filters = {
+    search: search || undefined,
+    subject: selectedSubject === 'All' ? undefined : selectedSubject,
+    minRating: minRating > 0 ? minRating : undefined,
+    maxRate: maxRate < 200 ? maxRate : undefined,
+    onlyAvailable,
+    sort: sortBy as 'rating' | 'rate_asc' | 'rate_desc',
+  };
+  const { data: tutors = [], isLoading, isError, refetch } = useTutors(filters);
 
   return (
     <div className="fade-in flex flex-col lg:flex-row gap-0 lg:gap-6 h-full">
@@ -85,11 +87,20 @@ export default function TutorDiscovery() {
         <div className="flex items-center justify-between mb-5">
           <div>
             <h1 className="text-xl font-bold font-display text-slate-900">Find a Tutor</h1>
-            <p className="text-sm text-slate-500 mt-0.5">{filtered.length} tutors found</p>
+            <p className="text-sm text-slate-500 mt-0.5">{isLoading ? 'Finding tutors...' : `${tutors.length} tutors found`}</p>
           </div>
         </div>
 
-        {filtered.length === 0 ? (
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+            {Array.from({ length: 3 }, (_, index) => <SkeletonCard key={index} />)}
+          </div>
+        ) : isError ? (
+          <div className="bg-white border border-slate-200 rounded-xl p-6 text-center">
+            <p className="text-sm text-slate-600 mb-4">We couldn't load tutors. Please try again.</p>
+            <Button variant="outline" onClick={() => void refetch()}>Retry</Button>
+          </div>
+        ) : tutors.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="text-5xl mb-4">🔍</div>
             <h3 className="text-lg font-bold font-display text-slate-800 mb-2">No tutors found</h3>
@@ -98,9 +109,9 @@ export default function TutorDiscovery() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-            {filtered.map(tutor => (
+            {tutors.map(tutor => (
               <div key={tutor.id} role="link" tabIndex={0} onClick={() => navigate(`/tutors/${tutor.id}`)} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') navigate(`/tutors/${tutor.id}`); }}>
-                <TutorCard tutor={tutor} onBook={() => navigate(`/tutors/${tutor.id}`)} />
+                <TutorCard tutor={adaptTutor(tutor)} onBook={() => navigate(`/tutors/${tutor.id}`)} />
               </div>
             ))}
           </div>

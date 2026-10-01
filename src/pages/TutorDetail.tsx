@@ -1,23 +1,27 @@
-import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Avatar, Badge, StarRating } from '../components/ui';
 import DownloadAppButton from '../components/DownloadAppButton';
-import { tutors } from '../data/mockData';
-
-const tutorReviews = [
-  { name: 'Ama Serwaa', level: 'WASSCE student', rating: 5, date: 'September 2026', text: 'Her explanations made difficult topics feel clear. My confidence in mathematics has improved so much.' },
-  { name: 'Kweku Frimpong', level: 'University student', rating: 5, date: 'August 2026', text: 'Patient, well prepared, and excellent at breaking down complex problems step by step.' },
-  { name: 'Grace Quaye', level: 'Parent', rating: 5, date: 'July 2026', text: 'We have seen a real improvement in our daughter’s results. Highly recommended.' },
-  { name: 'Adwoa Nyarko', level: 'SHS student', rating: 4, date: 'June 2026', text: 'The lessons are engaging and focused on exactly what I need to practice.' },
-];
+import { useTutor } from '../hooks/useTutors';
+import { adaptTutor } from '../services/tutorsService';
 
 export default function TutorDetail() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [showAllReviews, setShowAllReviews] = useState(false);
-  const tutor = tutors.find(item => String(item.id) === id);
+  const { data: tutorData, isLoading, isError } = useTutor(id);
 
-  if (!tutor) {
+  if (isLoading) {
+    return (
+      <div className="fade-in min-h-full flex items-center justify-center p-6">
+        <div className="w-full max-w-5xl space-y-5">
+          <div className="skeleton h-56 sm:h-64 rounded-xl" />
+          <div className="skeleton h-8 w-1/3 rounded-lg" />
+          <div className="skeleton h-32 rounded-xl" />
+        </div>
+      </div>
+    );
+  }
+
+  if (isError || !tutorData) {
     return (
       <div className="fade-in min-h-full flex items-center justify-center p-6 text-center">
         <div>
@@ -29,7 +33,7 @@ export default function TutorDetail() {
     );
   }
 
-  const reviews = showAllReviews ? tutorReviews : tutorReviews.slice(0, 3);
+  const tutor = adaptTutor(tutorData);
 
   return (
     <div className="min-h-full pb-24">
@@ -69,8 +73,8 @@ export default function TutorDetail() {
             </section>
 
             <section className="grid grid-cols-2 gap-3">
-              <div className="bg-white rounded-xl p-4 card-shadow"><div className="text-xl font-bold font-display text-slate-900">{tutor.totalStudents}</div><div className="text-sm text-slate-500 mt-1">Students Taught</div></div>
-              <div className="bg-white rounded-xl p-4 card-shadow"><div className="text-xl font-bold font-display text-slate-900">{tutor.completedLessons.toLocaleString()}</div><div className="text-sm text-slate-500 mt-1">Lessons Completed</div></div>
+              <div className="bg-white rounded-xl p-4 card-shadow"><div className="text-xl font-bold font-display text-slate-900">{tutor.totalStudents ?? '—'}</div><div className="text-sm text-slate-500 mt-1">Students Taught</div></div>
+              <div className="bg-white rounded-xl p-4 card-shadow"><div className="text-xl font-bold font-display text-slate-900">{tutor.completedLessons?.toLocaleString() ?? '—'}</div><div className="text-sm text-slate-500 mt-1">Lessons Completed</div></div>
             </section>
 
             <section className="bg-white rounded-xl p-5 card-shadow">
@@ -81,7 +85,7 @@ export default function TutorDetail() {
             <section className="bg-white rounded-xl p-5 card-shadow">
               <h2 className="font-bold font-display text-slate-900 mb-2">Qualifications</h2>
               <p className="text-sm text-slate-600">{tutor.qualifications}</p>
-              <p className="text-sm text-slate-500 mt-2">{tutor.experience} years of teaching experience</p>
+              <p className="text-sm text-slate-500 mt-2">{tutor.experience === null ? 'Experience details not provided' : `${tutor.experience} years of teaching experience`}</p>
             </section>
 
             <section className="grid sm:grid-cols-2 gap-3">
@@ -91,30 +95,25 @@ export default function TutorDetail() {
               </div>
               <div className="bg-white rounded-xl p-5 card-shadow">
                 <h2 className="text-sm font-bold font-display text-slate-900 mb-2">Response Time</h2>
-                <p className="text-sm text-slate-600">Usually responds in {tutor.responseTime}</p>
+                <p className="text-sm text-slate-600">{tutor.responseTime ? `Usually responds in ${tutor.responseTime}` : 'Response time not provided'}</p>
               </div>
             </section>
 
             <section className="bg-white rounded-xl p-5 card-shadow">
               <h2 className="font-bold font-display text-slate-900 mb-3">Availability</h2>
-              <div className="flex flex-wrap gap-2">{tutor.availability.map(day => <span key={day} className="px-3 py-1.5 rounded-lg bg-[#eef2fb] text-[#1b3d7e] text-sm font-medium">{day}</span>)}</div>
+              {tutor.availability.length > 0 ? (
+                <div className="flex flex-wrap gap-2">{tutor.availability.map(day => <span key={day} className="px-3 py-1.5 rounded-lg bg-[#eef2fb] text-[#1b3d7e] text-sm font-medium">{day}</span>)}</div>
+              ) : (
+                <p className="text-sm text-slate-600">Contact tutor for lesson times.</p>
+              )}
             </section>
 
             <section>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-bold font-display text-slate-900">Reviews <span className="text-slate-400 font-medium">({tutor.reviews})</span></h2>
-                {tutorReviews.length > 3 && <button onClick={() => setShowAllReviews(!showAllReviews)} className="text-sm font-semibold text-[#1b3d7e] hover:underline">{showAllReviews ? 'Show fewer' : 'Show all'}</button>}
               </div>
-              <div className="space-y-3">
-                {reviews.map(review => (
-                  <article key={review.name} className="bg-white rounded-xl p-5 card-shadow">
-                    <div className="flex items-start justify-between gap-3">
-                      <div><h3 className="text-sm font-semibold text-slate-900">{review.name}</h3><p className="text-xs text-slate-500 mt-0.5">{review.level} · {review.date}</p></div>
-                      <StarRating rating={review.rating} size={13} />
-                    </div>
-                    <p className="text-sm text-slate-600 leading-relaxed mt-3">{review.text}</p>
-                  </article>
-                ))}
+              <div className="bg-white rounded-xl p-5 card-shadow">
+                <p className="text-sm text-slate-600">Review details are not available yet.</p>
               </div>
             </section>
           </div>

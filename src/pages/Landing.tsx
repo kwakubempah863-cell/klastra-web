@@ -1,13 +1,17 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Badge, StatCard, TutorCard, StarRating } from '../components/ui';
+import { Button, Badge, StatCard, TutorCard, StarRating, SkeletonCard } from '../components/ui';
 import DownloadAppButton from '../components/DownloadAppButton';
-import { tutors, subjects } from '../data/mockData';
+import { subjects } from '../data/mockData';
+import { useTutors } from '../hooks/useTutors';
+import { adaptTutor } from '../services/tutorsService';
 
 export default function Landing() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = React.useState('');
   const [selectedSubject, setSelectedSubject] = React.useState('All');
+  const { data: tutors = [], isLoading, isError, refetch } = useTutors({ sort: 'rating' });
+  const topTutors = tutors.slice(0, 3).map(adaptTutor);
 
   const searchTutors = () => {
     const params = new URLSearchParams({ q: searchQuery, subject: selectedSubject });
@@ -119,7 +123,7 @@ export default function Landing() {
       </section>
 
       {/* Featured Tutors */}
-      <section className="max-w-6xl mx-auto px-6 pb-14">
+      {(isLoading || isError || topTutors.length > 0) && <section className="max-w-6xl mx-auto px-6 pb-14">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-2xl font-bold font-display text-slate-900">Top-Rated Tutors</h2>
@@ -128,13 +132,18 @@ export default function Landing() {
           <Button variant="outline" size="sm" onClick={() => navigate('/tutors')}>View All</Button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {tutors.slice(0, 3).map(tutor => (
+          {isLoading ? Array.from({ length: 3 }, (_, index) => <SkeletonCard key={index} />) : isError ? (
+            <div className="sm:col-span-2 lg:col-span-3 bg-white border border-slate-200 rounded-xl p-6 text-center">
+              <p className="text-sm text-slate-600 mb-4">We couldn't load tutors. Please try again.</p>
+              <Button variant="outline" onClick={() => void refetch()}>Retry</Button>
+            </div>
+          ) : topTutors.map(tutor => (
             <div key={tutor.id} role="link" tabIndex={0} onClick={() => navigate(`/tutors/${tutor.id}`)} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') navigate(`/tutors/${tutor.id}`); }}>
               <TutorCard tutor={tutor} onBook={() => navigate(`/tutors/${tutor.id}`)} />
             </div>
           ))}
         </div>
-      </section>
+      </section>}
 
       {/* How it works */}
       <section id="how-it-works" className="bg-white border-y border-slate-100 py-16 scroll-mt-20">
