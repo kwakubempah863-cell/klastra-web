@@ -30,7 +30,7 @@ export default function AuthForm({ mode }: { mode: 'login' | 'register' }) {
       if (isLogin) {
         await signIn(email, password);
         const profile = await refresh();
-        if (profile?.role === 'tutor') navigate('/tutors');
+        if (profile?.role === 'tutor') navigate('/tutor/onboarding');
         else if (profile?.role === 'admin') navigate('/admin');
         else navigate('/');
       } else {
@@ -39,8 +39,8 @@ export default function AuthForm({ mode }: { mode: 'login' | 'register' }) {
           setConfirmationSent(true);
           return;
         }
-        await refresh();
-        navigate('/');
+        const profile = await refresh();
+        navigate(profile?.role === 'tutor' ? '/tutor/onboarding' : '/');
       }
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : 'Something went wrong. Please try again.');

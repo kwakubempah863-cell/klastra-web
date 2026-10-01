@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabase';
-import { subjects } from '../data/mockData';
+import { subjects } from '../data/subjects';
 
 export type Tutor = {
   id: string;
@@ -106,4 +106,198 @@ export function adaptTutor(tutor: Tutor) {
     responseTime: null as string | null,
     availability: [] as string[],
   };
+}
+
+export type TutorProfileInput = {
+  bio: string;
+  qualifications: string;
+  subject_ids: string[];
+  subject_names: string[];
+  rate: number;
+};
+
+export type AvailabilityDay = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
+
+export type AvailabilityInput = {
+  day: AvailabilityDay;
+  enabled: boolean;
+  start_time: string | null;
+  end_time: string | null;
+};
+
+export type TutorDocumentType = 'national_id' | 'academic_certificate' | 'teaching_certificate';
+
+export async function createTutorProfile(input: TutorProfileInput & { location?: string; languages?: string[] }) {
+  const { data: { user } } = await getSupabase().auth.getUser();
+  if (!user) throw new Error('Not authenticated');
+
+  const { data, error } = await getSupabase()
+    .from('tutors')
+    .insert({
+      id: user.id,
+      ...input,
+      rating: 0,
+      reviews_count: 0,
+      available: true,
+    })
+    .select()
+    .single();
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function updateTutorProfile(input: Partial<TutorProfileInput & { location: string; languages: string[] }>) {
+  const { data: { user } } = await getSupabase().auth.getUser();
+  if (!user) throw new Error('Not authenticated');
+
+  const { data, error } = await getSupabase()
+    .from('tutors')
+    .update(input)
+    .eq('id', user.id)
+    .select()
+    .single();
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function setAvailability(rows: AvailabilityInput[]) {
+  const { data: { user } } = await getSupabase().auth.getUser();
+  if (!user) throw new Error('Not authenticated');
+
+  const payload = rows.map(row => ({ ...row, tutor_id: user.id }));
+  const { error } = await getSupabase()
+    .from('tutor_availability')
+    .upsert(payload, { onConflict: 'tutor_id,day' });
+
+  if (error) throw new Error(error.message);
+}
+
+export async function uploadTutorDocument(documentType: TutorDocumentType, file: File) {
+  const { data: { user } } = await getSupabase().auth.getUser();
+  if (!user) throw new Error('Not authenticated');
+
+  const ext = file.name.split('.').pop()?.toLowerCase() ?? 'bin';
+  const path = `${user.id}/${documentType}.${ext}`;
+  const { error: uploadError } = await getSupabase()
+    .storage
+    .from('tutor-documents')
+    .upload(path, file, { upsert: true });
+
+  if (uploadError) throw new Error(uploadError.message);
+
+  const document = {
+    tutor_id: user.id,
+    document_type: documentType,
+    storage_path: path,
+    file_name: file.name,
+    status: 'pending',
+  };
+  const { error: dbError } = await getSupabase()
+    .from('tutor_documents')
+    .upsert(document, { onConflict: 'tutor_id,document_type' });
+
+  if (!dbError) return;
+  if (dbError.code !== '42P10' && !dbError.message.includes('no unique or exclusion constraint matching')) {
+    throw new Error(dbError.message);
+  }
+
+  const { data: existingDocument, error: lookupError } = await getSupabase()
+    .from('tutor_documents')
+    .select('id')
+    .eq('tutor_id', user.id)
+    .eq('document_type', documentType)
+    .maybeSingle();
+
+  if (lookupError) throw new Error(lookupError.message);
+
+  const { error: fallbackError } = existingDocument
+    ? await getSupabase().from('tutor_documents').update(document).eq('id', existingDocument.id)
+    : await getSupabase().from('tutor_documents').insert(document);
+
+  if (fallbackError) throw new Error(fallbackError.message);
+}
+
+export async function removeTutorDocument(documentType: TutorDocumentType) {
+  const { data: { user } } = await getSupabase().auth.getUser();
+  if (!user) throw new Error('Not authenticated');
+
+  const { data: document, error: selectError } = await getSupabase()
+    .from('tutor_documents')
+    .select('storage_path')
+    .eq('tutor_id', user.id)
+    .eq('document_type', documentType)
+    .maybeSingle();
+
+  if (selectError) throw new Error(selectError.message);
+
+  const { error: deleteError } = await getSupabase()
+    .from('tutor_documents')
+    .delete()
+    .eq('tutor_id', user.id)
+    .eq('document_type', documentType);
+
+  if (deleteError) throw new Error(deleteError.message);
+
+  if (document?.storage_path) {
+    const { error: storageError } = await getSupabase()
+      .storage
+      .from('tutor-documents')
+      .remove([document.storage_path]);
+
+    if (storageError) throw new Error(storageError.message);
+  }
+}
+
+export async function submitForVerification() {
+  const { data: { user } } = await getSupabase().auth.getUser();
+  if (!user) throw new Error('Not authenticated');
+
+  const { error } = await getSupabase()
+    .from('profiles')
+    .update({ verification_status: 'pending', onboarding_complete: true })
+    .eq('id', user.id);
+
+  if (error) throw new Error(error.message);
+}
+
+export async function getMyTutorProfile() {
+  const { data: { user } } = await getSupabase().auth.getUser();
+  if (!user) return null;
+
+  const { data, error } = await getSupabase()
+    .from('tutors')
+    .select('*')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function getMyAvailability() {
+  const { data: { user } } = await getSupabase().auth.getUser();
+  if (!user) return [];
+
+  const { data, error } = await getSupabase()
+    .from('tutor_availability')
+    .select('*')
+    .eq('tutor_id', user.id);
+
+  if (error) throw new Error(error.message);
+  return data ?? [];
+}
+
+export async function getMyDocuments() {
+  const { data: { user } } = await getSupabase().auth.getUser();
+  if (!user) return [];
+
+  const { data, error } = await getSupabase()
+    .from('tutor_documents')
+    .select('*')
+    .eq('tutor_id', user.id);
+
+  if (error) throw new Error(error.message);
+  return data ?? [];
 }

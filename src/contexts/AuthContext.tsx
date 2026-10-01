@@ -10,6 +10,7 @@ type Profile = {
   last_name: string;
   avatar_url: string | null;
   email: string | null;
+  verification_status: string | null;
 };
 
 type AuthContextType = {

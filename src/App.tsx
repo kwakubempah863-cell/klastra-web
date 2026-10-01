@@ -15,6 +15,7 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Support from './pages/Support';
 import HealthCheck from './pages/HealthCheck';
+import TutorOnboarding from './pages/TutorOnboarding';
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="/terms" element={<Layout><Terms /></Layout>} />
         <Route path="/support" element={<Layout><Support /></Layout>} />
         <Route path="/health" element={<Layout><HealthCheck /></Layout>} />
+        <Route path="/tutor/onboarding" element={<Layout><TutorOnboarding /></Layout>} />
         <Route path="*" element={<Layout><NotFound /></Layout>} />
       </Routes>
     </BrowserRouter>

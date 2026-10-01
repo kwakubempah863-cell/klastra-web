@@ -87,12 +87,16 @@ export default function Layout({ children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [accountError, setAccountError] = useState<string | null>(null);
+  const [tutorBannerDismissed, setTutorBannerDismissed] = useState(() => sessionStorage.getItem('tutor-onboarding-banner-dismissed') === 'true');
   const { profile: authProfile, loading: authLoading, signOut } = useAuth();
   const location = useLocation();
   const isPublic = !location.pathname.startsWith('/admin');
   const role: Role = isPublic ? 'public' : 'admin';
   const navItems = navByRole[role];
   const profile = roleProfiles[role];
+  const showTutorBanner = authProfile?.role === 'tutor'
+    && authProfile.verification_status !== 'approved'
+    && !tutorBannerDismissed;
 
   const handleSignOut = async () => {
     setAccountError(null);
@@ -187,6 +191,13 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           ))}
         </header>
+
+        {showTutorBanner && (
+          <div className="flex items-center justify-between gap-3 bg-amber-50 border-b border-amber-200 px-4 py-2 text-sm text-amber-900">
+            <span>Your tutor account is pending verification. <Link to="/tutor/onboarding" className="font-semibold underline underline-offset-2">Complete profile →</Link></span>
+            <button type="button" aria-label="Dismiss verification reminder" onClick={() => { sessionStorage.setItem('tutor-onboarding-banner-dismissed', 'true'); setTutorBannerDismissed(true); }} className="text-amber-700 hover:text-amber-950">×</button>
+          </div>
+        )}
 
         {/* Page content */}
         <main className="flex-1 overflow-y-auto">
