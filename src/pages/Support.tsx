@@ -1,26 +1,32 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 
 const faqs = [
-  { question: 'How do I book a tutor?', answer: 'Download the mobile app to browse tutors, choose a time, and book a lesson.' },
-  { question: 'How do I reset my password?', answer: 'Use the Forgot Password link on the sign-in screen and follow the instructions sent to your account.' },
-  { question: 'How do I contact my tutor?', answer: 'Open the Messages tab in the mobile app to contact your tutor.' },
-  { question: 'How do I get a refund?', answer: 'Contact support with your booking ID so the team can review your request.' },
+  { question: 'How do I sign up my school?', answer: 'Use the request demo form and we will contact your school to arrange a pilot and onboarding call.' },
+  { question: 'Do teachers need training?', answer: 'A short 20-minute onboarding session is enough to get teachers comfortable with attendance, scores, and messaging.' },
+  { question: 'Is my data safe?', answer: 'Yes. Tutor Konnect uses role-based access controls and private-by-default data access, with Row Level Security policies in the database.' },
+  { question: 'What if teachers do not have smartphones?', answer: 'The mobile app works on any Android device, and school staff can use the app on standard school-approved phones.' },
+  { question: 'How much does it cost?', answer: 'All plans are free during the pilot period. After onboarding, pricing depends on school size and needs.' },
+  { question: 'Can parents see other children\'s data?', answer: 'No. Parent access is limited to their own linked child, and database rules enforce that separation.' },
 ];
 
 export default function Support() {
   return (
-    <main className="max-w-3xl mx-auto px-6 py-16">
-      <h1 className="text-3xl font-bold font-display text-slate-900">Support</h1>
-      <p className="text-slate-500 mt-2">Help and troubleshooting</p>
-      <div className="space-y-4 mt-8">
-        {faqs.map(faq => (
-          <section key={faq.question} className="bg-white rounded-xl p-5 card-shadow">
-            <h2 className="font-bold font-display text-slate-900">{faq.question}</h2>
-            <p className="text-sm text-slate-600 mt-2 leading-relaxed">{faq.answer}</p>
-          </section>
-        ))}
+    <main className="mx-auto max-w-4xl px-6 py-16">
+      <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+        <h1 className="text-3xl font-black text-slate-900 md:text-4xl">Support</h1>
+        <p className="mt-3 text-slate-600">Helpful answers for school staff, parents, and administrators.</p>
+        <div className="mt-8 space-y-4">
+          {faqs.map((faq) => (
+            <section key={faq.question} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <h2 className="text-lg font-bold text-slate-900">{faq.question}</h2>
+              <p className="mt-2 text-sm leading-relaxed text-slate-700">{faq.answer}</p>
+            </section>
+          ))}
+        </div>
+        <div className="mt-8">
+          <Link to="/contact" className="inline-flex items-center justify-center rounded-xl bg-[#1b3d7e] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#152e61]">Request a demo</Link>
+        </div>
       </div>
-      <Link to="/contact" className="inline-flex items-center justify-center mt-8 px-5 py-2.5 rounded-xl bg-[#1b3d7e] text-white text-sm font-semibold hover:bg-[#152e61] transition-colors">Contact support</Link>
     </main>
   );
 }

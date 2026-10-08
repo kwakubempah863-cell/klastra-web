@@ -1,17 +1,24 @@
-import { Link } from 'react-router-dom';
-
-export default function About() {
+﻿export default function About() {
   return (
-    <main className="max-w-3xl mx-auto px-6 py-16">
-      <h1 className="text-3xl font-bold font-display text-slate-900">About Tutor Konnect</h1>
-      <p className="text-slate-500 mt-2">Connecting students and tutors across Ghana</p>
-      <div className="space-y-4 mt-8 text-slate-600 leading-relaxed">
-        <p>Tutor Konnect helps students across Ghana access supportive, convenient online tutoring. We connect learners with knowledgeable educators so they can build confidence and make progress in the subjects that matter to them.</p>
-        <p>We aim to make it easier to find verified tutors, learn from wherever you are, and arrange lessons around school, work, and family schedules.</p>
-        <p>Our mission is to make quality learning support more accessible through trusted tutors and flexible scheduling.</p>
+    <main className="mx-auto max-w-4xl px-6 py-16">
+      <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm md:p-10">
+        <h1 className="text-3xl font-black text-slate-900 md:text-5xl">Why we built Tutor Konnect</h1>
+        <div className="mt-8 space-y-5 text-lg leading-relaxed text-slate-700">
+          <p>
+            We built Tutor Konnect for private schools in Ghana that are doing important work with too little structure.
+            Many schools still rely on paper class registers, handwritten test scores, and WhatsApp messages to keep parents informed.
+            That creates gaps, slows down communication, and makes it harder for school leaders to see what is really happening every day.
+          </p>
+          <p>
+            We saw the problem firsthand: class teachers spend valuable time on attendance and score recording, but the information never reaches families in a useful format.
+            Parents are left in the dark, while school staff continue to juggle note books and group chats to keep up with updates.
+          </p>
+          <p>
+            Tutor Konnect gives schools a simple system for attendance, scores, parent communication, and school updates — all in one mobile-first workflow designed for Ghanaian classrooms.
+            We want schools to spend less time on admin and more time on teaching.
+          </p>
+        </div>
       </div>
-      <p className="text-sm text-slate-400 mt-8">More about our story and team is coming soon.</p>
-      <Link to="/tutors" className="inline-flex items-center justify-center mt-6 px-5 py-2.5 rounded-xl bg-[#1b3d7e] text-white text-sm font-semibold hover:bg-[#152e61] transition-colors">Find a Tutor</Link>
     </main>
   );
 }

@@ -186,8 +186,8 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <Link to="/login" className="px-3 py-2 text-sm font-semibold text-[#1b3d7e] hover:bg-[#eef2fb] rounded-lg">Sign in</Link>
-              <Link to="/register" className="px-3 py-2 text-sm font-semibold text-white bg-[#1b3d7e] hover:bg-[#152e61] rounded-lg">Sign up</Link>
+              <Link to="/contact" className="px-3 py-2 text-sm font-semibold text-[#1b3d7e] hover:bg-[#eef2fb] rounded-lg">Request demo</Link>
+              <Link to="/login" className="px-3 py-2 text-sm font-semibold text-white bg-[#1b3d7e] hover:bg-[#152e61] rounded-lg">Sign in</Link>
             </div>
           ))}
         </header>
