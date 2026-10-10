@@ -151,9 +151,9 @@ export default function Landing() {
             </div>
           </div>
 
-          <div className="relative isolate mx-auto aspect-[3/2] w-full max-w-xl overflow-hidden rounded-3xl lg:aspect-[4/5] lg:max-w-none">
+          <div className="relative isolate mx-auto aspect-[3/2] w-full max-w-xl overflow-hidden rounded-3xl md:max-w-none lg:aspect-[4/5]">
             <img src={heroStudent} alt="" className="absolute inset-0 h-full w-full object-cover object-[100%_center]" />
-            <div className="hidden lg:absolute lg:right-0 lg:top-1/2 lg:z-10 lg:block lg:w-[300px] lg:-translate-y-1/2 lg:origin-right lg:scale-[0.85] lg:drop-shadow-2xl">
+            <div className="hidden md:absolute md:right-0 md:top-1/2 md:z-10 md:block md:w-[300px] md:-translate-y-1/2 md:origin-right md:scale-[0.65] md:drop-shadow-2xl lg:scale-[0.85]">
               <PhoneMockup />
             </div>
           </div>
