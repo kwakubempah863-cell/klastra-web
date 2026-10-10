@@ -7,8 +7,8 @@ export default function Login() {
   const [notice, setNotice] = useState<string | null>(null);
 
   return (
-    <main className="mx-auto flex max-w-4xl items-center justify-center px-6 py-16">
-      <div className="w-full max-w-xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm md:p-10">
+    <main className="mesh-bg mx-auto flex max-w-4xl items-center justify-center px-6 py-16">
+      <div className="glass-medium w-full max-w-xl rounded-3xl border p-8 md:p-10">
         <div className="text-center">
           <img src={logoMark} alt="Klastra" className="mx-auto h-14 w-14" />
           <h1 className="mt-6 text-3xl font-black text-slate-900 md:text-4xl">Sign in through the mobile app</h1>

@@ -36,7 +36,7 @@ const featureRows = [
 
 export default function Pricing() {
   return (
-    <main className="mx-auto max-w-6xl px-6 py-16">
+    <main className="mesh-bg mx-auto max-w-6xl px-6 py-16">
       <div className="mx-auto max-w-3xl text-center">
         <div className="inline-flex rounded-full bg-[#EFF6FF] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#102A43]">Pricing</div>
         <h1 className="mt-4 text-3xl font-black text-slate-900 md:text-5xl">Choose the right plan for your school</h1>
@@ -44,7 +44,7 @@ export default function Pricing() {
 
       <div className="mt-12 grid gap-6 lg:grid-cols-3">
         {pricingTiers.map((tier) => (
-          <div key={tier.name} className={`rounded-3xl border p-6 shadow-sm ${tier.featured ? 'border-[#102A43] bg-[#EFF6FF] ring-1 ring-[#102A43]/10' : 'border-slate-200 bg-white'}`}>
+          <div key={tier.name} className={`glass-medium glass-hover-lift rounded-3xl border p-6 ${tier.featured ? 'ring-1 ring-[#2563EB]/40' : ''}`}>
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-black text-slate-900">{tier.name}</h2>
               {tier.featured && <span className="rounded-full bg-[#EFF6FF] px-2 py-1 text-xs font-semibold text-[#1E40AF]">Popular</span>}
@@ -66,9 +66,9 @@ export default function Pricing() {
         ))}
       </div>
 
-      <div className="mt-16 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+      <div className="glass-light mt-16 overflow-hidden rounded-3xl border">
         <div className="overflow-x-auto">
-          <table className="min-w-full text-left text-sm text-slate-700">
+          <table className="min-w-full bg-white text-left text-sm text-slate-700">
             <thead className="bg-slate-50 text-slate-900">
               <tr>
                 <th className="px-5 py-4 font-bold">Features</th>

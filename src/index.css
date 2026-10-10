@@ -207,3 +207,136 @@ body {
 .fade-in {
   animation: fadeIn 0.25s ease forwards;
 }
+
+.glass-light,
+.glass-medium,
+.glass-heavy,
+.glass-dark {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.15),
+    0 8px 32px rgba(15, 23, 42, 0.08);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+}
+
+.glass-medium {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+}
+
+.glass-heavy {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 8px 32px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+}
+
+@supports not (backdrop-filter: blur(20px)) {
+  .glass-light,
+  .glass-medium,
+  .glass-heavy {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .glass-dark {
+    background: rgba(15, 23, 42, 0.94);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .glass-hover-lift {
+    transition:
+      transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.8),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.2),
+      0 16px 48px rgba(15, 23, 42, 0.12);
+  }
+}
+
+.mesh-bg {
+  position: relative;
+}
+
+.mesh-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.1) 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(15, 157, 138, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 90%, rgba(37, 99, 235, 0.06) 0%, transparent 50%);
+  z-index: 0;
+}
+
+.mesh-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-orb {
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(37, 99, 235, 0.35) 0%,
+    rgba(15, 157, 138, 0.15) 50%,
+    transparent 70%
+  );
+  filter: blur(60px);
+  pointer-events: none;
+  animation: orbDrift 14s ease-in-out infinite alternate;
+  z-index: 1;
+}
+
+@keyframes orbDrift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(20px, -15px) scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-orb {
+    animation: none;
+  }
+}
+
+.header-glass {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-bottom-color: rgba(226, 232, 240, 0.5) !important;
+  transition:
+    background 200ms ease,
+    backdrop-filter 200ms ease,
+    border-color 200ms ease;
+}

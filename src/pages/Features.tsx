@@ -45,7 +45,7 @@ const featureSections = [
 
 export default function Features() {
   return (
-    <main className="mx-auto max-w-6xl px-6 py-16">
+    <main className="mesh-bg mx-auto max-w-6xl px-6 py-16">
       <div className="mx-auto max-w-3xl text-center">
         <div className="inline-flex rounded-full bg-[#EFF6FF] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#102A43]">Features</div>
         <h1 className="mt-4 text-3xl font-black text-slate-900 md:text-5xl">School operations, simplified for everyday teaching</h1>
@@ -56,7 +56,7 @@ export default function Features() {
           const isReversed = index % 2 === 1;
 
           return (
-            <section key={section.title} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+            <section key={section.title} className="glass-medium glass-hover-lift rounded-3xl border p-6 md:p-8">
               <div className={`grid items-center gap-8 md:grid-cols-2 ${isReversed ? 'md:[&>*:first-child]:order-2' : ''}`}>
                 <div className={`${section.accent} rounded-3xl p-6`}>
                   <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-3xl shadow-sm">{section.emoji}</div>

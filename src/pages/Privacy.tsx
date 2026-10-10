@@ -1,7 +1,7 @@
 export default function Privacy() {
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
-      <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+    <main className="mesh-bg mx-auto max-w-3xl px-6 py-16">
+      <div className="glass-light rounded-3xl border p-8">
         <h1 className="text-3xl font-black text-slate-900 md:text-4xl">Privacy Policy</h1>
         <p className="mt-3 text-sm text-slate-500">Last updated: October 8, 2026</p>
         <div className="mt-8 space-y-5 text-slate-700">

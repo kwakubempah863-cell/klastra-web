@@ -1,7 +1,7 @@
 export default function About() {
   return (
-    <main className="mx-auto max-w-4xl px-6 py-16">
-      <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm md:p-10">
+    <main className="mesh-bg mx-auto max-w-4xl px-6 py-16">
+      <div className="glass-light rounded-3xl border p-8 md:p-10">
         <h1 className="text-3xl font-black text-slate-900 md:text-5xl">Why we built Klastra</h1>
         <div className="mt-8 space-y-5 text-lg leading-relaxed text-slate-700">
           <p>

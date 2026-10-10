@@ -11,8 +11,8 @@ const faqs = [
 
 export default function Support() {
   return (
-    <main className="mx-auto max-w-4xl px-6 py-16">
-      <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+    <main className="mesh-bg mx-auto max-w-4xl px-6 py-16">
+      <div className="glass-light rounded-3xl border p-8">
         <h1 className="text-3xl font-black text-slate-900 md:text-4xl">Support</h1>
         <p className="mt-3 text-slate-600">Helpful answers for school staff, parents, and administrators.</p>
         <div className="mt-8 space-y-4">

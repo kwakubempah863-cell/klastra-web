@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Badge, Button } from '../components/ui';
-import heroStudent from '../imports/hero-student.png';
+import heroClassroom from '../imports/hero-classroom.png';
 
 const trustMarkers = ['Free for pilot schools', 'Works on any Android phone', 'Set up in a day'];
 
@@ -127,8 +127,20 @@ export default function Landing() {
 
   return (
     <div className="bg-slate-50 text-slate-900">
-      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(37,99,235,0.15),_transparent_30%),linear-gradient(135deg,#0F172A_0%,#102A43_55%,#1E3A5F_100%)] text-white">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:py-24">
+      <section className="relative overflow-hidden text-white">
+        <div className="absolute inset-0 z-0">
+          <img src={heroClassroom} alt="" className="h-full w-full object-cover" />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(135deg, rgba(15,23,42,0.55) 0%, rgba(16,42,67,0.45) 55%, rgba(37,99,235,0.35) 100%)',
+            }}
+          />
+        </div>
+        <div className="hero-orb" style={{ top: '20%', left: '30%' }} aria-hidden="true" />
+        <div className="hero-orb" style={{ top: '50%', right: '10%', animationDelay: '-7s' }} aria-hidden="true" />
+        <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-6 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:py-24">
           <div>
             <Badge label="🇬🇭 Built for Ghanaian private schools" color="amber" />
             <h1 className="mt-5 max-w-xl text-4xl font-black leading-tight text-white md:text-5xl">
@@ -143,7 +155,7 @@ export default function Landing() {
             </div>
             <div className="mt-8 flex flex-wrap gap-5 text-sm text-sky-100/90">
               {trustMarkers.map((marker) => (
-                <span key={marker} className="inline-flex items-center gap-2">
+                <span key={marker} className="glass-dark inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm">
                   <span className="inline-block h-2 w-2 rounded-full bg-[#22A06B]" />
                   {marker}
                 </span>
@@ -151,9 +163,8 @@ export default function Landing() {
             </div>
           </div>
 
-          <div className="relative isolate mx-auto aspect-[3/2] w-full max-w-xl overflow-hidden rounded-3xl md:max-w-none lg:aspect-[4/5]">
-            <img src={heroStudent} alt="" className="absolute inset-0 h-full w-full object-cover object-[100%_center]" />
-            <div className="hidden md:absolute md:right-0 md:top-1/2 md:z-10 md:block md:w-[300px] md:-translate-y-1/2 md:origin-right md:scale-[0.65] md:drop-shadow-2xl lg:scale-[0.85]">
+          <div className="mx-auto w-full max-w-xl lg:max-w-none">
+            <div className="glass-medium rounded-3xl p-6">
               <PhoneMockup />
             </div>
           </div>
@@ -238,13 +249,13 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+      <section className="mesh-bg mx-auto max-w-6xl px-6 py-16 md:py-20">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-black text-slate-900 md:text-4xl">Simple pricing for growing schools</h2>
         </div>
         <div className="mt-10 grid gap-6 lg:grid-cols-3">
           {pricingTiers.map((tier) => (
-            <div key={tier.name} className={`rounded-3xl border p-6 shadow-sm ${tier.featured ? 'border-[#102A43] bg-[#EFF6FF] ring-1 ring-[#102A43]/10' : 'border-slate-200 bg-white'}`}>
+            <div key={tier.name} className={`glass-medium glass-hover-lift rounded-3xl border p-6 ${tier.featured ? 'ring-1 ring-[#2563EB]/40' : ''}`}>
               <div className="flex items-center justify-between">
                 <h3 className="text-2xl font-black text-slate-900">{tier.name}</h3>
                 {tier.featured && <Badge label="Popular" color="amber" />}

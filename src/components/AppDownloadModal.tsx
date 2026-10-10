@@ -28,7 +28,7 @@ export default function AppDownloadModal({ open, onClose }: Props) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="app-download-title"
-        className="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl relative"
+        className="glass-heavy rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl relative"
         onClick={event => event.stopPropagation()}
       >
         <button

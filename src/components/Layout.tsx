@@ -89,6 +89,7 @@ export default function Layout({ children }: LayoutProps) {
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [accountError, setAccountError] = useState<string | null>(null);
   const [tutorBannerDismissed, setTutorBannerDismissed] = useState(() => sessionStorage.getItem('tutor-onboarding-banner-dismissed') === 'true');
+  const [scrolled, setScrolled] = useState(false);
   const { profile: authProfile, loading: authLoading, signOut } = useAuth();
   const location = useLocation();
   const isPublic = !location.pathname.startsWith('/admin');
@@ -155,7 +156,7 @@ export default function Layout({ children }: LayoutProps) {
       {/* Main */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         {/* Top bar */}
-        <header className="h-14 flex-shrink-0 bg-white border-b border-slate-100 flex items-center px-4 gap-3 z-10">
+        <header className={`h-14 flex-shrink-0 border-b border-slate-100 flex items-center px-4 gap-3 z-10 ${scrolled ? 'header-glass' : 'bg-white'}`}>
           {isPublic && (
             <div className="flex items-center gap-2 mr-4">
               <img src={logoMark} alt="Klastra" className="w-7 h-7 rounded-lg object-cover" />
@@ -201,7 +202,7 @@ export default function Layout({ children }: LayoutProps) {
         )}
 
         {/* Page content */}
-        <main className="flex-1 overflow-y-auto">
+        <main onScroll={event => setScrolled(event.currentTarget.scrollTop > 40)} className="flex-1 overflow-y-auto">
           {children}
         </main>
 
