@@ -2,38 +2,38 @@
 @import 'tailwindcss';
 
 @theme inline {
-  --color-navy-50: #eef2fb;
-  --color-navy-100: #d5e0f3;
-  --color-navy-200: #adc0e7;
-  --color-navy-300: #7898d5;
-  --color-navy-400: #4d72c2;
-  --color-navy-500: #2f54a8;
-  --color-navy-600: #1b3d7e;
-  --color-navy-700: #152e61;
-  --color-navy-800: #0f2048;
-  --color-navy-900: #091630;
+  --color-navy-50: #F8FAFC;
+  --color-navy-100: #F1F5F9;
+  --color-navy-200: #E2E8F0;
+  --color-navy-300: #CBD5E1;
+  --color-navy-400: #94A3B8;
+  --color-navy-500: #64748B;
+  --color-navy-600: #334155;
+  --color-navy-700: #1E3A5F;
+  --color-navy-800: #102A43;
+  --color-navy-900: #08192D;
 
-  --color-amber-50: #fff8ec;
-  --color-amber-100: #feecc8;
-  --color-amber-200: #fdd48a;
-  --color-amber-300: #fcb84c;
-  --color-amber-400: #f99d28;
-  --color-amber-500: #f07a22;
-  --color-amber-600: #d45f10;
-  --color-amber-700: #b0470f;
-  --color-amber-800: #8a360e;
-  --color-amber-900: #6b280d;
+  --color-blue-50: #EFF6FF;
+  --color-blue-100: #DBEAFE;
+  --color-blue-200: #BFDBFE;
+  --color-blue-300: #93C5FD;
+  --color-blue-400: #60A5FA;
+  --color-blue-500: #3B82F6;
+  --color-blue-600: #2563EB;
+  --color-blue-700: #1E40AF;
+  --color-blue-800: #1E3A8A;
+  --color-blue-900: #172554;
 
-  --color-teal-50: #edfdf5;
-  --color-teal-100: #ccfadf;
-  --color-teal-200: #9af3c2;
-  --color-teal-300: #5fe5a0;
-  --color-teal-400: #28cd7c;
-  --color-teal-500: #0fb568;
-  --color-teal-600: #0a9053;
-  --color-teal-700: #0a7244;
-  --color-teal-800: #0b5936;
-  --color-teal-900: #09432b;
+  --color-teal-50: #ECFDF5;
+  --color-teal-100: #D1FAE5;
+  --color-teal-200: #A7F3D0;
+  --color-teal-300: #6EE7B7;
+  --color-teal-400: #4ADE80;
+  --color-teal-500: #22A06B;
+  --color-teal-600: #0F9D8A;
+  --color-teal-700: #0D7F70;
+  --color-teal-800: #0A6659;
+  --color-teal-900: #084D44;
 
   --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
@@ -57,7 +57,7 @@ html {
 
 body {
   margin: 0;
-  background: #f4f6fb;
+  background: #F8FAFC;
   color: #0f172a;
 }
 
@@ -88,7 +88,7 @@ body {
   border-radius: 10px;
   font-size: 14px;
   font-weight: 500;
-  color: #93b4d4;
+  color: #94A3B8;
   cursor: pointer;
   transition: all 0.15s ease;
   white-space: nowrap;
@@ -98,11 +98,11 @@ body {
   color: #fff;
 }
 .sidebar-nav-item.active {
-  background: rgba(240, 122, 34, 0.18);
+  background: rgba(37, 99, 235, 0.18);
   color: #fff;
 }
 .sidebar-nav-item.active .nav-icon {
-  color: #f07a22;
+  color: #2563EB;
 }
 
 .card-shadow {
@@ -115,7 +115,7 @@ body {
 .progress-bar {
   height: 8px;
   border-radius: 9999px;
-  background: #e2e8f0;
+  background: #E2E8F0;
   overflow: hidden;
 }
 .progress-fill {
@@ -155,7 +155,7 @@ body {
   color: #0f172a;
 }
 .message-bubble-out {
-  background: #1b3d7e;
+  background: #2563EB;
   border-radius: 18px 4px 18px 18px;
   color: #fff;
 }
@@ -192,12 +192,12 @@ body {
   border: none;
 }
 .tab-pill.active {
-  background: #1b3d7e;
+  background: #102A43;
   color: #fff;
 }
 .tab-pill:hover:not(.active) {
   background: #f1f5f9;
-  color: #1b3d7e;
+  color: #102A43;
 }
 
 @keyframes fadeIn {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Avatar } from './ui';
 import { useAuth } from '../contexts/AuthContext';
+import logoMark from '../imports/logo-mark.png';
 
 type Role = 'public' | 'student' | 'parent' | 'tutor' | 'admin';
 
@@ -109,16 +110,16 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ background: '#f4f6fb' }}>
+    <div className="flex h-screen overflow-hidden" style={{ background: '#F8FAFC' }}>
       {/* Sidebar (desktop) */}
       {!isPublic && (
-        <aside className="hidden md:flex flex-col w-60 flex-shrink-0 h-screen" style={{ background: '#0f2048' }}>
+        <aside className="hidden md:flex flex-col w-60 flex-shrink-0 h-screen" style={{ background: '#08192D' }}>
           {/* Logo */}
           <div className="px-5 py-5 border-b border-white/10">
             <div className="flex items-center gap-2.5">
-              <img src="/src/imports/Logo-1.jpeg" alt="TutorKonnect" className="w-9 h-9 rounded-lg object-cover" />
+              <img src={logoMark} alt="Klastra" className="w-9 h-9 rounded-lg object-cover" />
               <div>
-                <div className="font-display font-bold text-white text-sm leading-tight">Tutor<span className="text-[#f07a22]">Konnect</span></div>
+                <div className="font-display font-bold text-white text-sm leading-tight">Klastra</div>
                 <div className="text-[10px] text-white/40 capitalize">{role} Portal</div>
               </div>
             </div>
@@ -157,8 +158,8 @@ export default function Layout({ children }: LayoutProps) {
         <header className="h-14 flex-shrink-0 bg-white border-b border-slate-100 flex items-center px-4 gap-3 z-10">
           {isPublic && (
             <div className="flex items-center gap-2 mr-4">
-              <img src="/src/imports/Logo-1.jpeg" alt="TutorKonnect" className="w-7 h-7 rounded-lg object-cover" />
-              <span className="font-display font-bold text-[#1b3d7e] text-sm">Tutor<span className="text-[#f07a22]">Konnect</span></span>
+              <img src={logoMark} alt="Klastra" className="w-7 h-7 rounded-lg object-cover" />
+              <span className="font-display font-bold text-[#102A43] text-sm">Klastra</span>
             </div>
           )}
           {!isPublic && (
@@ -186,8 +187,8 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <Link to="/contact" className="px-3 py-2 text-sm font-semibold text-[#1b3d7e] hover:bg-[#eef2fb] rounded-lg">Request demo</Link>
-              <Link to="/login" className="px-3 py-2 text-sm font-semibold text-white bg-[#1b3d7e] hover:bg-[#152e61] rounded-lg">Sign in</Link>
+              <Link to="/contact" className="px-3 py-2 text-sm font-semibold text-[#102A43] hover:bg-[#EFF6FF] rounded-lg">Request demo</Link>
+              <Link to="/login" className="px-3 py-2 text-sm font-semibold text-white bg-[#102A43] hover:bg-[#08192D] rounded-lg">Sign in</Link>
             </div>
           ))}
         </header>
@@ -211,7 +212,7 @@ export default function Layout({ children }: LayoutProps) {
               <Link
                 key={item.id}
                 to={getPath(item.id)}
-                className={`flex flex-col items-center gap-1 px-3 py-1 rounded-xl transition-all ${isActive(item.id, location.pathname, location.search) ? 'text-[#1b3d7e]' : 'text-slate-400'}`}
+                className={`flex flex-col items-center gap-1 px-3 py-1 rounded-xl transition-all ${isActive(item.id, location.pathname, location.search) ? 'text-[#102A43]' : 'text-slate-400'}`}
               >
                 <span className="w-5 h-5">{item.icon}</span>
                 <span className="text-[10px] font-medium">{item.label}</span>
@@ -225,11 +226,11 @@ export default function Layout({ children }: LayoutProps) {
       {sidebarOpen && !isPublic && (
         <div className="fixed inset-0 z-50 md:hidden">
           <div className="absolute inset-0 bg-black/40" onClick={() => setSidebarOpen(false)} />
-          <aside className="absolute left-0 top-0 bottom-0 w-64 flex flex-col" style={{ background: '#0f2048' }}>
+          <aside className="absolute left-0 top-0 bottom-0 w-64 flex flex-col" style={{ background: '#08192D' }}>
             <div className="px-5 py-5 border-b border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <img src="/src/imports/Logo-1.jpeg" alt="TutorKonnect" className="w-9 h-9 rounded-lg object-cover" />
-                <span className="font-display font-bold text-white text-sm">Tutor<span className="text-[#f07a22]">Konnect</span></span>
+                <img src={logoMark} alt="Klastra" className="w-9 h-9 rounded-lg object-cover" />
+                <span className="font-display font-bold text-white text-sm">Klastra</span>
               </div>
               <button className="text-white/60" onClick={() => setSidebarOpen(false)}>✕</button>
             </div>

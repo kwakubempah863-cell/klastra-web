@@ -1,4 +1,4 @@
-﻿import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Badge, Button } from '../components/ui';
 
 const trustMarkers = ['Free for pilot schools', 'Works on any Android phone', 'Set up in a day'];
@@ -74,9 +74,9 @@ function PhoneMockup() {
               <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">Today</div>
               <div className="text-lg font-bold text-slate-900">Class 4A</div>
             </div>
-            <div className="rounded-full bg-[#0fb568] px-2 py-1 text-[10px] font-semibold text-white">Live</div>
+            <div className="rounded-full bg-[#22A06B] px-2 py-1 text-[10px] font-semibold text-white">Live</div>
           </div>
-          <div className="mb-4 rounded-2xl bg-[#1b3d7e] p-3 text-white">
+          <div className="mb-4 rounded-2xl bg-[#102A43] p-3 text-white">
             <div className="text-[10px] uppercase tracking-[0.18em] text-sky-100">Attendance</div>
             <div className="mt-2 flex items-end justify-between">
               <span className="text-3xl font-bold">28</span>
@@ -91,12 +91,12 @@ function PhoneMockup() {
             ].map(([name, status], index) => (
               <div key={name} className="flex items-center justify-between rounded-xl bg-white px-3 py-2 shadow-sm">
                 <div className="flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#eef2fb] text-xs font-bold text-[#1b3d7e]">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#EFF6FF] text-xs font-bold text-[#102A43]">
                     {name.slice(0, 1)}
                   </div>
                   <span className="text-sm font-semibold text-slate-900">{name}</span>
                 </div>
-                <span className={`rounded-full px-2 py-1 text-[10px] font-semibold ${index === 0 ? 'bg-[#edfdf5] text-[#0a7244]' : index === 1 ? 'bg-[#fff8ec] text-[#d45f10]' : 'bg-[#fef2f2] text-[#b91c1c]'}`}>
+                <span className={`rounded-full px-2 py-1 text-[10px] font-semibold ${index === 0 ? 'bg-[#ECFDF5] text-[#22A06B]' : index === 1 ? 'bg-[#EFF6FF] text-[#1E40AF]' : 'bg-[#fef2f2] text-[#b91c1c]'}`}>
                   {status}
                 </span>
               </div>
@@ -105,10 +105,10 @@ function PhoneMockup() {
           <div className="mt-4 rounded-2xl bg-white p-3 shadow-sm">
             <div className="mb-2 flex items-center justify-between">
               <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Scores</span>
-              <span className="text-xs font-bold text-[#0a7244]">87%</span>
+              <span className="text-xs font-bold text-[#22A06B]">87%</span>
             </div>
             <div className="h-2 rounded-full bg-slate-200">
-              <div className="h-2 w-[87%] rounded-full bg-[#0fb568]" />
+              <div className="h-2 w-[87%] rounded-full bg-[#22A06B]" />
             </div>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function Landing() {
 
   return (
     <div className="bg-slate-50 text-slate-900">
-      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(240,122,34,0.15),_transparent_30%),linear-gradient(135deg,#0f2048_0%,#1b3d7e_55%,#2f54a8_100%)] text-white">
+      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(240,122,34,0.15),_transparent_30%),linear-gradient(135deg,#08192D_0%,#102A43_55%,#1E3A5F_100%)] text-white">
         <div className="mx-auto grid max-w-6xl gap-12 px-6 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:py-24">
           <div>
             <Badge label="🇬🇭 Built for Ghanaian private schools" color="amber" />
@@ -143,7 +143,7 @@ export default function Landing() {
             <div className="mt-8 flex flex-wrap gap-5 text-sm text-sky-100/90">
               {trustMarkers.map((marker) => (
                 <span key={marker} className="inline-flex items-center gap-2">
-                  <span className="inline-block h-2 w-2 rounded-full bg-[#0fb568]" />
+                  <span className="inline-block h-2 w-2 rounded-full bg-[#22A06B]" />
                   {marker}
                 </span>
               ))}
@@ -175,7 +175,7 @@ export default function Landing() {
       <section className="bg-slate-100/70 py-16 md:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-black text-slate-900 md:text-4xl">Tutor Konnect replaces all three.</h2>
+            <h2 className="text-3xl font-black text-slate-900 md:text-4xl">Klastra replaces all three.</h2>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {solutions.map((item) => (
@@ -203,7 +203,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="bg-[#0f2048] py-16 text-white md:py-20">
+      <section className="bg-[#08192D] py-16 text-white md:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-black md:text-4xl">How it works</h2>
@@ -211,7 +211,7 @@ export default function Landing() {
           <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {steps.map((step, index) => (
               <div key={step} className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                <div className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#f07a22] text-sm font-bold text-white">0{index + 1}</div>
+                <div className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#2563EB] text-sm font-bold text-white">0{index + 1}</div>
                 <p className="text-base font-semibold text-white">{step}</p>
               </div>
             ))}
@@ -227,7 +227,7 @@ export default function Landing() {
           {testimonials.map((item, index) => (
             <div key={`${item.author}-${index}`} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
               <p className="text-base leading-relaxed text-slate-700">“{item.quote}”</p>
-              <div className="mt-6 text-sm font-semibold text-[#1b3d7e]">{item.author}</div>
+              <div className="mt-6 text-sm font-semibold text-[#102A43]">{item.author}</div>
               <div className="mt-1 text-xs text-slate-400">// TODO: replace with real testimonials once pilot school feedback arrives</div>
             </div>
           ))}
@@ -240,7 +240,7 @@ export default function Landing() {
         </div>
         <div className="mt-10 grid gap-6 lg:grid-cols-3">
           {pricingTiers.map((tier) => (
-            <div key={tier.name} className={`rounded-3xl border p-6 shadow-sm ${tier.featured ? 'border-[#1b3d7e] bg-[#eef2fb] ring-1 ring-[#1b3d7e]/10' : 'border-slate-200 bg-white'}`}>
+            <div key={tier.name} className={`rounded-3xl border p-6 shadow-sm ${tier.featured ? 'border-[#102A43] bg-[#EFF6FF] ring-1 ring-[#102A43]/10' : 'border-slate-200 bg-white'}`}>
               <div className="flex items-center justify-between">
                 <h3 className="text-2xl font-black text-slate-900">{tier.name}</h3>
                 {tier.featured && <Badge label="Popular" color="amber" />}
@@ -250,7 +250,7 @@ export default function Landing() {
               <ul className="mt-6 space-y-3 text-sm text-slate-700">
                 {tier.perks.map((perk) => (
                   <li key={perk} className="flex items-center gap-2">
-                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#edfdf5] text-[#0a7244]">✓</span>
+                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#ECFDF5] text-[#22A06B]">✓</span>
                     {perk}
                   </li>
                 ))}
@@ -264,7 +264,7 @@ export default function Landing() {
         <p className="mt-6 text-center text-sm text-slate-500">All plans free during the pilot period.</p>
       </section>
 
-      <section className="bg-[#0f2048] py-16 text-white">
+      <section className="bg-[#08192D] py-16 text-white">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <h2 className="text-3xl font-black md:text-4xl">Ready to see it in action?</h2>
           <p className="mt-4 text-sky-100/80">Request a demo. We&apos;ll visit your school and set up the first class in person.</p>
@@ -278,8 +278,8 @@ export default function Landing() {
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-12 md:grid-cols-[1.2fr_0.7fr_0.7fr_0.7fr]">
           <div>
             <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-[#f07a22] px-2 py-1 text-sm font-black text-white">TK</div>
-              <div className="font-display text-xl font-black text-white">Tutor Konnect</div>
+              <div className="rounded-lg bg-[#2563EB] px-2 py-1 text-sm font-black text-white">TK</div>
+              <div className="font-display text-xl font-black text-white">Klastra</div>
             </div>
             <p className="mt-4 max-w-xs text-sm text-slate-400">School management for Ghanaian private basic schools.</p>
           </div>
@@ -309,7 +309,7 @@ export default function Landing() {
           </div>
         </div>
         <div className="border-t border-slate-800 px-6 py-4 text-center text-xs text-slate-500">
-          © 2026 Tutor Konnect · Kumasi, Ghana
+          © 2026 Klastra · Kumasi, Ghana
         </div>
       </footer>
     </div>

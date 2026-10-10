@@ -1,23 +1,23 @@
-﻿const featureSections = [
+const featureSections = [
   {
     title: 'Attendance that takes seconds, not minutes',
     description: 'Teachers can mark attendance for the whole class from one screen. Attendance is updated in real time and stays searchable for later review.',
     bullets: ['One tap per student', 'Late / present / absent tracking', 'Daily summaries for school leaders'],
-    accent: 'bg-[#eef2fb]',
+    accent: 'bg-[#EFF6FF]',
     emoji: '🧾',
   },
   {
     title: 'Scores that reach parents without extra admin',
     description: 'Enter scores once and keep the class record in one place. When parents log in, they can see the latest performance update without the teacher needing to retype everything elsewhere.',
     bullets: ['Maths and subject score entry', 'Automatic BECE grade calculations', 'Quick class performance snapshot'],
-    accent: 'bg-[#edfdf5]',
+    accent: 'bg-[#ECFDF5]',
     emoji: '📈',
   },
   {
     title: 'Class remarks that every parent sees',
     description: 'Post one class message and keep it visible to everyone linked to the class. That keeps communication consistent and helps schools share updates without scattered WhatsApp chats.',
     bullets: ['One remark for the whole class', 'Shared school updates', 'Parents see the same message in-app'],
-    accent: 'bg-[#fff8ec]',
+    accent: 'bg-[#EFF6FF]',
     emoji: '📝',
   },
   {
@@ -47,7 +47,7 @@ export default function Features() {
   return (
     <main className="mx-auto max-w-6xl px-6 py-16">
       <div className="mx-auto max-w-3xl text-center">
-        <div className="inline-flex rounded-full bg-[#eef2fb] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#1b3d7e]">Features</div>
+        <div className="inline-flex rounded-full bg-[#EFF6FF] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#102A43]">Features</div>
         <h1 className="mt-4 text-3xl font-black text-slate-900 md:text-5xl">School operations, simplified for everyday teaching</h1>
       </div>
 
@@ -63,12 +63,12 @@ export default function Features() {
                   <div className="h-48 rounded-2xl bg-white/80 p-4 shadow-inner">
                     <div className="mb-4 flex items-center justify-between">
                       <div className="h-3 w-20 rounded-full bg-slate-200" />
-                      <div className="h-3 w-10 rounded-full bg-[#0fb568]" />
+                      <div className="h-3 w-10 rounded-full bg-[#22A06B]" />
                     </div>
                     <div className="space-y-3">
                       {[1, 2, 3].map((item) => (
                         <div key={item} className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-full bg-[#dfe9ff]" />
+                          <div className="h-10 w-10 rounded-full bg-[#DBEAFE]" />
                           <div className="flex-1 space-y-2">
                             <div className="h-2.5 w-2/3 rounded-full bg-slate-200" />
                             <div className="h-2.5 w-1/2 rounded-full bg-slate-200" />
@@ -85,7 +85,7 @@ export default function Features() {
                   <ul className="mt-5 space-y-3 text-sm text-slate-700">
                     {section.bullets.map((bullet) => (
                       <li key={bullet} className="flex items-start gap-3">
-                        <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#edfdf5] text-[#0a7244]">✓</span>
+                        <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#ECFDF5] text-[#22A06B]">✓</span>
                         <span>{bullet}</span>
                       </li>
                     ))}

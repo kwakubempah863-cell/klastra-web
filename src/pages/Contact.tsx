@@ -1,4 +1,4 @@
-﻿import { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Button } from '../components/ui';
 import { submitDemoRequest } from '../services/demoRequests';
 
@@ -82,7 +82,7 @@ export default function Contact() {
   return (
     <main className="mx-auto max-w-5xl px-6 py-16">
       <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="rounded-3xl bg-[#0f2048] p-8 text-white">
+        <div className="rounded-3xl bg-[#08192D] p-8 text-white">
           <div className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-100">Pilot schools</div>
           <h1 className="mt-5 text-3xl font-black md:text-4xl">Request a demo</h1>
           <p className="mt-3 text-sm leading-relaxed text-sky-100/80">
@@ -104,7 +104,7 @@ export default function Contact() {
           {isSubmitted ? (
             <div className="flex h-full min-h-[320px] items-center justify-center text-center">
               <div>
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#edfdf5] text-3xl">✓</div>
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#ECFDF5] text-3xl">✓</div>
                 <h2 className="mt-5 text-2xl font-black text-slate-900">Thanks — we&apos;ll reach out within 24 hours.</h2>
               </div>
             </div>
@@ -113,12 +113,12 @@ export default function Contact() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-1 block text-sm font-semibold text-slate-700">Full name</label>
-                  <input value={form.fullName} onChange={(event) => handleChange('fullName', event.target.value)} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#1b3d7e] focus:ring-2 focus:ring-[#1b3d7e]/10" />
+                  <input value={form.fullName} onChange={(event) => handleChange('fullName', event.target.value)} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" />
                   {errors.fullName && <p className="mt-1 text-xs text-red-600">{errors.fullName}</p>}
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-semibold text-slate-700">School name</label>
-                  <input value={form.schoolName} onChange={(event) => handleChange('schoolName', event.target.value)} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#1b3d7e] focus:ring-2 focus:ring-[#1b3d7e]/10" />
+                  <input value={form.schoolName} onChange={(event) => handleChange('schoolName', event.target.value)} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" />
                   {errors.schoolName && <p className="mt-1 text-xs text-red-600">{errors.schoolName}</p>}
                 </div>
               </div>
@@ -126,7 +126,7 @@ export default function Contact() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-1 block text-sm font-semibold text-slate-700">Role</label>
-                  <select value={form.role} onChange={(event) => handleChange('role', event.target.value)} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#1b3d7e] focus:ring-2 focus:ring-[#1b3d7e]/10">
+                  <select value={form.role} onChange={(event) => handleChange('role', event.target.value)} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10">
                     <option>Headmaster/Headmistress</option>
                     <option>Administrator</option>
                     <option>Teacher</option>
@@ -137,26 +137,26 @@ export default function Contact() {
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-semibold text-slate-700">Number of students</label>
-                  <input type="number" min="1" value={form.studentCount} onChange={(event) => handleChange('studentCount', event.target.value)} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#1b3d7e] focus:ring-2 focus:ring-[#1b3d7e]/10" placeholder="Optional" />
+                  <input type="number" min="1" value={form.studentCount} onChange={(event) => handleChange('studentCount', event.target.value)} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" placeholder="Optional" />
                 </div>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-1 block text-sm font-semibold text-slate-700">Email</label>
-                  <input type="email" value={form.email} onChange={(event) => handleChange('email', event.target.value)} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#1b3d7e] focus:ring-2 focus:ring-[#1b3d7e]/10" />
+                  <input type="email" value={form.email} onChange={(event) => handleChange('email', event.target.value)} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" />
                   {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-semibold text-slate-700">Phone</label>
-                  <input type="tel" value={form.phone} onChange={(event) => handleChange('phone', event.target.value)} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#1b3d7e] focus:ring-2 focus:ring-[#1b3d7e]/10" placeholder="024 000 0000" />
+                  <input type="tel" value={form.phone} onChange={(event) => handleChange('phone', event.target.value)} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" placeholder="024 000 0000" />
                   {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}
                 </div>
               </div>
 
               <div>
                 <label className="mb-1 block text-sm font-semibold text-slate-700">Message</label>
-                <textarea value={form.message} onChange={(event) => handleChange('message', event.target.value)} rows={5} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#1b3d7e] focus:ring-2 focus:ring-[#1b3d7e]/10" placeholder="Tell us about your school, class sizes, and what you would like to trial." />
+                <textarea value={form.message} onChange={(event) => handleChange('message', event.target.value)} rows={5} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" placeholder="Tell us about your school, class sizes, and what you would like to trial." />
               </div>
 
               {serverError && <p className="text-sm text-red-600">{serverError}</p>}

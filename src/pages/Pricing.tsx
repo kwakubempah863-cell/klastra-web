@@ -1,4 +1,4 @@
-﻿import { Button } from '../components/ui';
+import { Button } from '../components/ui';
 
 const pricingTiers = [
   {
@@ -38,23 +38,23 @@ export default function Pricing() {
   return (
     <main className="mx-auto max-w-6xl px-6 py-16">
       <div className="mx-auto max-w-3xl text-center">
-        <div className="inline-flex rounded-full bg-[#eef2fb] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#1b3d7e]">Pricing</div>
+        <div className="inline-flex rounded-full bg-[#EFF6FF] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#102A43]">Pricing</div>
         <h1 className="mt-4 text-3xl font-black text-slate-900 md:text-5xl">Choose the right plan for your school</h1>
       </div>
 
       <div className="mt-12 grid gap-6 lg:grid-cols-3">
         {pricingTiers.map((tier) => (
-          <div key={tier.name} className={`rounded-3xl border p-6 shadow-sm ${tier.featured ? 'border-[#1b3d7e] bg-[#eef2fb] ring-1 ring-[#1b3d7e]/10' : 'border-slate-200 bg-white'}`}>
+          <div key={tier.name} className={`rounded-3xl border p-6 shadow-sm ${tier.featured ? 'border-[#102A43] bg-[#EFF6FF] ring-1 ring-[#102A43]/10' : 'border-slate-200 bg-white'}`}>
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-black text-slate-900">{tier.name}</h2>
-              {tier.featured && <span className="rounded-full bg-[#fff8ec] px-2 py-1 text-xs font-semibold text-[#d45f10]">Popular</span>}
+              {tier.featured && <span className="rounded-full bg-[#EFF6FF] px-2 py-1 text-xs font-semibold text-[#1E40AF]">Popular</span>}
             </div>
             <div className="mt-4 text-3xl font-black text-slate-900">{tier.price}</div>
             <p className="mt-2 text-sm text-slate-600">{tier.description}</p>
             <ul className="mt-6 space-y-3 text-sm text-slate-700">
               {tier.features.map((feature) => (
                 <li key={feature} className="flex items-center gap-2">
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#edfdf5] text-[#0a7244]">✓</span>
+                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#ECFDF5] text-[#22A06B]">✓</span>
                   {feature}
                 </li>
               ))}

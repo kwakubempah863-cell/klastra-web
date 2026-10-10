@@ -14,11 +14,11 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const btnBase = 'inline-flex items-center justify-center gap-2 font-semibold transition-all duration-150 cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 const btnVariants: Record<BtnVariant, string> = {
-  primary: 'bg-[#1b3d7e] text-white hover:bg-[#152e61] focus-visible:ring-[#1b3d7e] active:scale-[0.98]',
-  secondary: 'bg-[#f07a22] text-white hover:bg-[#d45f10] focus-visible:ring-[#f07a22] active:scale-[0.98]',
-  ghost: 'bg-transparent text-[#1b3d7e] hover:bg-[#eef2fb] focus-visible:ring-[#1b3d7e]',
+  primary: 'bg-[#2563EB] text-white hover:bg-[#1E40AF] focus-visible:ring-[#2563EB] active:scale-[0.98]',
+  secondary: 'bg-[#102A43] text-white hover:bg-[#08192D] focus-visible:ring-[#102A43] active:scale-[0.98]',
+  ghost: 'bg-transparent text-[#102A43] hover:bg-[#EFF6FF] focus-visible:ring-[#102A43]',
   danger: 'bg-[#ef4444] text-white hover:bg-[#dc2626] focus-visible:ring-[#ef4444] active:scale-[0.98]',
-  outline: 'bg-transparent border border-[#e2e8f0] text-[#374151] hover:bg-[#f8fafc] focus-visible:ring-[#1b3d7e]',
+  outline: 'bg-transparent border border-[#e2e8f0] text-[#374151] hover:bg-[#f8fafc] focus-visible:ring-[#102A43]',
 };
 const btnSizes: Record<BtnSize, string> = {
   sm: 'px-3 py-1.5 text-xs rounded-lg',
@@ -51,9 +51,9 @@ export function Card({ children, className = '', onClick }: { children: React.Re
 // ── Badge ───────────────────────────────────────────────────────────────────
 type BadgeColor = 'navy' | 'amber' | 'teal' | 'red' | 'gray' | 'green' | 'purple';
 const badgeColors: Record<BadgeColor, string> = {
-  navy: 'bg-[#eef2fb] text-[#1b3d7e]',
-  amber: 'bg-[#fff8ec] text-[#d45f10]',
-  teal: 'bg-[#edfdf5] text-[#0a7244]',
+  navy: 'bg-[#EFF6FF] text-[#102A43]',
+  amber: 'bg-[#EFF6FF] text-[#2563EB]',
+  teal: 'bg-[#ECFDF5] text-[#0F9D8A]',
   red: 'bg-red-50 text-red-700',
   gray: 'bg-slate-100 text-slate-600',
   green: 'bg-emerald-50 text-emerald-700',
@@ -77,12 +77,12 @@ export function Avatar({ src, name, size = 40, online }: { src?: string; name: s
       {src ? (
         <img src={src} alt={name} className="rounded-full object-cover w-full h-full bg-slate-100" />
       ) : (
-        <div className="rounded-full w-full h-full bg-[#1b3d7e] flex items-center justify-center text-white font-bold" style={{ fontSize: size * 0.35 }}>
+        <div className="rounded-full w-full h-full bg-[#102A43] flex items-center justify-center text-white font-bold" style={{ fontSize: size * 0.35 }}>
           {initials}
         </div>
       )}
       {online !== undefined && (
-        <span className={`absolute bottom-0 right-0 block rounded-full border-2 border-white ${online ? 'bg-[#0fb568]' : 'bg-slate-300'}`} style={{ width: size * 0.28, height: size * 0.28 }} />
+        <span className={`absolute bottom-0 right-0 block rounded-full border-2 border-white ${online ? 'bg-[#22A06B]' : 'bg-slate-300'}`} style={{ width: size * 0.28, height: size * 0.28 }} />
       )}
     </div>
   );
@@ -102,7 +102,7 @@ export function StarRating({ rating, size = 14 }: { rating: number; size?: numbe
 }
 
 // ── ProgressBar ─────────────────────────────────────────────────────────────
-export function ProgressBar({ value, color = '#1b3d7e', label, showPercent = true }: { value: number; color?: string; label?: string; showPercent?: boolean }) {
+export function ProgressBar({ value, color = '#102A43', label, showPercent = true }: { value: number; color?: string; label?: string; showPercent?: boolean }) {
   return (
     <div>
       {(label || showPercent) && (
@@ -119,7 +119,7 @@ export function ProgressBar({ value, color = '#1b3d7e', label, showPercent = tru
 }
 
 // ── CircleProgress ───────────────────────────────────────────────────────────
-export function CircleProgress({ value, size = 80, strokeWidth = 8, color = '#1b3d7e', label }: { value: number; size?: number; strokeWidth?: number; color?: string; label?: string }) {
+export function CircleProgress({ value, size = 80, strokeWidth = 8, color = '#102A43', label }: { value: number; size?: number; strokeWidth?: number; color?: string; label?: string }) {
   const r = (size - strokeWidth) / 2;
   const circ = 2 * Math.PI * r;
   const offset = circ - (value / 100) * circ;
@@ -138,7 +138,7 @@ export function CircleProgress({ value, size = 80, strokeWidth = 8, color = '#1b
 }
 
 // ── StatCard ─────────────────────────────────────────────────────────────────
-export function StatCard({ label, value, sub, icon, color = '#1b3d7e', trend }: { label: string; value: string | number; sub?: string; icon?: React.ReactNode; color?: string; trend?: { dir: 'up' | 'down'; val: string } }) {
+export function StatCard({ label, value, sub, icon, color = '#102A43', trend }: { label: string; value: string | number; sub?: string; icon?: React.ReactNode; color?: string; trend?: { dir: 'up' | 'down'; val: string } }) {
   return (
     <div className="stat-card">
       <div className="flex items-start justify-between mb-3">
@@ -166,7 +166,7 @@ export function Input({ label, icon, ...props }: React.InputHTMLAttributes<HTMLI
       <div className="relative">
         {icon && <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">{icon}</span>}
         <input
-          className={`w-full border border-[#e2e8f0] rounded-xl py-2.5 bg-white text-slate-900 placeholder:text-slate-400 text-sm outline-none focus:ring-2 focus:ring-[#1b3d7e]/30 focus:border-[#1b3d7e] transition-all ${icon ? 'pl-10 pr-4' : 'px-4'}`}
+          className={`w-full border border-[#e2e8f0] rounded-xl py-2.5 bg-white text-slate-900 placeholder:text-slate-400 text-sm outline-none focus:ring-2 focus:ring-[#102A43]/30 focus:border-[#102A43] transition-all ${icon ? 'pl-10 pr-4' : 'px-4'}`}
           {...props}
         />
       </div>
@@ -182,7 +182,7 @@ export function SectionHeader({ title, subtitle, action, actionLabel }: { title:
         <h2 className="text-lg font-bold font-display text-slate-900">{title}</h2>
         {subtitle && <p className="text-sm text-slate-500 mt-0.5">{subtitle}</p>}
       </div>
-      {action && <button onClick={action} className="text-sm font-semibold text-[#1b3d7e] hover:underline">{actionLabel || 'View all'}</button>}
+      {action && <button onClick={action} className="text-sm font-semibold text-[#102A43] hover:underline">{actionLabel || 'View all'}</button>}
     </div>
   );
 }
@@ -192,11 +192,11 @@ export function TutorCard({ tutor, onBook, compact }: { tutor: any; onBook?: () 
   return (
     <div className="tutor-card bg-white rounded-[14px]">
       {!compact && (
-        <div className="h-24 bg-gradient-to-r from-[#1b3d7e] to-[#2f54a8] relative">
+        <div className="h-24 bg-gradient-to-r from-[#102A43] to-[#1E3A5F] relative">
           {tutor.verified && (
-            <span className="absolute top-3 right-3 badge bg-[#edfdf5] text-[#0a7244]">✓ Verified</span>
+            <span className="absolute top-3 right-3 badge bg-[#ECFDF5] text-[#22A06B]">✓ Verified</span>
           )}
-          <span className={`absolute top-3 left-3 badge ${tutor.available ? 'bg-[#edfdf5] text-[#0a7244]' : 'bg-slate-100 text-slate-500'}`}>
+          <span className={`absolute top-3 left-3 badge ${tutor.available ? 'bg-[#ECFDF5] text-[#22A06B]' : 'bg-slate-100 text-slate-500'}`}>
             {tutor.available ? '● Available' : '○ Busy'}
           </span>
         </div>
@@ -221,7 +221,7 @@ export function TutorCard({ tutor, onBook, compact }: { tutor: any; onBook?: () 
         </div>
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-base font-bold font-display text-[#1b3d7e]">GH₵{tutor.rate}</span>
+            <span className="text-base font-bold font-display text-[#102A43]">GH₵{tutor.rate}</span>
             <span className="text-xs text-slate-400">/hr</span>
           </div>
           {onBook && (

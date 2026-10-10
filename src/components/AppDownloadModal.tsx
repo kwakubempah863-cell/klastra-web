@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { APP_STORE_URLS } from '../config/appStore';
+import logoMark from '../imports/logo-mark.png';
 
 type Props = {
   open: boolean;
@@ -42,8 +43,8 @@ export default function AppDownloadModal({ open, onClose }: Props) {
         </button>
 
         <div className="text-center">
-          <img src="/src/imports/Logo-1.jpeg" alt="TutorKonnect" className="w-16 h-16 rounded-2xl mx-auto mb-4 object-cover" />
-          <h2 id="app-download-title" className="text-xl font-bold font-display text-slate-900">Get Tutor Konnect on your phone</h2>
+          <img src={logoMark} alt="Klastra" className="w-16 h-16 rounded-2xl mx-auto mb-4 object-cover" />
+          <h2 id="app-download-title" className="text-xl font-bold font-display text-slate-900">Get Klastra on your phone</h2>
           <p className="text-sm text-slate-500 mt-1">Scan the codes below or tap a store to install</p>
         </div>
 

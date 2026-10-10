@@ -1,9 +1,9 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const faqs = [
   { question: 'How do I sign up my school?', answer: 'Use the request demo form and we will contact your school to arrange a pilot and onboarding call.' },
   { question: 'Do teachers need training?', answer: 'A short 20-minute onboarding session is enough to get teachers comfortable with attendance, scores, and messaging.' },
-  { question: 'Is my data safe?', answer: 'Yes. Tutor Konnect uses role-based access controls and private-by-default data access, with Row Level Security policies in the database.' },
+  { question: 'Is my data safe?', answer: 'Yes. Klastra uses role-based access controls and private-by-default data access, with Row Level Security policies in the database.' },
   { question: 'What if teachers do not have smartphones?', answer: 'The mobile app works on any Android device, and school staff can use the app on standard school-approved phones.' },
   { question: 'How much does it cost?', answer: 'All plans are free during the pilot period. After onboarding, pricing depends on school size and needs.' },
   { question: 'Can parents see other children\'s data?', answer: 'No. Parent access is limited to their own linked child, and database rules enforce that separation.' },
@@ -24,7 +24,7 @@ export default function Support() {
           ))}
         </div>
         <div className="mt-8">
-          <Link to="/contact" className="inline-flex items-center justify-center rounded-xl bg-[#1b3d7e] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#152e61]">Request a demo</Link>
+          <Link to="/contact" className="inline-flex items-center justify-center rounded-xl bg-[#102A43] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#08192D]">Request a demo</Link>
         </div>
       </div>
     </main>
