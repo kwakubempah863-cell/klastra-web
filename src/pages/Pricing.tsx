@@ -49,7 +49,7 @@ export default function Pricing() {
               <h2 className="text-2xl font-black text-slate-900">{tier.name}</h2>
               {tier.featured && <span className="rounded-full bg-[#EFF6FF] px-2 py-1 text-xs font-semibold text-[#1E40AF]">Popular</span>}
             </div>
-            <div className="mt-4 text-3xl font-black text-slate-900">{tier.price}</div>
+            <div className="mt-4 text-xl font-black text-slate-900 sm:text-3xl">{tier.price}</div>
             <p className="mt-2 text-sm text-slate-600">{tier.description}</p>
             <ul className="mt-6 space-y-3 text-sm text-slate-700">
               {tier.features.map((feature) => (

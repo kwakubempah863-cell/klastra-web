@@ -12,7 +12,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
 }
 
-const btnBase = 'inline-flex items-center justify-center gap-2 font-semibold transition-all duration-150 cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+const btnBase = 'inline-flex min-h-11 items-center justify-center gap-2 font-semibold transition-all duration-150 cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 const btnVariants: Record<BtnVariant, string> = {
   primary: 'bg-[#2563EB] text-white hover:bg-[#1E40AF] focus-visible:ring-[#2563EB] active:scale-[0.98]',
   secondary: 'bg-[#102A43] text-white hover:bg-[#0F172A] focus-visible:ring-[#102A43] active:scale-[0.98]',
