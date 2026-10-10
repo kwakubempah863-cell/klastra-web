@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Badge, Button } from '../components/ui';
+import heroStudent from '../imports/hero-student.png';
 
 const trustMarkers = ['Free for pilot schools', 'Works on any Android phone', 'Set up in a day'];
 
@@ -150,8 +151,11 @@ export default function Landing() {
             </div>
           </div>
 
-          <div className="flex justify-center lg:justify-end">
-            <PhoneMockup />
+          <div className="relative isolate mx-auto aspect-[3/2] w-full max-w-xl overflow-hidden rounded-3xl lg:aspect-[4/5] lg:max-w-none">
+            <img src={heroStudent} alt="" className="absolute inset-0 h-full w-full object-cover object-[100%_center]" />
+            <div className="hidden lg:absolute lg:right-0 lg:top-1/2 lg:z-10 lg:block lg:w-[300px] lg:-translate-y-1/2 lg:origin-right lg:scale-[0.85] lg:drop-shadow-2xl">
+              <PhoneMockup />
+            </div>
           </div>
         </div>
       </section>
