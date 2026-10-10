@@ -15,7 +15,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const btnBase = 'inline-flex items-center justify-center gap-2 font-semibold transition-all duration-150 cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 const btnVariants: Record<BtnVariant, string> = {
   primary: 'bg-[#2563EB] text-white hover:bg-[#1E40AF] focus-visible:ring-[#2563EB] active:scale-[0.98]',
-  secondary: 'bg-[#102A43] text-white hover:bg-[#08192D] focus-visible:ring-[#102A43] active:scale-[0.98]',
+  secondary: 'bg-[#102A43] text-white hover:bg-[#0F172A] focus-visible:ring-[#102A43] active:scale-[0.98]',
   ghost: 'bg-transparent text-[#102A43] hover:bg-[#EFF6FF] focus-visible:ring-[#102A43]',
   danger: 'bg-[#ef4444] text-white hover:bg-[#dc2626] focus-visible:ring-[#ef4444] active:scale-[0.98]',
   outline: 'bg-transparent border border-[#e2e8f0] text-[#374151] hover:bg-[#f8fafc] focus-visible:ring-[#102A43]',

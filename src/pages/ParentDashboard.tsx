@@ -37,7 +37,7 @@ export default function ParentDashboard({ onNavigate }: { onNavigate: (page: str
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <StatCard label="Overall Progress" value={`${child.overallProgress}%`} icon={<ChartIcon />} color="#1b3d7e" trend={{ dir: 'up', val: '+4% this week' }} />
         <StatCard label="Completed Lessons" value={child.completedLessons} icon={<BookIcon />} color="#0a7244" />
-        <StatCard label="Upcoming Lessons" value={child.upcomingLessons} icon={<CalIcon />} color="#f07a22" />
+        <StatCard label="Upcoming Lessons" value={child.upcomingLessons} icon={<CalIcon />} color="#2563EB" />
         <StatCard label="Learning Streak" value={`${child.streak} days`} icon={<FireIcon />} color="#9333ea" />
       </div>
 
@@ -72,7 +72,7 @@ export default function ParentDashboard({ onNavigate }: { onNavigate: (page: str
               </div>
               <div className="space-y-3">
                 {child.subjects.map(s => (
-                  <ProgressBar key={s.name} label={s.name} value={s.progress} color={s.progress >= 80 ? '#0fb568' : s.progress >= 60 ? '#f07a22' : '#ef4444'} />
+                  <ProgressBar key={s.name} label={s.name} value={s.progress} color={s.progress >= 80 ? '#0fb568' : s.progress >= 60 ? '#2563EB' : '#ef4444'} />
                 ))}
               </div>
             </div>
@@ -102,7 +102,7 @@ export default function ParentDashboard({ onNavigate }: { onNavigate: (page: str
               <h3 className="font-bold font-display text-slate-900 mb-5 text-sm">Subject Progress</h3>
               <div className="grid grid-cols-3 gap-4">
                 {child.subjects.map(s => (
-                  <CircleProgress key={s.name} value={s.progress} size={72} strokeWidth={7} color={s.progress >= 80 ? '#0fb568' : s.progress >= 60 ? '#f07a22' : '#ef4444'} label={s.name.split(' ')[0]} />
+                  <CircleProgress key={s.name} value={s.progress} size={72} strokeWidth={7} color={s.progress >= 80 ? '#0fb568' : s.progress >= 60 ? '#2563EB' : '#ef4444'} label={s.name.split(' ')[0]} />
                 ))}
               </div>
             </div>
@@ -135,11 +135,11 @@ export default function ParentDashboard({ onNavigate }: { onNavigate: (page: str
                   <div className="text-sm text-slate-500">Tutor: {s.tutor}</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold font-display" style={{ color: s.progress >= 80 ? '#0a7244' : s.progress >= 60 ? '#d45f10' : '#dc2626' }}>{s.progress}%</div>
+                  <div className="text-2xl font-bold font-display" style={{ color: s.progress >= 80 ? '#0a7244' : s.progress >= 60 ? '#1E40AF' : '#dc2626' }}>{s.progress}%</div>
                   <div className="text-xs text-slate-400">Progress</div>
                 </div>
               </div>
-              <ProgressBar value={s.progress} color={s.progress >= 80 ? '#0fb568' : s.progress >= 60 ? '#f07a22' : '#ef4444'} showPercent={false} />
+              <ProgressBar value={s.progress} color={s.progress >= 80 ? '#0fb568' : s.progress >= 60 ? '#2563EB' : '#ef4444'} showPercent={false} />
               <div className="grid grid-cols-2 gap-4 mt-4">
                 <div className="bg-slate-50 rounded-xl p-3">
                   <div className="text-xs text-slate-500 mb-1">Completed</div>
@@ -162,7 +162,7 @@ export default function ParentDashboard({ onNavigate }: { onNavigate: (page: str
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs font-semibold text-[#d45f10] mb-1.5">Needs Work</div>
+                  <div className="text-xs font-semibold text-[#1E40AF] mb-1.5">Needs Work</div>
                   <div className="flex flex-wrap gap-1.5">
                     {s.improve.map(i => <Badge key={i} label={i} color="amber" />)}
                   </div>
@@ -258,10 +258,10 @@ export default function ParentDashboard({ onNavigate }: { onNavigate: (page: str
                     {s.strengths.map(str => <li key={str} className="text-xs text-[#0a7244]">• {str}</li>)}
                   </ul>
                 </div>
-                <div className="bg-[#fff8ec] rounded-xl p-3">
-                  <div className="text-xs font-bold text-[#d45f10] mb-2">💡 To Improve</div>
+                <div className="bg-[#EFF6FF] rounded-xl p-3">
+                  <div className="text-xs font-bold text-[#1E40AF] mb-2">💡 To Improve</div>
                   <ul className="space-y-1">
-                    {s.improve.map(i => <li key={i} className="text-xs text-[#d45f10]">• {i}</li>)}
+                    {s.improve.map(i => <li key={i} className="text-xs text-[#1E40AF]">• {i}</li>)}
                   </ul>
                 </div>
               </div>

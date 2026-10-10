@@ -57,7 +57,7 @@ export default function MessagingPage() {
                 <p className={`text-xs truncate ${msg.unread > 0 ? 'text-slate-700 font-medium' : 'text-slate-500'}`}>{msg.lastMessage}</p>
               </div>
               {msg.unread > 0 && (
-                <span className="w-5 h-5 rounded-full bg-[#f07a22] text-white text-xs flex items-center justify-center font-bold flex-shrink-0 mt-1">{msg.unread}</span>
+                <span className="w-5 h-5 rounded-full bg-[#2563EB] text-white text-xs flex items-center justify-center font-bold flex-shrink-0 mt-1">{msg.unread}</span>
               )}
             </div>
           ))}

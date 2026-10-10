@@ -24,7 +24,7 @@ export default function Support() {
           ))}
         </div>
         <div className="mt-8">
-          <Link to="/contact" className="inline-flex items-center justify-center rounded-xl bg-[#102A43] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#08192D]">Request a demo</Link>
+          <Link to="/contact" className="inline-flex items-center justify-center rounded-xl bg-[#102A43] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#0F172A]">Request a demo</Link>
         </div>
       </div>
     </main>

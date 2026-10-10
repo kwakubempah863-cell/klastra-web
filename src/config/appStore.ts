@@ -1,5 +1,5 @@
 export const APP_STORE_URLS = {
-  playStore: 'https://play.google.com/store/apps/details?id=com.tutorkonnect.app',
+  playStore: 'https://play.google.com/store/apps/details?id=gh.klastra.app',
   appStore: 'https://apps.apple.com/app/id0000000000',
 } as const;
 

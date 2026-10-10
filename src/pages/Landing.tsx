@@ -126,7 +126,7 @@ export default function Landing() {
 
   return (
     <div className="bg-slate-50 text-slate-900">
-      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(240,122,34,0.15),_transparent_30%),linear-gradient(135deg,#08192D_0%,#102A43_55%,#1E3A5F_100%)] text-white">
+      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(37,99,235,0.15),_transparent_30%),linear-gradient(135deg,#0F172A_0%,#102A43_55%,#1E3A5F_100%)] text-white">
         <div className="mx-auto grid max-w-6xl gap-12 px-6 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:py-24">
           <div>
             <Badge label="🇬🇭 Built for Ghanaian private schools" color="amber" />
@@ -203,7 +203,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="bg-[#08192D] py-16 text-white md:py-20">
+      <section className="bg-[#0F172A] py-16 text-white md:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-black md:text-4xl">How it works</h2>
@@ -264,12 +264,12 @@ export default function Landing() {
         <p className="mt-6 text-center text-sm text-slate-500">All plans free during the pilot period.</p>
       </section>
 
-      <section className="bg-[#08192D] py-16 text-white">
+      <section className="bg-[#0F172A] py-16 text-white">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <h2 className="text-3xl font-black md:text-4xl">Ready to see it in action?</h2>
           <p className="mt-4 text-sky-100/80">Request a demo. We&apos;ll visit your school and set up the first class in person.</p>
           <div className="mt-8">
-            <Button variant="secondary" size="lg" onClick={() => navigate('/contact')}>Request a demo</Button>
+            <Button variant="primary" size="lg" onClick={() => navigate('/contact')}>Request a demo</Button>
           </div>
         </div>
       </section>
@@ -278,7 +278,7 @@ export default function Landing() {
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-12 md:grid-cols-[1.2fr_0.7fr_0.7fr_0.7fr]">
           <div>
             <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-[#2563EB] px-2 py-1 text-sm font-black text-white">TK</div>
+              <div className="rounded-lg bg-[#2563EB] px-2 py-1 text-sm font-black text-white">K</div>
               <div className="font-display text-xl font-black text-white">Klastra</div>
             </div>
             <p className="mt-4 max-w-xs text-sm text-slate-400">School management for Ghanaian private basic schools.</p>

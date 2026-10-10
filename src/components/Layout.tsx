@@ -113,7 +113,7 @@ export default function Layout({ children }: LayoutProps) {
     <div className="flex h-screen overflow-hidden" style={{ background: '#F8FAFC' }}>
       {/* Sidebar (desktop) */}
       {!isPublic && (
-        <aside className="hidden md:flex flex-col w-60 flex-shrink-0 h-screen" style={{ background: '#08192D' }}>
+        <aside className="hidden md:flex flex-col w-60 flex-shrink-0 h-screen" style={{ background: '#0F172A' }}>
           {/* Logo */}
           <div className="px-5 py-5 border-b border-white/10">
             <div className="flex items-center gap-2.5">
@@ -188,7 +188,7 @@ export default function Layout({ children }: LayoutProps) {
           ) : (
             <div className="flex items-center gap-2">
               <Link to="/contact" className="px-3 py-2 text-sm font-semibold text-[#102A43] hover:bg-[#EFF6FF] rounded-lg">Request demo</Link>
-              <Link to="/login" className="px-3 py-2 text-sm font-semibold text-white bg-[#102A43] hover:bg-[#08192D] rounded-lg">Sign in</Link>
+              <Link to="/login" className="px-3 py-2 text-sm font-semibold text-white bg-[#102A43] hover:bg-[#0F172A] rounded-lg">Sign in</Link>
             </div>
           ))}
         </header>
@@ -226,7 +226,7 @@ export default function Layout({ children }: LayoutProps) {
       {sidebarOpen && !isPublic && (
         <div className="fixed inset-0 z-50 md:hidden">
           <div className="absolute inset-0 bg-black/40" onClick={() => setSidebarOpen(false)} />
-          <aside className="absolute left-0 top-0 bottom-0 w-64 flex flex-col" style={{ background: '#08192D' }}>
+          <aside className="absolute left-0 top-0 bottom-0 w-64 flex flex-col" style={{ background: '#0F172A' }}>
             <div className="px-5 py-5 border-b border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <img src={logoMark} alt="Klastra" className="w-9 h-9 rounded-lg object-cover" />

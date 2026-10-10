@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui';
+import logoMark from '../imports/logo-mark.png';
 
 export default function Login() {
   const [notice, setNotice] = useState<string | null>(null);
@@ -9,7 +10,7 @@ export default function Login() {
     <main className="mx-auto flex max-w-4xl items-center justify-center px-6 py-16">
       <div className="w-full max-w-xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm md:p-10">
         <div className="text-center">
-          <div className="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#EFF6FF] text-2xl">📱</div>
+          <img src={logoMark} alt="Klastra" className="mx-auto h-14 w-14" />
           <h1 className="mt-6 text-3xl font-black text-slate-900 md:text-4xl">Sign in through the mobile app</h1>
           <p className="mt-3 text-slate-600">Klastra runs on your phone. Download the app to sign in.</p>
         </div>

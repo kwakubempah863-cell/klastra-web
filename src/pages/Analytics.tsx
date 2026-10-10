@@ -18,7 +18,7 @@ export default function Analytics() {
         {[
           { label: 'Total Revenue (Sep)', value: 'GH₵94,820', color: '#0a7244' },
           { label: 'Total Bookings (Sep)', value: '1,248', color: '#1b3d7e' },
-          { label: 'New Users (Sep)', value: '+372', color: '#f07a22' },
+          { label: 'New Users (Sep)', value: '+372', color: '#2563EB' },
           { label: 'Platform Uptime', value: '99.8%', color: '#0a7244' },
         ].map(metric => (
           <div key={metric.label} className="bg-white rounded-2xl p-5 card-shadow">

@@ -82,7 +82,7 @@ export default function Contact() {
   return (
     <main className="mx-auto max-w-5xl px-6 py-16">
       <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="rounded-3xl bg-[#08192D] p-8 text-white">
+        <div className="rounded-3xl bg-[#0F172A] p-8 text-white">
           <div className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-100">Pilot schools</div>
           <h1 className="mt-5 text-3xl font-black md:text-4xl">Request a demo</h1>
           <p className="mt-3 text-sm leading-relaxed text-sky-100/80">

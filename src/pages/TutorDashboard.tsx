@@ -39,7 +39,7 @@ export default function TutorDashboard({ onNavigate }: { onNavigate: (page: stri
           <button key={tab} onClick={() => setActiveTab(tab)} className={`tab-pill ${activeTab === tab ? 'active' : ''}`}>
             {tab.charAt(0).toUpperCase() + tab.slice(1)}
             {tab === 'bookings' && pendingBookings.length > 0 && (
-              <span className="ml-1 w-4 h-4 rounded-full bg-[#f07a22] text-white text-[10px] flex items-center justify-center inline-flex">{pendingBookings.length}</span>
+              <span className="ml-1 w-4 h-4 rounded-full bg-[#2563EB] text-white text-[10px] flex items-center justify-center inline-flex">{pendingBookings.length}</span>
             )}
           </button>
         ))}
@@ -51,7 +51,7 @@ export default function TutorDashboard({ onNavigate }: { onNavigate: (page: stri
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-7">
             <StatCard label="This Month" value="GH₵6,400" icon={<WalletIcon />} color="#0a7244" trend={{ dir: 'up', val: '+36%' }} />
             <StatCard label="Total Students" value={tutor.totalStudents} icon={<UsersIcon />} color="#1b3d7e" trend={{ dir: 'up', val: '+8 this month' }} />
-            <StatCard label="Lessons Taught" value={tutor.completedLessons} icon={<BookIcon />} color="#f07a22" />
+            <StatCard label="Lessons Taught" value={tutor.completedLessons} icon={<BookIcon />} color="#2563EB" />
             <StatCard label="Rating" value={`${tutor.rating}★`} icon={<StarIcon />} color="#9333ea" sub={`${tutor.reviews} reviews`} />
           </div>
 
@@ -86,7 +86,7 @@ export default function TutorDashboard({ onNavigate }: { onNavigate: (page: stri
                         <div className="flex-1 min-w-0">
                           <div className="font-semibold text-slate-900 text-sm">{b.student.name}</div>
                           <div className="text-xs text-slate-500">{b.subject} · {b.date} · {b.time}</div>
-                          <div className="text-xs text-[#d45f10] font-medium mt-0.5">GH₵{b.rate * b.duration / 60} earned</div>
+                          <div className="text-xs text-[#1E40AF] font-medium mt-0.5">GH₵{b.rate * b.duration / 60} earned</div>
                         </div>
                         <div className="flex gap-2">
                           <Button size="sm" variant="outline">Reject</Button>
@@ -198,7 +198,7 @@ export default function TutorDashboard({ onNavigate }: { onNavigate: (page: stri
           <div className="lg:col-span-2 space-y-5">
             <div className="grid grid-cols-3 gap-4">
               <StatCard label="This Month" value="GH₵6,400" icon={<WalletIcon />} color="#0a7244" />
-              <StatCard label="Pending" value="GH₵1,580" icon={<WalletIcon />} color="#f07a22" />
+              <StatCard label="Pending" value="GH₵1,580" icon={<WalletIcon />} color="#2563EB" />
               <StatCard label="Available" value="GH₵4,820" icon={<WalletIcon />} color="#1b3d7e" />
             </div>
             <div className="bg-white rounded-2xl p-5 card-shadow">
@@ -243,7 +243,7 @@ export default function TutorDashboard({ onNavigate }: { onNavigate: (page: stri
                   <label className="text-sm font-semibold text-slate-700 block mb-2">Withdraw to</label>
                   <div className="grid grid-cols-3 gap-2">
                     {['MTN MoMo', 'Vodafone', 'AirtelTigo'].map((m, i) => (
-                      <button key={m} className={`p-2 rounded-xl border-2 text-xs font-semibold ${i === 0 ? 'border-[#f07a22] text-[#d45f10] bg-amber-50' : 'border-slate-100 text-slate-500'}`}>{m}</button>
+                      <button key={m} className={`p-2 rounded-xl border-2 text-xs font-semibold ${i === 0 ? 'border-[#2563EB] text-[#1E40AF] bg-blue-50' : 'border-slate-100 text-slate-500'}`}>{m}</button>
                     ))}
                   </div>
                 </div>

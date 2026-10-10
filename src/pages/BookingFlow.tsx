@@ -200,7 +200,7 @@ export default function BookingFlow({ onNavigate }: { onNavigate: (page: string)
                   <label className="text-sm font-semibold text-slate-700 block mb-2">Payment Method</label>
                   <div className="grid grid-cols-3 gap-3">
                     {['MTN MoMo', 'Vodafone Cash', 'AirtelTigo'].map((m, i) => (
-                      <button key={m} className={`p-3 rounded-xl border-2 text-xs font-semibold text-center transition-all ${i === 0 ? 'border-[#f07a22] bg-[#fff8ec] text-[#d45f10]' : 'border-slate-100 text-slate-600'}`}>
+                      <button key={m} className={`p-3 rounded-xl border-2 text-xs font-semibold text-center transition-all ${i === 0 ? 'border-[#2563EB] bg-[#EFF6FF] text-[#1E40AF]' : 'border-slate-100 text-slate-600'}`}>
                         {m}
                       </button>
                     ))}
@@ -232,7 +232,7 @@ export default function BookingFlow({ onNavigate }: { onNavigate: (page: string)
             <div className="text-center py-6">
               {paymentStatus === 'processing' && (
                 <>
-                  <div className="w-20 h-20 rounded-full bg-[#fff8ec] flex items-center justify-center text-4xl mx-auto mb-4 animate-pulse">💳</div>
+                  <div className="w-20 h-20 rounded-full bg-[#EFF6FF] flex items-center justify-center text-4xl mx-auto mb-4 animate-pulse">💳</div>
                   <h2 className="text-xl font-bold font-display text-slate-900 mb-2">Processing Payment...</h2>
                   <p className="text-slate-500 text-sm">Please approve the prompt on your phone</p>
                 </>

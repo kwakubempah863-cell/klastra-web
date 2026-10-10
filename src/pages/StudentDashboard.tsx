@@ -24,7 +24,7 @@ export default function StudentDashboard({ onNavigate }: { onNavigate: (page: st
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard label="Upcoming Lessons" value={upcoming.length} icon={<CalIcon />} color="#1b3d7e" trend={{ dir: 'up', val: '2 this week' }} />
         <StatCard label="Total Sessions" value="34" icon={<BookIcon />} color="#0a7244" trend={{ dir: 'up', val: '+6 this month' }} />
-        <StatCard label="Active Tutors" value="3" icon={<UserIcon />} color="#f07a22" />
+        <StatCard label="Active Tutors" value="3" icon={<UserIcon />} color="#2563EB" />
         <StatCard label="Learning Streak" value="12 days" icon={<FireIcon />} color="#9333ea" trend={{ dir: 'up', val: 'Personal best!' }} />
       </div>
 
@@ -49,7 +49,7 @@ export default function StudentDashboard({ onNavigate }: { onNavigate: (page: st
             </div>
             <div className="flex flex-col gap-2 sm:items-end">
               <div className="text-xs text-white/50 text-center">Starts in</div>
-              <div className="text-2xl font-bold font-display text-[#f07a22]">2 days</div>
+              <div className="text-2xl font-bold font-display text-[#2563EB]">2 days</div>
               <Button size="sm" variant="secondary" onClick={() => onNavigate('student-sessions')}>
                 View Details
               </Button>
@@ -84,7 +84,7 @@ export default function StudentDashboard({ onNavigate }: { onNavigate: (page: st
             <SectionHeader title="Learning Progress" subtitle="This month" />
             <div className="space-y-4">
               <ProgressBar value={82} label="Mathematics" color="#1b3d7e" />
-              <ProgressBar value={71} label="English" color="#f07a22" />
+              <ProgressBar value={71} label="English" color="#2563EB" />
               <ProgressBar value={91} label="Physics" color="#0fb568" />
             </div>
           </div>
@@ -135,7 +135,7 @@ export default function StudentDashboard({ onNavigate }: { onNavigate: (page: st
                     <p className="text-xs text-slate-500 mt-0.5 truncate">{msg.lastMessage}</p>
                   </div>
                   {msg.unread > 0 && (
-                    <span className="w-5 h-5 rounded-full bg-[#f07a22] text-white text-xs flex items-center justify-center font-bold flex-shrink-0">{msg.unread}</span>
+                    <span className="w-5 h-5 rounded-full bg-[#2563EB] text-white text-xs flex items-center justify-center font-bold flex-shrink-0">{msg.unread}</span>
                   )}
                 </div>
               ))}

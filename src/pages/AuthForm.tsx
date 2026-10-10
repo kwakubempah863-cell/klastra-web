@@ -107,7 +107,7 @@ export default function AuthForm({ mode }: { mode: 'login' | 'register' }) {
             </div>
           </div>
 
-          <button type="submit" disabled={loading} className="w-full py-3 rounded-xl bg-[#102A43] text-white font-bold text-sm hover:bg-[#08192D] transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
+          <button type="submit" disabled={loading} className="w-full py-3 rounded-xl bg-[#102A43] text-white font-bold text-sm hover:bg-[#0F172A] transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
             {loading ? (isLogin ? 'Signing in…' : 'Creating account…') : isLogin ? 'Sign In' : 'Create Account'}
           </button>
           {error && <p role="alert" className="text-sm text-red-600 mt-3">{error}</p>}
