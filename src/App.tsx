@@ -10,6 +10,8 @@ import Terms from './pages/Terms';
 import Support from './pages/Support';
 import Features from './pages/Features';
 import Pricing from './pages/Pricing';
+import Register from './pages/Register';
+import RegisterPending from './pages/RegisterPending';
 
 export default function App() {
   return (
@@ -24,6 +26,8 @@ export default function App() {
         <Route path="/terms" element={<Layout><Terms /></Layout>} />
         <Route path="/support" element={<Layout><Support /></Layout>} />
         <Route path="/login" element={<Layout><Login /></Layout>} />
+        <Route path="/register" element={<Layout><Register /></Layout>} />
+        <Route path="/register/pending" element={<Layout><RegisterPending /></Layout>} />
         <Route path="*" element={<Layout><NotFound /></Layout>} />
       </Routes>
     </BrowserRouter>

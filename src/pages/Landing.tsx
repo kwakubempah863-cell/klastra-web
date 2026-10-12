@@ -151,6 +151,7 @@ export default function Landing() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button variant="secondary" size="lg" onClick={() => navigate('/contact')}>Request a demo</Button>
+              <Button variant="primary" size="lg" onClick={() => navigate('/register')}>Register your school</Button>
               <Button variant="ghost" size="lg" className="border border-white/25 text-white hover:bg-white/10" onClick={() => navigate('/features')}>See features</Button>
             </div>
             <div className="mt-8 flex flex-wrap gap-5 text-sm text-sky-100/90">
@@ -283,8 +284,9 @@ export default function Landing() {
         <div className="mx-auto max-w-4xl px-6 text-center">
           <h2 className="text-3xl font-black md:text-4xl">Ready to see it in action?</h2>
           <p className="mt-4 text-sky-100/80">Request a demo. We&apos;ll visit your school and set up the first class in person.</p>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button variant="primary" size="lg" onClick={() => navigate('/contact')}>Request a demo</Button>
+            <Button variant="secondary" size="lg" onClick={() => navigate('/register')}>Register your school</Button>
           </div>
         </div>
       </section>
