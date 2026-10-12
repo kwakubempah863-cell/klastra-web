@@ -131,7 +131,7 @@ export default function TutorOnboarding() {
     }
     const hourlyRate = Number(rate);
     if (!Number.isFinite(hourlyRate) || hourlyRate < 20 || hourlyRate > 500) {
-      setError('Hourly rate must be between GH₵20 and GH₵500.');
+      setError('Hourly rate must be between GH₵20 and GH₵1000.');
       return;
     }
 

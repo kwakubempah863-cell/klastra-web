@@ -49,8 +49,8 @@ const pricingTiers = [
   },
   {
     name: 'Basic',
-    price: 'GH₵5',
-    description: 'GH₵5 / student / month. For schools up to 200 students.',
+    price: 'GH₵10',
+    description: 'GH₵10 / student / month. For schools up to 200 students.',
     cta: 'Talk to us',
     featured: true,
     perks: ['Everything in Free', 'Unlimited classes', 'Parent messaging', 'Progress reports'],
