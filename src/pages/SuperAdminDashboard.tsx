@@ -190,7 +190,19 @@ export default function SuperAdminDashboard() {
             </div>
           ) : (
             requests.map((request) => (
-              <article key={request.id} className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
+              <article
+                key={request.id}
+                role="link"
+                tabIndex={0}
+                onClick={() => navigate(`/super-admin/requests/${request.id}`)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    navigate(`/super-admin/requests/${request.id}`);
+                  }
+                }}
+                className="cursor-pointer rounded-2xl border border-slate-200 bg-white p-5 transition-colors hover:border-slate-300 sm:p-6"
+              >
                 <div className="grid gap-5 lg:grid-cols-[1.1fr_1fr_auto] lg:items-center">
                   <div className="min-w-0">
                     <h2 className="truncate text-lg font-bold text-slate-900">{request.school_name}</h2>

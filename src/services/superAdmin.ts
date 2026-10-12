@@ -60,3 +60,49 @@ export async function signInPlatformAdmin(email: string, password: string) {
 
   return data;
 }
+
+export async function getSchoolRequest(requestId: string): Promise<SchoolRequest | null> {
+  if (!supabase) throw new Error('Missing Supabase env vars. Check .env.local');
+
+  const { data, error } = await supabase
+    .from('school_requests')
+    .select('*')
+    .eq('id', requestId)
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  return (data as SchoolRequest | null) ?? null;
+}
+
+export async function getDocumentSignedUrl(storagePath: string): Promise<string> {
+  if (!supabase) throw new Error('Missing Supabase env vars. Check .env.local');
+
+  const { data, error } = await supabase.storage
+    .from('school-documents')
+    .createSignedUrl(storagePath, 60 * 10);
+
+  if (error) throw new Error(error.message);
+  return data.signedUrl;
+}
+
+export async function approveSchoolRequest(requestId: string): Promise<string> {
+  if (!supabase) throw new Error('Missing Supabase env vars. Check .env.local');
+
+  const { data, error } = await supabase.rpc('approve_school_request', {
+    request_id: requestId,
+  });
+
+  if (error) throw new Error(error.message);
+  return data as string;
+}
+
+export async function rejectSchoolRequest(requestId: string, reason: string): Promise<void> {
+  if (!supabase) throw new Error('Missing Supabase env vars. Check .env.local');
+
+  const { error } = await supabase.rpc('reject_school_request', {
+    request_id: requestId,
+    reason,
+  });
+
+  if (error) throw new Error(error.message);
+}
