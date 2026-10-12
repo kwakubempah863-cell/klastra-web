@@ -8,8 +8,11 @@ import {
   getDocumentSignedUrl,
   getSchoolRequest,
   rejectSchoolRequest,
+  requestMoreInfo,
 } from '../services/superAdmin';
 import type { SchoolRequest } from '../services/superAdmin';
+
+type RequestedDocumentType = 'registration_certificate' | 'headmaster_id' | 'headmaster_appointment';
 
 const statusLabels: Record<SchoolRequest['status'], string> = {
   pending: 'Pending',
@@ -28,12 +31,13 @@ const statusStyles: Record<SchoolRequest['status'], string> = {
 };
 
 const documentTypes: {
+  type: RequestedDocumentType;
   field: 'registration_certificate_url' | 'headmaster_id_url' | 'headmaster_appointment_url';
   label: string;
 }[] = [
-  { field: 'registration_certificate_url', label: 'School registration certificate' },
-  { field: 'headmaster_id_url', label: 'Headmaster national ID' },
-  { field: 'headmaster_appointment_url', label: 'Headmaster appointment letter' },
+  { type: 'registration_certificate', field: 'registration_certificate_url', label: 'School registration certificate' },
+  { type: 'headmaster_id', field: 'headmaster_id_url', label: 'Headmaster national ID' },
+  { type: 'headmaster_appointment', field: 'headmaster_appointment_url', label: 'Headmaster appointment letter' },
 ];
 
 function relativeTime(timestamp: string) {
@@ -70,9 +74,12 @@ export default function SuperAdminRequestDetail() {
   const [openingDocument, setOpeningDocument] = useState<string | null>(null);
   const [showApproveConfirmation, setShowApproveConfirmation] = useState(false);
   const [showRejectForm, setShowRejectForm] = useState(false);
+  const [showRequestInfoModal, setShowRequestInfoModal] = useState(false);
+  const [infoMessage, setInfoMessage] = useState('');
+  const [selectedDocTypes, setSelectedDocTypes] = useState<RequestedDocumentType[]>([]);
   const [rejectReason, setRejectReason] = useState('');
   const [actionError, setActionError] = useState('');
-  const [activeAction, setActiveAction] = useState<'approve' | 'reject' | null>(null);
+  const [activeAction, setActiveAction] = useState<'approve' | 'reject' | 'request-info' | null>(null);
 
   useEffect(() => {
     if (!authLoading && (!profile || profileRole !== 'platform_admin')) {
@@ -167,6 +174,37 @@ export default function SuperAdminRequestDetail() {
       setActionError(rejectionError instanceof Error ? rejectionError.message : 'Unable to reject this school.');
       setActiveAction(null);
     }
+  };
+
+  const submitInfoRequest = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!request) return;
+    const message = infoMessage.trim();
+    if (message.length < 10) {
+      setActionError('Enter a message of at least 10 characters.');
+      return;
+    }
+    if (selectedDocTypes.length === 0) {
+      setActionError('Select at least one document to request.');
+      return;
+    }
+
+    setActiveAction('request-info');
+    setActionError('');
+    try {
+      await requestMoreInfo(request.id, message, selectedDocTypes);
+      navigate('/super-admin', { replace: true });
+    } catch (requestError) {
+      setActionError(requestError instanceof Error ? requestError.message : 'Unable to request more information.');
+      setActiveAction(null);
+    }
+  };
+
+  const toggleRequestedDoc = (docType: RequestedDocumentType) => {
+    setSelectedDocTypes((current) => current.includes(docType)
+      ? current.filter((selected) => selected !== docType)
+      : [...current, docType]);
+    setActionError('');
   };
 
   if (authLoading || !profile || profileRole !== 'platform_admin') {
@@ -309,6 +347,21 @@ export default function SuperAdminRequestDetail() {
                       variant="outline"
                       size="lg"
                       fullWidth
+                      className="border-slate-300 text-slate-700 hover:bg-slate-50"
+                      disabled={activeAction !== null}
+                      onClick={() => {
+                        setInfoMessage('');
+                        setSelectedDocTypes([]);
+                        setActionError('');
+                        setShowRequestInfoModal(true);
+                      }}
+                    >
+                      Request more info
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      fullWidth
                       className="border-red-200 text-red-700 hover:bg-red-50"
                       disabled={activeAction !== null}
                       onClick={() => {
@@ -378,6 +431,14 @@ export default function SuperAdminRequestDetail() {
                     {request.reviewer_notes}
                   </p>
                 )}
+                {request.status === 'needs_info' && request.requested_docs?.length > 0 && (
+                  <p className="text-xs text-slate-500">
+                    Requested: {request.requested_docs
+                      .map((docType) => documentTypes.find((document) => document.type === docType)?.label)
+                      .filter(Boolean)
+                      .join(', ')}
+                  </p>
+                )}
               </div>
             </section>
 
@@ -428,6 +489,76 @@ export default function SuperAdminRequestDetail() {
                 {activeAction === 'approve' ? 'Approving...' : 'Approve'}
               </Button>
             </div>
+          </section>
+        </div>
+      )}
+
+      {showRequestInfoModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 px-6 py-10" role="presentation">
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="request-info-title"
+            className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl sm:p-8"
+          >
+            <h2 id="request-info-title" className="text-xl font-black text-slate-900">Request more information</h2>
+            <form onSubmit={submitInfoRequest} className="mt-5 space-y-5">
+              <div>
+                <label htmlFor="info-message" className="mb-1 block text-sm font-semibold text-slate-700">
+                  Message to the headmaster
+                </label>
+                <textarea
+                  id="info-message"
+                  rows={4}
+                  minLength={10}
+                  value={infoMessage}
+                  onChange={(event) => {
+                    setInfoMessage(event.target.value);
+                    setActionError('');
+                  }}
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10"
+                  placeholder="Explain what needs to be corrected or re-uploaded."
+                  required
+                />
+              </div>
+
+              <fieldset>
+                <legend className="mb-2 text-sm font-semibold text-slate-700">Documents to re-upload</legend>
+                <div className="space-y-2">
+                  {documentTypes.map(({ type, label }) => (
+                    <label key={type} className="flex items-center gap-3 rounded-xl border border-slate-200 px-3 py-2.5 text-sm text-slate-700">
+                      <input
+                        type="checkbox"
+                        checked={selectedDocTypes.includes(type)}
+                        onChange={() => toggleRequestedDoc(type)}
+                        className="h-4 w-4 accent-[#2563EB]"
+                      />
+                      {label}
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+
+              {actionError && <p role="alert" className="text-sm text-red-700">{actionError}</p>}
+
+              <div className="flex flex-wrap justify-end gap-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={activeAction !== null}
+                  onClick={() => setShowRequestInfoModal(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  disabled={activeAction !== null || infoMessage.trim().length < 10 || selectedDocTypes.length === 0}
+                >
+                  {activeAction === 'request-info' ? 'Sending...' : 'Send request'}
+                </Button>
+              </div>
+            </form>
           </section>
         </div>
       )}

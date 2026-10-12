@@ -12,6 +12,7 @@ import {
 type DocumentType = 'registration_certificate' | 'headmaster_id' | 'headmaster_appointment';
 type DocumentField = `${DocumentType}_url`;
 type DocumentStatus = 'idle' | 'uploading' | 'uploaded' | 'error';
+type SchoolRequestStatus = 'pending' | 'awaiting_review' | 'needs_info' | 'approved' | 'rejected';
 
 type DocumentState = {
   status: DocumentStatus;
@@ -20,7 +21,11 @@ type DocumentState = {
   error?: string;
 };
 
-type SchoolRequestDocuments = Partial<Record<DocumentField, string | null>>;
+type SchoolRequestDocuments = Partial<Record<DocumentField, string | null>> & {
+  status?: SchoolRequestStatus;
+  reviewer_notes?: string | null;
+  requested_docs?: DocumentType[] | null;
+};
 
 const documents: {
   type: DocumentType;
@@ -52,6 +57,12 @@ const documents: {
   },
 ];
 
+const documentLabels: Record<DocumentType, string> = {
+  registration_certificate: 'School registration certificate',
+  headmaster_id: 'Headmaster national ID',
+  headmaster_appointment: 'Headmaster appointment letter',
+};
+
 const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
 const maxFileSize = 10 * 1024 * 1024;
 const emptyDocumentState: DocumentState = { status: 'idle' };
@@ -79,6 +90,10 @@ export default function RegisterDocuments() {
     headmaster_id: emptyDocumentState,
     headmaster_appointment: emptyDocumentState,
   });
+  const [requestStatus, setRequestStatus] = useState<SchoolRequestStatus | null>(null);
+  const [reviewerNotes, setReviewerNotes] = useState<string | null>(null);
+  const [requestedDocs, setRequestedDocs] = useState<DocumentType[]>([]);
+  const [updatedRequestedDocs, setUpdatedRequestedDocs] = useState<DocumentType[]>([]);
   const [loadError, setLoadError] = useState('');
 
   useEffect(() => {
@@ -98,7 +113,11 @@ export default function RegisterDocuments() {
           setLoadError('No school request was found for your account. Please register your school first.');
           return;
         }
-        setDocumentsState(initialDocumentStates(request as SchoolRequestDocuments));
+        const schoolRequest = request as SchoolRequestDocuments;
+        setDocumentsState(initialDocumentStates(schoolRequest));
+        setRequestStatus(schoolRequest.status ?? null);
+        setReviewerNotes(schoolRequest.reviewer_notes ?? null);
+        setRequestedDocs(schoolRequest.requested_docs ?? []);
       })
       .catch((error: unknown) => {
         if (!cancelled) {
@@ -145,7 +164,26 @@ export default function RegisterDocuments() {
         ...current,
         [type]: { ...current[type], path, fileName: file.name },
       }));
-      await updateSchoolRequestDocuments(userId, { [field]: path });
+      await updateSchoolRequestDocuments(userId, { [field]: path }, type);
+      const remainingRequestedDocs = requestedDocs.filter((docType) => docType !== type);
+      const nextUrls = {
+        registration_certificate_url: documentsState.registration_certificate.path,
+        headmaster_id_url: documentsState.headmaster_id.path,
+        [field]: path,
+      };
+      const bothRequiredPresent = Boolean(
+        nextUrls.registration_certificate_url && nextUrls.headmaster_id_url,
+      );
+      setRequestedDocs(remainingRequestedDocs);
+      if (requestedDocs.includes(type)) {
+        setUpdatedRequestedDocs((current) => current.includes(type) ? current : [...current, type]);
+      }
+      if (remainingRequestedDocs.length === 0 && bothRequiredPresent) {
+        setRequestStatus('awaiting_review');
+        setReviewerNotes(null);
+      } else {
+        setRequestStatus('needs_info');
+      }
       setDocumentsState((current) => ({
         ...current,
         [type]: { status: 'uploaded', path, fileName: file.name },
@@ -165,6 +203,7 @@ export default function RegisterDocuments() {
   const requiredDocumentsUploaded = documents
     .filter((document) => document.required)
     .every(({ type }) => documentsState[type].status === 'uploaded' && Boolean(documentsState[type].path));
+  const hasPendingRequestedDocs = requestedDocs.length > 0;
 
   if (authLoading || loading) {
     return <main className="mesh-bg flex min-h-[60vh] items-center justify-center px-6 py-16 text-sm text-slate-500">Loading your school documents...</main>;
@@ -186,14 +225,28 @@ export default function RegisterDocuments() {
         </section>
 
         <section className="glass-medium rounded-3xl border p-6 sm:p-8">
+          {requestStatus === 'needs_info' && reviewerNotes && (
+            <div className="mb-5 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+              {reviewerNotes}
+            </div>
+          )}
           <div className="space-y-4">
             {documents.map((document) => {
               const state = documentsState[document.type];
               const inputId = `document-${document.type}`;
               const isUploaded = state.status === 'uploaded' && Boolean(state.path);
+              const reuploadRequested = requestedDocs.includes(document.type);
+              const wasRequestedAndUpdated = updatedRequestedDocs.includes(document.type);
 
               return (
-                <article key={document.type} className="rounded-2xl border border-slate-200 bg-white p-5">
+                <article
+                  key={document.type}
+                  className={`rounded-2xl border bg-white p-5 ${
+                    reuploadRequested || wasRequestedAndUpdated
+                      ? 'border-amber-300 border-l-4 bg-amber-50/40'
+                      : 'border-slate-200'
+                  }`}
+                >
                   <div className="flex items-start gap-3">
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#EFF6FF] text-lg text-[#102A43]" aria-hidden="true">▤</span>
                     <div className="min-w-0 flex-1">
@@ -202,6 +255,16 @@ export default function RegisterDocuments() {
                         <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${document.required ? 'bg-amber-50 text-amber-700' : 'bg-slate-100 text-slate-600'}`}>
                           {document.required ? 'Required' : 'Optional'}
                         </span>
+                        {reuploadRequested && (
+                          <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
+                            Re-upload requested
+                          </span>
+                        )}
+                        {wasRequestedAndUpdated && (
+                          <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-800">
+                            ✓ Updated
+                          </span>
+                        )}
                       </div>
                       <p className="mt-1 text-sm leading-relaxed text-slate-600">{document.description}</p>
                       <p className="mt-2 text-xs text-slate-500">JPG, PNG, or PDF · Up to 10 MB</p>
@@ -243,16 +306,20 @@ export default function RegisterDocuments() {
               variant="primary"
               size="lg"
               fullWidth
-              disabled={!requiredDocumentsUploaded || Boolean(loadError)}
+              disabled={!requiredDocumentsUploaded || hasPendingRequestedDocs || Boolean(loadError)}
               onClick={() => navigate('/register/pending')}
             >
               Submit for review
             </Button>
-            {!requiredDocumentsUploaded && (
+            {hasPendingRequestedDocs ? (
+              <p className="mt-3 text-center text-xs text-slate-500">
+                Re-upload the requested documents to resubmit.
+              </p>
+            ) : !requiredDocumentsUploaded ? (
               <p className="mt-3 text-center text-xs text-slate-500">
                 Both required documents are needed to submit your application.
               </p>
-            )}
+            ) : null}
             {!requiredDocumentsUploaded && (
               <div className="mt-4 text-center">
                 <Link to="/register/pending" className="text-sm font-semibold text-[#2563EB] hover:underline">Skip for now</Link>

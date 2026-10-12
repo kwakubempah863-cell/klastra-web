@@ -78,12 +78,13 @@ export async function updateSchoolRequestDocuments(
     headmaster_id_url?: string;
     headmaster_appointment_url?: string;
   },
+  justUploadedType: 'registration_certificate' | 'headmaster_id' | 'headmaster_appointment',
 ): Promise<void> {
   if (!supabase) throw new Error('Missing Supabase env vars. Check .env.local');
 
   const { data: existing, error: fetchError } = await supabase
     .from('school_requests')
-    .select('registration_certificate_url, headmaster_id_url, headmaster_appointment_url')
+    .select('registration_certificate_url, headmaster_id_url, headmaster_appointment_url, requested_docs')
     .eq('user_id', userId)
     .maybeSingle();
 
@@ -92,12 +93,19 @@ export async function updateSchoolRequestDocuments(
 
   const merged = { ...existing, ...updates };
   const hasRequiredDocs = Boolean(merged.registration_certificate_url && merged.headmaster_id_url);
+  const currentRequestedDocs = (existing.requested_docs ?? []) as Array<
+    'registration_certificate' | 'headmaster_id' | 'headmaster_appointment'
+  >;
+  const newRequestedDocs = currentRequestedDocs.filter((docType) => docType !== justUploadedType);
+  const readyForReview = newRequestedDocs.length === 0 && hasRequiredDocs;
 
   const { data: updated, error: updateError } = await supabase
     .from('school_requests')
     .update({
       ...updates,
-      status: hasRequiredDocs ? 'awaiting_review' : 'pending',
+      status: readyForReview ? 'awaiting_review' : 'needs_info',
+      requested_docs: newRequestedDocs,
+      ...(readyForReview ? { reviewer_notes: null } : {}),
     })
     .eq('user_id', userId)
     .select('user_id')

@@ -15,6 +15,7 @@ export type SchoolRequest = {
   headmaster_appointment_url: string | null;
   status: 'pending' | 'awaiting_review' | 'needs_info' | 'approved' | 'rejected';
   reviewer_notes: string | null;
+  requested_docs: ('registration_certificate' | 'headmaster_id' | 'headmaster_appointment')[];
   reviewed_at: string | null;
   reviewed_by: string | null;
   created_at: string;
@@ -102,6 +103,22 @@ export async function rejectSchoolRequest(requestId: string, reason: string): Pr
   const { error } = await supabase.rpc('reject_school_request', {
     request_id: requestId,
     reason,
+  });
+
+  if (error) throw new Error(error.message);
+}
+
+export async function requestMoreInfo(
+  requestId: string,
+  message: string,
+  docTypes: ('registration_certificate' | 'headmaster_id' | 'headmaster_appointment')[],
+): Promise<void> {
+  if (!supabase) throw new Error('Missing Supabase env vars. Check .env.local');
+
+  const { error } = await supabase.rpc('request_school_request_info', {
+    request_id: requestId,
+    message,
+    doc_types: docTypes,
   });
 
   if (error) throw new Error(error.message);
