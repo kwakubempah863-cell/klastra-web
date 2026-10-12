@@ -12,6 +12,9 @@ import Features from './pages/Features';
 import Pricing from './pages/Pricing';
 import Register from './pages/Register';
 import RegisterPending from './pages/RegisterPending';
+import RegisterDocuments from './pages/RegisterDocuments';
+import SuperAdminLogin from './pages/SuperAdminLogin';
+import SuperAdminDashboard from './pages/SuperAdminDashboard';
 
 export default function App() {
   return (
@@ -28,6 +31,9 @@ export default function App() {
         <Route path="/login" element={<Layout><Login /></Layout>} />
         <Route path="/register" element={<Layout><Register /></Layout>} />
         <Route path="/register/pending" element={<Layout><RegisterPending /></Layout>} />
+        <Route path="/register/documents" element={<Layout><RegisterDocuments /></Layout>} />
+        <Route path="/super-admin/login" element={<SuperAdminLogin />} />
+        <Route path="/super-admin" element={<SuperAdminDashboard />} />
         <Route path="*" element={<Layout><NotFound /></Layout>} />
       </Routes>
     </BrowserRouter>
