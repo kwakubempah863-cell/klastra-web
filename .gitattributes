@@ -5,6 +5,10 @@
 # Images & Graphics
 # ---------------------------------------------------------------------------
 *.png                filter=lfs diff=lfs merge=lfs -text
+# Vercel clones without Git LFS smudge, so LFS-tracked PNGs were deployed as
+# 132-byte pointer files (broken images). Keep web-served PNGs in-repo.
+public/favicon.png   !filter !diff !merge -text
+src/imports/*.png    !filter !diff !merge -text
 *.jpg                filter=lfs diff=lfs merge=lfs -text
 *.jpeg               filter=lfs diff=lfs merge=lfs -text
 *.gif                filter=lfs diff=lfs merge=lfs -text
