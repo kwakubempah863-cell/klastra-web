@@ -285,6 +285,11 @@ export default function SchoolAdminDashboard() {
                   Contact support
                 </Link>
               )}
+              <div className="mt-7">
+                <Link to="/school-admin/teachers" className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                  Manage teachers
+                </Link>
+              </div>
             </section>
 
             <section className="rounded-3xl border border-slate-200 bg-white p-8 sm:p-10">

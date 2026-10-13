@@ -17,6 +17,10 @@ import SuperAdminLogin from './pages/SuperAdminLogin';
 import SuperAdminDashboard from './pages/SuperAdminDashboard';
 import SuperAdminRequestDetail from './pages/SuperAdminRequestDetail';
 import SchoolAdminDashboard from './pages/SchoolAdminDashboard';
+import SchoolAdminTeachers from './pages/SchoolAdminTeachers';
+import SchoolAdminInviteTeacher from './pages/SchoolAdminInviteTeacher';
+import Join from './pages/Join';
+import JoinSuccess from './pages/JoinSuccess';
 
 export default function App() {
   return (
@@ -35,6 +39,10 @@ export default function App() {
         <Route path="/register/pending" element={<Layout><RegisterPending /></Layout>} />
         <Route path="/register/documents" element={<Layout><RegisterDocuments /></Layout>} />
         <Route path="/school-admin" element={<SchoolAdminDashboard />} />
+        <Route path="/school-admin/teachers" element={<SchoolAdminTeachers />} />
+        <Route path="/school-admin/teachers/invite" element={<SchoolAdminInviteTeacher />} />
+        <Route path="/join" element={<Join />} />
+        <Route path="/join/success" element={<JoinSuccess />} />
         <Route path="/super-admin/login" element={<SuperAdminLogin />} />
         <Route path="/super-admin/requests/:id" element={<SuperAdminRequestDetail />} />
         <Route path="/super-admin" element={<SuperAdminDashboard />} />
