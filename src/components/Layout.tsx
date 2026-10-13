@@ -86,7 +86,6 @@ function isActive(id: string, pathname: string, search: string) {
 
 export default function Layout({ children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [accountError, setAccountError] = useState<string | null>(null);
   const [tutorBannerDismissed, setTutorBannerDismissed] = useState(() => sessionStorage.getItem('tutor-onboarding-banner-dismissed') === 'true');
   const [scrolled, setScrolled] = useState(false);
@@ -96,15 +95,20 @@ export default function Layout({ children }: LayoutProps) {
   const role: Role = isPublic ? 'public' : 'admin';
   const navItems = navByRole[role];
   const profile = roleProfiles[role];
-  const showTutorBanner = authProfile?.role === 'tutor'
-    && authProfile.verification_status !== 'approved'
+  const authRole: string | undefined = authProfile?.role;
+  const showTutorBanner = authRole === 'tutor'
+    && authProfile?.verification_status !== 'approved'
     && !tutorBannerDismissed;
+  const accountDashboard = authRole === 'admin'
+    ? { label: 'School dashboard', path: '/school-admin' }
+    : authRole === 'platform_admin'
+      ? { label: 'Super Admin', path: '/super-admin' }
+      : null;
 
   const handleSignOut = async () => {
     setAccountError(null);
     try {
       await signOut();
-      setAccountMenuOpen(false);
     } catch (error) {
       setAccountError(error instanceof Error ? error.message : 'Unable to sign out.');
     }
@@ -172,19 +176,24 @@ export default function Layout({ children }: LayoutProps) {
           <div className="flex-1" />
 
           {!authLoading && (authProfile ? (
-            <div className="relative">
-              <button type="button" onClick={() => setAccountMenuOpen(open => !open)} aria-haspopup="menu" aria-expanded={accountMenuOpen} className="flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-slate-50">
-                <Avatar src={authProfile.avatar_url ?? undefined} name={authProfile.first_name || 'User'} size={32} />
-                <span className="hidden sm:inline text-sm font-semibold text-slate-700">{authProfile.first_name || authProfile.email?.split('@')[0] || 'Account'}</span>
-                <span className="text-xs text-slate-400" aria-hidden="true">▾</span>
-              </button>
-              {accountMenuOpen && (
-                <div role="menu" className="absolute right-0 top-full mt-2 w-44 rounded-xl border border-slate-100 bg-white py-1 shadow-lg">
-                  <button type="button" role="menuitem" disabled className="w-full px-4 py-2 text-left text-sm text-slate-400 disabled:cursor-default">My Profile</button>
-                  <button type="button" role="menuitem" onClick={() => void handleSignOut()} className="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">Sign out</button>
-                  {accountError && <p role="alert" className="px-4 py-2 text-xs text-red-600">{accountError}</p>}
-                </div>
+            <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3">
+              <span className="hidden max-w-52 truncate text-sm text-slate-600 md:inline">{authProfile.email}</span>
+              {accountDashboard && (
+                <Link
+                  to={accountDashboard.path}
+                  className="rounded-lg px-3 py-2 text-sm font-semibold text-[#102A43] hover:bg-[#EFF6FF]"
+                >
+                  {accountDashboard.label}
+                </Link>
               )}
+              <button
+                type="button"
+                onClick={() => void handleSignOut()}
+                className="min-h-11 rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+              >
+                Sign out
+              </button>
+              {accountError && <p role="alert" className="basis-full text-right text-xs text-red-600">{accountError}</p>}
             </div>
           ) : (
             <div className="flex items-center gap-2">

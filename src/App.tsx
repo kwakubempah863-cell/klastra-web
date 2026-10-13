@@ -16,6 +16,7 @@ import RegisterDocuments from './pages/RegisterDocuments';
 import SuperAdminLogin from './pages/SuperAdminLogin';
 import SuperAdminDashboard from './pages/SuperAdminDashboard';
 import SuperAdminRequestDetail from './pages/SuperAdminRequestDetail';
+import SchoolAdminDashboard from './pages/SchoolAdminDashboard';
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/register" element={<Layout><Register /></Layout>} />
         <Route path="/register/pending" element={<Layout><RegisterPending /></Layout>} />
         <Route path="/register/documents" element={<Layout><RegisterDocuments /></Layout>} />
+        <Route path="/school-admin" element={<SchoolAdminDashboard />} />
         <Route path="/super-admin/login" element={<SuperAdminLogin />} />
         <Route path="/super-admin/requests/:id" element={<SuperAdminRequestDetail />} />
         <Route path="/super-admin" element={<SuperAdminDashboard />} />

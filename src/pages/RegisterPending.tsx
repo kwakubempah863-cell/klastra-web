@@ -99,6 +99,11 @@ export default function RegisterPending() {
               {needsInfo ? 'Re-upload documents' : 'Upload documents'}
             </Button>
           )}
+          {!isLoadingRequest && (
+            <Link to="/school-admin" className="block text-sm font-semibold text-[#102A43] hover:underline">
+              Go to your dashboard
+            </Link>
+          )}
           <Link to="/" className="inline-block text-sm font-semibold text-[#2563EB] hover:underline">Return to home</Link>
         </div>
       </section>

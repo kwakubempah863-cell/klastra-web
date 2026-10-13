@@ -84,7 +84,7 @@ export async function updateSchoolRequestDocuments(
 
   const { data: existing, error: fetchError } = await supabase
     .from('school_requests')
-    .select('registration_certificate_url, headmaster_id_url, headmaster_appointment_url, requested_docs')
+    .select('registration_certificate_url, headmaster_id_url, headmaster_appointment_url, requested_docs, status')
     .eq('user_id', userId)
     .maybeSingle();
 
@@ -92,21 +92,42 @@ export async function updateSchoolRequestDocuments(
   if (!existing) throw new Error('No school request found for this user.');
 
   const merged = { ...existing, ...updates };
-  const hasRequiredDocs = Boolean(merged.registration_certificate_url && merged.headmaster_id_url);
+  const currentStatus = existing.status;
+  const isReuploadFlow = currentStatus === 'needs_info';
   const currentRequestedDocs = (existing.requested_docs ?? []) as Array<
     'registration_certificate' | 'headmaster_id' | 'headmaster_appointment'
   >;
-  const newRequestedDocs = currentRequestedDocs.filter((docType) => docType !== justUploadedType);
-  const readyForReview = newRequestedDocs.length === 0 && hasRequiredDocs;
+  const newRequestedDocs = isReuploadFlow
+    ? currentRequestedDocs.filter((docType) => docType !== justUploadedType)
+    : currentRequestedDocs;
+  const hasRequiredDocs = Boolean(
+    merged.registration_certificate_url && merged.headmaster_id_url,
+  );
+
+  let newStatus: 'pending' | 'awaiting_review' | 'needs_info';
+  let clearReviewerNotes = false;
+
+  if (isReuploadFlow) {
+    if (newRequestedDocs.length === 0 && hasRequiredDocs) {
+      newStatus = 'awaiting_review';
+      clearReviewerNotes = true;
+    } else {
+      newStatus = 'needs_info';
+    }
+  } else {
+    newStatus = hasRequiredDocs ? 'awaiting_review' : 'pending';
+  }
+
+  const update = {
+    ...updates,
+    status: newStatus,
+    ...(isReuploadFlow ? { requested_docs: newRequestedDocs } : {}),
+    ...(clearReviewerNotes ? { reviewer_notes: null } : {}),
+  };
 
   const { data: updated, error: updateError } = await supabase
     .from('school_requests')
-    .update({
-      ...updates,
-      status: readyForReview ? 'awaiting_review' : 'needs_info',
-      requested_docs: newRequestedDocs,
-      ...(readyForReview ? { reviewer_notes: null } : {}),
-    })
+    .update(update)
     .eq('user_id', userId)
     .select('user_id')
     .maybeSingle();
