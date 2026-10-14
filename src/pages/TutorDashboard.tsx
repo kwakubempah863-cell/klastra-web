@@ -247,8 +247,8 @@ export default function TutorDashboard({ onNavigate }: { onNavigate: (page: stri
                     ))}
                   </div>
                 </div>
-                <input type="tel" placeholder="Mobile Money number" className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#1b3d7e]/20" />
-                <input type="number" placeholder="Amount (GH₵)" className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#1b3d7e]/20" />
+                <input type="tel" aria-label="Mobile Money number" placeholder="Mobile Money number" className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#1b3d7e]/20" />
+                <input type="number" aria-label="Withdrawal amount in Ghana cedis" placeholder="Amount (GH₵)" className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#1b3d7e]/20" />
                 <Button fullWidth variant="secondary">Withdraw Funds</Button>
               </div>
             </div>
@@ -264,7 +264,7 @@ export default function TutorDashboard({ onNavigate }: { onNavigate: (page: stri
               <div className="flex items-center gap-5 mb-6">
                 <div className="relative">
                   <img src={tutor.avatar} alt={tutor.name} className="w-20 h-20 rounded-full object-cover bg-slate-100" />
-                  <button className="absolute -bottom-1 -right-1 w-7 h-7 bg-[#1b3d7e] text-white rounded-full flex items-center justify-center text-xs">✏️</button>
+                  <button type="button" aria-label="Edit profile picture" className="absolute -bottom-1 -right-1 min-h-11 min-w-11 bg-[#1b3d7e] text-white rounded-full flex items-center justify-center text-xs">✏️</button>
                 </div>
                 <div>
                   <h2 className="text-xl font-bold font-display text-slate-900">{tutor.name}</h2>
@@ -282,11 +282,11 @@ export default function TutorDashboard({ onNavigate }: { onNavigate: (page: stri
                   { label: 'Hourly Rate (GH₵)', value: String(tutor.rate), type: 'input' },
                 ].map(f => (
                   <div key={f.label}>
-                    <label className="text-sm font-semibold text-slate-700 block mb-2">{f.label}</label>
+                    <label htmlFor={`tutor-profile-${f.label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="text-sm font-semibold text-slate-700 block mb-2">{f.label}</label>
                     {f.type === 'textarea' ? (
-                      <textarea defaultValue={f.value} rows={3} className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#1b3d7e]/20 resize-none" />
+                      <textarea id={`tutor-profile-${f.label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} defaultValue={f.value} rows={3} className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#1b3d7e]/20 resize-none" />
                     ) : (
-                      <input type="text" defaultValue={f.value} className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#1b3d7e]/20" />
+                      <input id={`tutor-profile-${f.label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} type="text" defaultValue={f.value} className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#1b3d7e]/20" />
                     )}
                   </div>
                 ))}

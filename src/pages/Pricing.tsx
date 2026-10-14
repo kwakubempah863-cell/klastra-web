@@ -1,4 +1,5 @@
 import { Button } from '../components/ui';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 const pricingTiers = [
   {
@@ -35,6 +36,7 @@ const featureRows = [
 ];
 
 export default function Pricing() {
+  useDocumentTitle('Pricing — Klastra', 'Free, Basic, and School plans. All plans free during the pilot.');
   return (
     <main className="mesh-bg mx-auto max-w-6xl px-6 py-16">
       <div className="mx-auto max-w-3xl text-center">

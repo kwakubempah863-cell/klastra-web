@@ -8,6 +8,7 @@ import {
   updateSchoolRequestDocuments,
   uploadSchoolDocument,
 } from '../services/schoolRequests';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 type DocumentType = 'registration_certificate' | 'headmaster_id' | 'headmaster_appointment';
 type DocumentField = `${DocumentType}_url`;
@@ -81,6 +82,7 @@ function initialDocumentStates(request: SchoolRequestDocuments): Record<Document
 }
 
 export default function RegisterDocuments() {
+  useDocumentTitle('School verification — Klastra');
   const navigate = useNavigate();
   const { profile, loading: authLoading } = useAuth();
   const userId = profile?.id;
@@ -210,7 +212,7 @@ export default function RegisterDocuments() {
   }
 
   return (
-    <main className="mesh-bg mx-auto max-w-5xl px-6 py-16">
+    <main className="mesh-bg mx-auto max-w-5xl px-5 py-10 sm:px-6 sm:py-12">
       <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
         <section className="rounded-3xl bg-[#0F172A]">
           <div className="glass-dark h-full rounded-3xl p-8 text-white">
@@ -224,7 +226,7 @@ export default function RegisterDocuments() {
           </div>
         </section>
 
-        <section className="glass-medium rounded-3xl border p-6 sm:p-8">
+        <section className="glass-medium rounded-3xl border p-5 sm:p-8">
           {requestStatus === 'needs_info' && reviewerNotes && (
             <div className="mb-5 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
               {reviewerNotes}
@@ -276,7 +278,7 @@ export default function RegisterDocuments() {
                           <span className="min-w-0 truncate text-slate-700">{state.fileName}</span>
                         </div>
                       )}
-                      {state.error && <p role="alert" className="mt-3 text-sm text-red-600">{state.error}</p>}
+                      {state.error && <p id={`${inputId}-error`} role="alert" className="mt-3 text-sm text-red-600">{state.error}</p>}
 
                       <label
                         htmlFor={inputId}
@@ -289,6 +291,8 @@ export default function RegisterDocuments() {
                         type="file"
                         accept="image/jpeg,image/png,application/pdf"
                         className="sr-only"
+                        aria-describedby={state.error ? `${inputId}-error` : undefined}
+                        aria-invalid={Boolean(state.error)}
                         disabled={state.status === 'uploading'}
                         onChange={(event) => void handleUpload(document.type, document.field, event)}
                       />

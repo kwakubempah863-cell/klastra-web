@@ -5,8 +5,10 @@ import { useAuth } from '../contexts/AuthContext';
 import logoMark from '../imports/logo-mark.png';
 import { supabase } from '../lib/supabase';
 import { previewSchoolInvite, redeemSchoolInvite, type InvitePreview } from '../services/schoolInvites';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 export default function Join() {
+  useDocumentTitle('Join a school — Klastra', 'Redeem your invite code to join your school on Klastra.');
   const navigate = useNavigate();
   const { profile, loading: authLoading } = useAuth();
   const [searchParams] = useSearchParams();
@@ -122,8 +124,8 @@ export default function Join() {
   const isValidInvite = Boolean(preview?.valid);
 
   return (
-    <main className="mesh-bg mx-auto flex min-h-screen items-center justify-center px-6 py-16">
-      <div className="glass-medium w-full max-w-xl rounded-3xl border p-8 md:p-10">
+    <main className="mesh-bg mx-auto flex min-h-screen items-center justify-center px-5 py-10 sm:px-6 sm:py-12">
+      <div className="glass-medium w-full max-w-xl rounded-3xl border p-5 sm:p-8 md:p-10">
         <div className="text-center">
           <img src={logoMark} alt="Klastra" className="mx-auto h-14 w-14" />
           <h1 className="mt-6 text-3xl font-black text-slate-900 md:text-4xl">Join your school</h1>
@@ -172,6 +174,8 @@ export default function Join() {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10"
+                aria-describedby={error ? 'join-signup-error' : undefined}
+                aria-invalid={Boolean(error)}
                 required
               />
             </div>
@@ -184,10 +188,12 @@ export default function Join() {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10"
-                required
+                  aria-describedby={error ? 'join-signup-error' : undefined}
+                  aria-invalid={Boolean(error)}
+                  required
               />
             </div>
-            {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
+              {error && <p id="join-signup-error" role="alert" className="text-sm text-red-600">{error}</p>}
             <Button type="submit" variant="primary" size="lg" fullWidth disabled={isSubmitting}>
               {isSubmitting ? 'Creating account...' : 'Create account and join'}
             </Button>

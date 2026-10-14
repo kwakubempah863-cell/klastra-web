@@ -33,6 +33,7 @@ export default function BookingFlow({ onNavigate }: { onNavigate: (page: string)
   return (
     <div className="fade-in min-h-full bg-slate-50 p-5 lg:p-8">
       <div className="max-w-2xl mx-auto">
+        <h1 className="sr-only">Book a tutoring session</h1>
         {/* Progress */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-3">
@@ -197,18 +198,19 @@ export default function BookingFlow({ onNavigate }: { onNavigate: (page: string)
               </div>
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-semibold text-slate-700 block mb-2">Payment Method</label>
-                  <div className="grid grid-cols-3 gap-3">
+                  <span id="payment-method-label" className="text-sm font-semibold text-slate-700 block mb-2">Payment Method</span>
+                  <div role="group" aria-labelledby="payment-method-label" className="grid grid-cols-3 gap-3">
                     {['MTN MoMo', 'Vodafone Cash', 'AirtelTigo'].map((m, i) => (
-                      <button key={m} className={`p-3 rounded-xl border-2 text-xs font-semibold text-center transition-all ${i === 0 ? 'border-[#2563EB] bg-[#EFF6FF] text-[#1E40AF]' : 'border-slate-100 text-slate-600'}`}>
+                      <button type="button" key={m} aria-pressed={i === 0} className={`min-h-11 p-3 rounded-xl border-2 text-xs font-semibold text-center transition-all ${i === 0 ? 'border-[#2563EB] bg-[#EFF6FF] text-[#1E40AF]' : 'border-slate-100 text-slate-600'}`}>
                         {m}
                       </button>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <label className="text-sm font-semibold text-slate-700 block mb-2">Mobile Money Number</label>
+                  <label htmlFor="payment-mobile-number" className="text-sm font-semibold text-slate-700 block mb-2">Mobile Money Number</label>
                   <input
+                    id="payment-mobile-number"
                     type="tel"
                     value={momoNumber}
                     onChange={e => setMomoNumber(e.target.value)}

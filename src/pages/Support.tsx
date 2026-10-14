@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 const faqs = [
   { question: 'How do I sign up my school?', answer: 'Use the request demo form and we will contact your school to arrange a pilot and onboarding call.' },
@@ -10,6 +11,7 @@ const faqs = [
 ];
 
 export default function Support() {
+  useDocumentTitle('Support — Klastra', 'Help and FAQs for Klastra users.');
   return (
     <main className="mesh-bg mx-auto max-w-4xl px-6 py-16">
       <div className="glass-light rounded-3xl border p-8">

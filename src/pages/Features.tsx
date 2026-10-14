@@ -1,3 +1,5 @@
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+
 const featureSections = [
   {
     title: 'Attendance that takes seconds, not minutes',
@@ -44,6 +46,10 @@ const featureSections = [
 ];
 
 export default function Features() {
+  useDocumentTitle(
+    'Features — Klastra',
+    'Attendance, scores, remarks, parent linking, and messaging for modern schools.',
+  );
   return (
     <main className="mesh-bg mx-auto max-w-6xl px-6 py-16">
       <div className="mx-auto max-w-3xl text-center">

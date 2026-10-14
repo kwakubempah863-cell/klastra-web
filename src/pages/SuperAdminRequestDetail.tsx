@@ -11,6 +11,7 @@ import {
   requestMoreInfo,
 } from '../services/superAdmin';
 import type { SchoolRequest } from '../services/superAdmin';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 type RequestedDocumentType = 'registration_certificate' | 'headmaster_id' | 'headmaster_appointment';
 
@@ -62,6 +63,7 @@ function relativeTime(timestamp: string) {
 }
 
 export default function SuperAdminRequestDetail() {
+  useDocumentTitle('School request review — Klastra');
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { profile, loading: authLoading, signOut } = useAuth();
@@ -218,9 +220,9 @@ export default function SuperAdminRequestDetail() {
   if (isLoading) {
     return (
       <main className="min-h-screen bg-slate-50">
-        <header className="border-b border-slate-200 bg-white px-6 py-4">
+        <header className="border-b border-slate-200 bg-white px-5 py-4 sm:px-6">
           <div className="mx-auto flex max-w-7xl items-center gap-3">
-            <img src={logoMark} alt="" className="h-10 w-10" />
+            <img src={logoMark} alt="Klastra" className="h-10 w-10" />
             <span className="text-lg font-black text-slate-900">Super Admin</span>
           </div>
         </header>
@@ -232,13 +234,13 @@ export default function SuperAdminRequestDetail() {
   if (error || !request) {
     return (
       <main className="min-h-screen bg-slate-50">
-        <header className="border-b border-slate-200 bg-white px-6 py-4">
+        <header className="border-b border-slate-200 bg-white px-5 py-4 sm:px-6">
           <div className="mx-auto flex max-w-7xl items-center gap-3">
-            <img src={logoMark} alt="" className="h-10 w-10" />
+            <img src={logoMark} alt="Klastra" className="h-10 w-10" />
             <span className="text-lg font-black text-slate-900">Super Admin</span>
           </div>
         </header>
-        <section className="mx-auto max-w-2xl px-6 py-20 text-center">
+        <section className="mx-auto max-w-2xl px-5 py-12 text-center sm:px-6 sm:py-20">
           <h1 className="text-2xl font-black text-slate-900">{error ? 'Unable to load request' : 'Request not found'}</h1>
           {error && <p role="alert" className="mt-3 text-sm text-red-700">{error}</p>}
           <Link to="/super-admin" className="mt-6 inline-block text-sm font-semibold text-[#2563EB] hover:underline">
@@ -256,11 +258,11 @@ export default function SuperAdminRequestDetail() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-4">
           <div className="flex items-center gap-3">
-            <img src={logoMark} alt="" className="h-10 w-10" />
+            <img src={logoMark} alt="Klastra" className="h-10 w-10" />
             <span className="text-lg font-black text-slate-900">Super Admin</span>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="text-sm text-slate-600">{profile.email || 'Platform administrator'}</span>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <span className="hidden max-w-52 truncate text-sm text-slate-600 sm:inline">{profile.email || 'Platform administrator'}</span>
             <Button variant="secondary" size="sm" onClick={() => void handleSignOut()} disabled={isSigningOut}>
               {isSigningOut ? 'Signing out...' : 'Sign out'}
             </Button>
@@ -268,7 +270,7 @@ export default function SuperAdminRequestDetail() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8">
         <Link to="/super-admin" className="text-sm font-semibold text-[#2563EB] hover:underline">
           ← Back to applications
         </Link>
@@ -276,7 +278,7 @@ export default function SuperAdminRequestDetail() {
         <div className="mt-6 grid gap-6 lg:grid-cols-[2fr_1fr]">
           <div className="space-y-6">
             <section className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
-              <h1 className="text-2xl font-black text-slate-900">{request.school_name}</h1>
+              <h1 className="break-words text-2xl font-black text-slate-900">{request.school_name}</h1>
               <p className="mt-2 text-sm text-slate-500">{request.school_region} · {request.school_city}</p>
               <p className="mt-1 text-sm text-slate-500">
                 {request.student_count === null ? 'Student count not provided' : `${request.student_count.toLocaleString()} students`}
@@ -287,7 +289,7 @@ export default function SuperAdminRequestDetail() {
               <h2 className="font-bold text-slate-900">Applicant</h2>
               <p className="mt-2 font-semibold text-slate-800">{request.full_name}</p>
               <p className="mt-1 text-sm">
-                <a href={`mailto:${request.email}`} className="text-[#2563EB] hover:underline">{request.email}</a>
+                <a href={`mailto:${request.email}`} className="break-words text-[#2563EB] hover:underline">{request.email}</a>
               </p>
               <p className="mt-1 text-sm">
                 <a href={`tel:${request.phone}`} className="text-[#2563EB] hover:underline">{request.phone}</a>
@@ -327,7 +329,7 @@ export default function SuperAdminRequestDetail() {
             {!isFinalized && (
               <section className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
                 <h2 className="text-lg font-bold text-slate-900">Review actions</h2>
-                {actionError && <p role="alert" className="mt-4 text-sm text-red-700">{actionError}</p>}
+                {actionError && <p id="review-action-error" role="alert" className="mt-4 text-sm text-red-700">{actionError}</p>}
 
                 {!showRejectForm ? (
                   <div className="mt-5 space-y-3">
@@ -385,6 +387,8 @@ export default function SuperAdminRequestDetail() {
                         value={rejectReason}
                         onChange={(event) => setRejectReason(event.target.value)}
                         className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10"
+                        aria-describedby={actionError ? 'review-action-error' : undefined}
+                        aria-invalid={Boolean(actionError)}
                         placeholder="Explain why this application is being rejected (at least 10 characters)."
                         required
                       />
@@ -425,7 +429,7 @@ export default function SuperAdminRequestDetail() {
                   </p>
                 )}
                 {request.reviewer_notes && (
-                  <p className="rounded-xl bg-slate-50 p-3 text-slate-700">
+                  <p className="break-words rounded-xl bg-slate-50 p-3 text-slate-700">
                     <span className="font-semibold">Reviewer notes</span>
                     <br />
                     {request.reviewer_notes}
@@ -517,6 +521,8 @@ export default function SuperAdminRequestDetail() {
                     setActionError('');
                   }}
                   className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10"
+                  aria-describedby={actionError ? 'request-info-error' : undefined}
+                  aria-invalid={Boolean(actionError)}
                   placeholder="Explain what needs to be corrected or re-uploaded."
                   required
                 />
@@ -539,7 +545,7 @@ export default function SuperAdminRequestDetail() {
                 </div>
               </fieldset>
 
-              {actionError && <p role="alert" className="text-sm text-red-700">{actionError}</p>}
+              {actionError && <p id="request-info-error" role="alert" className="text-sm text-red-700">{actionError}</p>}
 
               <div className="flex flex-wrap justify-end gap-3">
                 <Button

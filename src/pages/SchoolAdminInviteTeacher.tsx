@@ -4,6 +4,7 @@ import { Button } from '../components/ui';
 import { useAuth } from '../contexts/AuthContext';
 import logoMark from '../imports/logo-mark.png';
 import { generateSchoolInvite, listSchoolInvites, revokeSchoolInvite, type SchoolInvite } from '../services/schoolInvites';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 function formatDate(value: string) {
   return new Date(value).toLocaleDateString(undefined, {
@@ -14,6 +15,7 @@ function formatDate(value: string) {
 }
 
 export default function SchoolAdminInviteTeacher() {
+  useDocumentTitle('Invite a teacher — Klastra');
   const { profile, loading: authLoading } = useAuth();
   const [invite, setInvite] = useState<{ id: string; code: string; expiresAt: string } | null>(null);
   const [activeInvites, setActiveInvites] = useState<SchoolInvite[]>([]);
@@ -105,9 +107,9 @@ export default function SchoolAdminInviteTeacher() {
   return (
     <main className="min-h-screen bg-slate-50">
       <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-4">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-6">
           <Link to="/school-admin" className="flex items-center gap-3">
-            <img src={logoMark} alt="" className="h-10 w-10" />
+            <img src={logoMark} alt="Klastra" className="h-10 w-10" />
             <span className="text-lg font-black text-slate-900">Klastra</span>
           </Link>
           <Link to="/school-admin/teachers" className="text-sm font-semibold text-[#2563EB] hover:underline">
@@ -116,8 +118,8 @@ export default function SchoolAdminInviteTeacher() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-3xl px-6 py-10">
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 sm:p-10">
+      <div className="mx-auto max-w-3xl px-5 py-8 sm:px-6 sm:py-10">
+        <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-8 md:p-10">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#2563EB]">Teacher onboarding</p>
           <h1 className="mt-2 text-3xl font-black text-slate-900">Invite a teacher</h1>
           <p className="mt-4 text-sm leading-relaxed text-slate-600">
@@ -141,7 +143,7 @@ export default function SchoolAdminInviteTeacher() {
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Invite code</p>
-                  <p className="mt-2 font-mono text-3xl font-black tracking-[0.18em] text-slate-900">{invite.code}</p>
+                  <p className="mt-2 break-all font-mono text-2xl font-black tracking-[0.1em] text-slate-900 sm:text-3xl">{invite.code}</p>
                 </div>
                 <div className="flex gap-3">
                   <Button variant="outline" size="sm" onClick={() => void handleCopy(invite.code, 'code')}>
@@ -150,7 +152,7 @@ export default function SchoolAdminInviteTeacher() {
                 </div>
               </div>
 
-              <div className="mt-5 space-y-3 rounded-2xl border border-slate-200 bg-white p-4">
+              <div className="mt-5 min-w-0 space-y-3 rounded-2xl border border-slate-200 bg-white p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Join link</p>
                 <p className="break-all text-sm text-slate-700">{joinLink}</p>
                 <Button variant="outline" size="sm" onClick={() => void handleCopy(joinLink, 'link')}>
@@ -163,7 +165,7 @@ export default function SchoolAdminInviteTeacher() {
           )}
         </div>
 
-        <div className="mt-8 rounded-3xl border border-slate-200 bg-white p-8">
+        <div className="mt-8 rounded-3xl border border-slate-200 bg-white p-5 sm:p-8">
           <h2 className="text-xl font-black text-slate-900">Your active invites</h2>
 
           {isLoading ? (

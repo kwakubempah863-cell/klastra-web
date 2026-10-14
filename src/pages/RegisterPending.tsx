@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui';
 import { useAuth } from '../contexts/AuthContext';
 import { getMySchoolRequest } from '../services/schoolRequests';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 type RequestedDocumentType = 'registration_certificate' | 'headmaster_id' | 'headmaster_appointment';
 type SchoolRequestStatus = 'pending' | 'awaiting_review' | 'needs_info' | 'approved' | 'rejected';
@@ -22,6 +23,7 @@ const requestedDocumentLabels: Record<RequestedDocumentType, string> = {
 };
 
 export default function RegisterPending() {
+  useDocumentTitle('Application status — Klastra');
   const navigate = useNavigate();
   const { profile, loading: authLoading } = useAuth();
   const fullName = [profile?.first_name, profile?.last_name].filter(Boolean).join(' ').trim();
@@ -62,8 +64,8 @@ export default function RegisterPending() {
     .filter((docType): docType is RequestedDocumentType => docType in requestedDocumentLabels);
 
   return (
-    <main className="mesh-bg min-h-[60vh] px-6 py-16">
-      <section className="glass-medium mx-auto max-w-xl rounded-3xl border p-8 text-center sm:p-12">
+    <main className="mesh-bg min-h-[60vh] px-5 py-10 sm:px-6 sm:py-12">
+      <section className="glass-medium mx-auto max-w-xl rounded-3xl border p-5 text-center sm:p-8 md:p-12">
         {needsInfo ? (
           <div className="rounded-2xl border border-amber-300 bg-amber-50 p-6 text-left">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 text-2xl text-amber-800" aria-hidden="true">!</div>

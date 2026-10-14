@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Button } from '../components/ui';
 import { submitDemoRequest } from '../services/demoRequests';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 type FormState = {
   fullName: string;
@@ -23,6 +24,7 @@ const initialForm: FormState = {
 };
 
 export default function Contact() {
+  useDocumentTitle('Contact — Klastra', 'Request a demo or contact the Klastra team.');
   const [form, setForm] = useState<FormState>(initialForm);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -114,54 +116,54 @@ export default function Contact() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1 block text-sm font-semibold text-slate-700">Full name</label>
-                  <input value={form.fullName} onChange={(event) => handleChange('fullName', event.target.value)} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" />
-                  {errors.fullName && <p className="mt-1 text-xs text-red-600">{errors.fullName}</p>}
+                  <label htmlFor="contact-full-name" className="mb-1 block text-sm font-semibold text-slate-700">Full name</label>
+                  <input id="contact-full-name" autoComplete="name" value={form.fullName} onChange={(event) => handleChange('fullName', event.target.value)} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" aria-invalid={Boolean(errors.fullName)} aria-describedby={errors.fullName ? 'contact-full-name-error' : undefined} />
+                  {errors.fullName && <p id="contact-full-name-error" role="alert" className="mt-1 text-xs text-red-600">{errors.fullName}</p>}
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm font-semibold text-slate-700">School name</label>
-                  <input value={form.schoolName} onChange={(event) => handleChange('schoolName', event.target.value)} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" />
-                  {errors.schoolName && <p className="mt-1 text-xs text-red-600">{errors.schoolName}</p>}
+                  <label htmlFor="contact-school-name" className="mb-1 block text-sm font-semibold text-slate-700">School name</label>
+                  <input id="contact-school-name" autoComplete="organization" value={form.schoolName} onChange={(event) => handleChange('schoolName', event.target.value)} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" aria-invalid={Boolean(errors.schoolName)} aria-describedby={errors.schoolName ? 'contact-school-name-error' : undefined} />
+                  {errors.schoolName && <p id="contact-school-name-error" role="alert" className="mt-1 text-xs text-red-600">{errors.schoolName}</p>}
                 </div>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1 block text-sm font-semibold text-slate-700">Role</label>
-                  <select value={form.role} onChange={(event) => handleChange('role', event.target.value)} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10">
+                  <label htmlFor="contact-role" className="mb-1 block text-sm font-semibold text-slate-700">Role</label>
+                  <select id="contact-role" value={form.role} onChange={(event) => handleChange('role', event.target.value)} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" aria-invalid={Boolean(errors.role)} aria-describedby={errors.role ? 'contact-role-error' : undefined}>
                     <option>Headmaster/Headmistress</option>
                     <option>Administrator</option>
                     <option>Teacher</option>
                     <option>Parent</option>
                     <option>Other</option>
                   </select>
-                  {errors.role && <p className="mt-1 text-xs text-red-600">{errors.role}</p>}
+                  {errors.role && <p id="contact-role-error" role="alert" className="mt-1 text-xs text-red-600">{errors.role}</p>}
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm font-semibold text-slate-700">Number of students</label>
-                  <input type="number" min="1" value={form.studentCount} onChange={(event) => handleChange('studentCount', event.target.value)} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" placeholder="Optional" />
+                  <label htmlFor="contact-student-count" className="mb-1 block text-sm font-semibold text-slate-700">Number of students</label>
+                  <input id="contact-student-count" type="number" min="1" value={form.studentCount} onChange={(event) => handleChange('studentCount', event.target.value)} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" placeholder="Optional" />
                 </div>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1 block text-sm font-semibold text-slate-700">Email</label>
-                  <input type="email" value={form.email} onChange={(event) => handleChange('email', event.target.value)} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" />
-                  {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
+                  <label htmlFor="contact-email" className="mb-1 block text-sm font-semibold text-slate-700">Email</label>
+                  <input id="contact-email" type="email" autoComplete="email" value={form.email} onChange={(event) => handleChange('email', event.target.value)} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? 'contact-email-error' : undefined} />
+                  {errors.email && <p id="contact-email-error" role="alert" className="mt-1 text-xs text-red-600">{errors.email}</p>}
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm font-semibold text-slate-700">Phone</label>
-                  <input type="tel" value={form.phone} onChange={(event) => handleChange('phone', event.target.value)} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" placeholder="024 000 0000" />
-                  {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}
+                  <label htmlFor="contact-phone" className="mb-1 block text-sm font-semibold text-slate-700">Phone</label>
+                  <input id="contact-phone" type="tel" autoComplete="tel" value={form.phone} onChange={(event) => handleChange('phone', event.target.value)} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" placeholder="024 000 0000" aria-invalid={Boolean(errors.phone)} aria-describedby={errors.phone ? 'contact-phone-error' : undefined} />
+                  {errors.phone && <p id="contact-phone-error" role="alert" className="mt-1 text-xs text-red-600">{errors.phone}</p>}
                 </div>
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-semibold text-slate-700">Message</label>
-                <textarea value={form.message} onChange={(event) => handleChange('message', event.target.value)} rows={5} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" placeholder="Tell us about your school, class sizes, and what you would like to trial." />
+                <label htmlFor="contact-message" className="mb-1 block text-sm font-semibold text-slate-700">Message</label>
+                <textarea id="contact-message" value={form.message} onChange={(event) => handleChange('message', event.target.value)} rows={5} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/10" placeholder="Tell us about your school, class sizes, and what you would like to trial." />
               </div>
 
-              {serverError && <p className="text-sm text-red-600">{serverError}</p>}
+              {serverError && <p role="alert" className="text-sm text-red-600">{serverError}</p>}
 
               <Button type="submit" size="lg" fullWidth disabled={isSubmitting}>
                 {isSubmitting ? 'Sending...' : 'Request demo'}

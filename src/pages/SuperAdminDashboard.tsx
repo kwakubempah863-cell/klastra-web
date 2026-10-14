@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui';
 import { useAuth } from '../contexts/AuthContext';
 import logoMark from '../imports/logo-mark.png';
 import { listSchoolRequests } from '../services/superAdmin';
 import type { SchoolRequest } from '../services/superAdmin';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 type FilterStatus = SchoolRequest['status'] | 'all';
 
@@ -56,6 +58,7 @@ function relativeTime(timestamp: string) {
 }
 
 export default function SuperAdminDashboard() {
+  useDocumentTitle('Super Admin — Klastra');
   const navigate = useNavigate();
   const { profile, loading: authLoading, signOut } = useAuth();
   const profileRole: string | undefined = profile?.role;
@@ -121,11 +124,11 @@ export default function SuperAdminDashboard() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-4">
           <div className="flex items-center gap-3">
-            <img src={logoMark} alt="" className="h-10 w-10" />
+            <img src={logoMark} alt="Klastra" className="h-10 w-10" />
             <span className="text-lg font-black text-slate-900">Super Admin</span>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="text-sm text-slate-600">{profile.email || 'Platform administrator'}</span>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <span className="hidden max-w-52 truncate text-sm text-slate-600 sm:inline">{profile.email || 'Platform administrator'}</span>
             <Button
               variant="outline"
               size="sm"
@@ -141,7 +144,7 @@ export default function SuperAdminDashboard() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-6 py-10">
+      <div className="mx-auto max-w-7xl px-5 py-8 sm:px-6 sm:py-10">
         <div>
           <h1 className="text-2xl font-black text-slate-900">School applications</h1>
           <p className="mt-2 text-sm text-slate-600">Review submitted school registration requests.</p>
@@ -156,7 +159,7 @@ export default function SuperAdminDashboard() {
                 type="button"
                 onClick={() => setActiveFilter(filter.value)}
                 aria-pressed={active}
-                className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+                className={`min-h-11 rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
                   active
                     ? 'border-[#102A43] bg-[#102A43] text-white'
                     : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
@@ -190,18 +193,10 @@ export default function SuperAdminDashboard() {
             </div>
           ) : (
             requests.map((request) => (
-              <article
+              <Link
                 key={request.id}
-                role="link"
-                tabIndex={0}
-                onClick={() => navigate(`/super-admin/requests/${request.id}`)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    navigate(`/super-admin/requests/${request.id}`);
-                  }
-                }}
-                className="cursor-pointer rounded-2xl border border-slate-200 bg-white p-5 transition-colors hover:border-slate-300 sm:p-6"
+                to={`/super-admin/requests/${request.id}`}
+                className="block rounded-2xl border border-slate-200 bg-white p-4 transition-colors hover:border-slate-300 sm:p-6"
               >
                 <div className="grid gap-5 lg:grid-cols-[1.1fr_1fr_auto] lg:items-center">
                   <div className="min-w-0">
@@ -227,7 +222,7 @@ export default function SuperAdminDashboard() {
                     </time>
                   </div>
                 </div>
-              </article>
+              </Link>
             ))
           )}
         </section>

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Badge, Button } from '../components/ui';
 import heroClassroom from '../imports/hero-classroom.png';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 const trustMarkers = ['Free for pilot schools', 'Works on any Android phone', 'Set up in a day'];
 
@@ -123,6 +124,10 @@ function PhoneMockup() {
 }
 
 export default function Landing() {
+  useDocumentTitle(
+    'Klastra — The operating system for modern schools',
+    'Attendance, scores, parent updates, and school management in one app. Built for Ghanaian private schools.',
+  );
   const navigate = useNavigate();
 
   return (

@@ -6,6 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 import logoMark from '../imports/logo-mark.png';
 import { getDocumentSignedUrl } from '../services/superAdmin';
 import { getMySchoolRequest } from '../services/schoolRequests';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 type DocumentType = 'registration_certificate' | 'headmaster_id' | 'headmaster_appointment';
 type RequestStatus = 'pending' | 'awaiting_review' | 'needs_info' | 'approved' | 'rejected';
@@ -90,6 +91,7 @@ const statusDisplay: Record<RequestStatus, { heading: string; body: string; icon
 };
 
 export default function SchoolAdminDashboard() {
+  useDocumentTitle('School dashboard — Klastra');
   const navigate = useNavigate();
   const { profile, loading: authLoading, signOut } = useAuth();
   const profileRole: string | undefined = profile?.role;
@@ -180,7 +182,7 @@ export default function SchoolAdminDashboard() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-4">
           <Link to="/" className="flex items-center gap-3">
-            <img src={logoMark} alt="" className="h-10 w-10" />
+            <img src={logoMark} alt="Klastra" className="h-10 w-10" />
             <span className="text-lg font-black text-slate-900">Klastra</span>
           </Link>
           <div className="flex flex-wrap items-center gap-3">
@@ -195,7 +197,7 @@ export default function SchoolAdminDashboard() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-3xl space-y-6 px-6 py-10">
+      <div className="mx-auto max-w-3xl space-y-6 px-5 py-8 sm:px-6 sm:py-10">
         {signOutError && (
           <p role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{signOutError}</p>
         )}
@@ -221,7 +223,7 @@ export default function SchoolAdminDashboard() {
           </section>
         ) : (
           <>
-            <section className="rounded-3xl border border-slate-200 bg-white p-8 sm:p-10">
+            <section className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-8 md:p-10">
               {request.status === 'needs_info' && (
                 <div className="mb-6 rounded-2xl border border-amber-300 bg-amber-50 p-4 text-sm leading-relaxed text-amber-950">
                   {request.reviewer_notes || 'Please review and re-upload the requested documents.'}
@@ -292,7 +294,7 @@ export default function SchoolAdminDashboard() {
               </div>
             </section>
 
-            <section className="rounded-3xl border border-slate-200 bg-white p-8 sm:p-10">
+            <section className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-8 md:p-10">
               <h2 className="text-lg font-bold text-slate-900">Documents</h2>
               <div className="mt-4 divide-y divide-slate-100">
                 {documents.map(({ type, field, label }) => {

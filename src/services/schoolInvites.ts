@@ -21,6 +21,15 @@ export type InvitePreview = {
   reason: string | null;
 };
 
+export type SchoolTeacher = {
+  userId: string;
+  firstName: string;
+  lastName: string;
+  email: string | null;
+  verificationStatus: 'pending' | 'approved' | 'rejected' | null;
+  deactivatedAt: string | null;
+};
+
 export async function listSchoolInvites(): Promise<SchoolInvite[]> {
   if (!supabase) throw new Error('Missing Supabase env vars.');
 
@@ -101,19 +110,14 @@ export async function revokeSchoolInvite(inviteId: string): Promise<void> {
   if (error) throw new Error(error.message);
 }
 
-export async function listSchoolTeachers(): Promise<{
-  userId: string;
-  firstName: string;
-  lastName: string;
-  email: string | null;
-  verificationStatus: 'pending' | 'approved' | 'rejected' | null;
-}[]> {
+export async function listSchoolTeachers(): Promise<SchoolTeacher[]> {
   if (!supabase) throw new Error('Missing Supabase env vars.');
 
   const { data, error } = await supabase
     .from('school_members')
-    .select('user_id, profiles:user_id(first_name, last_name, email, verification_status)')
-    .eq('role', 'teacher');
+    .select('user_id, deactivated_at, profiles:user_id(first_name, last_name, email, verification_status)')
+    .eq('role', 'teacher')
+    .is('deactivated_at', null);
 
   if (error) throw new Error(error.message);
 
@@ -123,5 +127,43 @@ export async function listSchoolTeachers(): Promise<{
     lastName: row.profiles?.last_name ?? '',
     email: row.profiles?.email ?? null,
     verificationStatus: row.profiles?.verification_status ?? null,
+    deactivatedAt: row.deactivated_at ?? null,
   }));
+}
+
+export async function listDeactivatedTeachers(): Promise<SchoolTeacher[]> {
+  if (!supabase) throw new Error('Missing Supabase env vars.');
+
+  const { data, error } = await supabase
+    .from('school_members')
+    .select('user_id, deactivated_at, profiles:user_id(first_name, last_name, email, verification_status)')
+    .eq('role', 'teacher')
+    .not('deactivated_at', 'is', null);
+
+  if (error) throw new Error(error.message);
+
+  return (data ?? []).map((row: any) => ({
+    userId: row.user_id,
+    firstName: row.profiles?.first_name ?? '',
+    lastName: row.profiles?.last_name ?? '',
+    email: row.profiles?.email ?? null,
+    verificationStatus: row.profiles?.verification_status ?? null,
+    deactivatedAt: row.deactivated_at ?? null,
+  }));
+}
+
+export async function deactivateTeacher(userId: string): Promise<void> {
+  if (!supabase) throw new Error('Missing Supabase env vars.');
+
+  const { error } = await supabase.rpc('deactivate_school_member', { member_user_id: userId });
+
+  if (error) throw new Error(error.message);
+}
+
+export async function reactivateTeacher(userId: string): Promise<void> {
+  if (!supabase) throw new Error('Missing Supabase env vars.');
+
+  const { error } = await supabase.rpc('reactivate_school_member', { member_user_id: userId });
+
+  if (error) throw new Error(error.message);
 }

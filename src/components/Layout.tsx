@@ -168,7 +168,14 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           )}
           {!isPublic && (
-            <button className="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100" onClick={() => setSidebarOpen(!sidebarOpen)}>
+            <button
+              type="button"
+              aria-label={sidebarOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={sidebarOpen}
+              aria-controls="mobile-navigation"
+              className="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
               <MenuIcon />
             </button>
           )}
@@ -235,14 +242,26 @@ export default function Layout({ children }: LayoutProps) {
       {/* Mobile sidebar overlay */}
       {sidebarOpen && !isPublic && (
         <div className="fixed inset-0 z-50 md:hidden">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setSidebarOpen(false)} />
-          <aside className="absolute left-0 top-0 bottom-0 w-64 flex flex-col" style={{ background: '#0F172A' }}>
+          <button
+            type="button"
+            aria-label="Close navigation menu"
+            className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40"
+            onClick={() => setSidebarOpen(false)}
+          />
+          <aside id="mobile-navigation" className="absolute left-0 top-0 bottom-0 w-64 flex flex-col" style={{ background: '#0F172A' }}>
             <div className="px-5 py-5 border-b border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <img src={logoMark} alt="Klastra" className="w-9 h-9 rounded-lg object-cover" />
                 <span className="font-display font-bold text-white text-sm">Klastra</span>
               </div>
-              <button className="text-white/60" onClick={() => setSidebarOpen(false)}>✕</button>
+              <button
+                type="button"
+                aria-label="Close navigation menu"
+                className="min-h-11 min-w-11 text-white/60"
+                onClick={() => setSidebarOpen(false)}
+              >
+                ✕
+              </button>
             </div>
             <nav className="flex-1 px-3 py-4 space-y-0.5">
               {navItems.map(item => (

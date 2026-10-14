@@ -1,4 +1,7 @@
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+
 export default function Privacy() {
+  useDocumentTitle('Privacy Policy — Klastra', "How Klastra handles your school's data.");
   return (
     <main className="mesh-bg mx-auto max-w-3xl px-6 py-16">
       <div className="glass-light rounded-3xl border p-8">

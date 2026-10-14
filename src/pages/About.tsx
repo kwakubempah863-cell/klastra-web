@@ -1,4 +1,7 @@
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+
 export default function About() {
+  useDocumentTitle('About — Klastra', 'Why we built Klastra for Ghanaian private schools.');
   return (
     <main className="mesh-bg mx-auto max-w-4xl px-6 py-16">
       <div className="glass-light rounded-3xl border p-8 md:p-10">
