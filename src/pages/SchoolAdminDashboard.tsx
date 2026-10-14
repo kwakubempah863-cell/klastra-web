@@ -187,6 +187,9 @@ export default function SchoolAdminDashboard() {
           </Link>
           <div className="flex flex-wrap items-center gap-3">
             <span className="hidden text-sm text-slate-600 sm:inline">{profile.email}</span>
+            <Link to="/school-admin/classes" className="inline-flex min-h-11 items-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2">
+              Classes
+            </Link>
             <Button variant="outline" size="sm" onClick={() => setRefreshKey((current) => current + 1)} disabled={isLoading}>
               Refresh
             </Button>

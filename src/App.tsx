@@ -19,6 +19,8 @@ import SuperAdminRequestDetail from './pages/SuperAdminRequestDetail';
 import SchoolAdminDashboard from './pages/SchoolAdminDashboard';
 import SchoolAdminTeachers from './pages/SchoolAdminTeachers';
 import SchoolAdminInviteTeacher from './pages/SchoolAdminInviteTeacher';
+import SchoolAdminClasses from './pages/SchoolAdminClasses';
+import SchoolAdminClassDetail from './pages/SchoolAdminClassDetail';
 import Join from './pages/Join';
 import JoinSuccess from './pages/JoinSuccess';
 
@@ -39,6 +41,8 @@ export default function App() {
         <Route path="/register/pending" element={<Layout><RegisterPending /></Layout>} />
         <Route path="/register/documents" element={<Layout><RegisterDocuments /></Layout>} />
         <Route path="/school-admin" element={<SchoolAdminDashboard />} />
+        <Route path="/school-admin/classes" element={<SchoolAdminClasses />} />
+        <Route path="/school-admin/classes/:id" element={<SchoolAdminClassDetail />} />
         <Route path="/school-admin/teachers" element={<SchoolAdminTeachers />} />
         <Route path="/school-admin/teachers/invite" element={<SchoolAdminInviteTeacher />} />
         <Route path="/join" element={<Join />} />
