@@ -1,28 +1,33 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Button } from '../components/ui';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import logoMark from '../imports/logo-mark.png';
 import { supabase } from '../lib/supabase';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { roleRedirectPath, type UserRole } from '../lib/authRedirect';
 
 export default function Login() {
   useDocumentTitle('Sign in — Klastra', 'Sign in to your Klastra account.');
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { profile, loading: authLoading, refresh } = useAuth();
   const profileRole: string | undefined = profile?.role;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState(() => (
+    searchParams.get('error') === 'oauth_failed'
+      ? 'Google sign-in failed. Please try again or use your email and password.'
+      : ''
+  ));
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleSubmitting, setIsGoogleSubmitting] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
 
   useEffect(() => {
     if (authLoading || !profile) return;
-    if (profileRole === 'platform_admin') navigate('/super-admin', { replace: true });
-    else if (profileRole === 'admin') navigate('/school-admin', { replace: true });
-    else navigate('/', { replace: true });
+    navigate(roleRedirectPath(profileRole as UserRole), { replace: true });
   }, [authLoading, navigate, profile, profileRole]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -47,14 +52,33 @@ export default function Login() {
       if (signInError) throw new Error(signInError.message);
 
       const refreshedProfile = await refresh();
-      const role: string | undefined = refreshedProfile?.role;
-      if (role === 'platform_admin') navigate('/super-admin', { replace: true });
-      else if (role === 'admin') navigate('/school-admin', { replace: true });
-      else navigate('/', { replace: true });
+      navigate(roleRedirectPath((refreshedProfile?.role as UserRole) ?? null), { replace: true });
     } catch (signInError) {
       setError(signInError instanceof Error ? signInError.message : 'Unable to sign in.');
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setError('');
+    if (!supabase) {
+      setError('Missing Supabase env vars. Check .env.local');
+      return;
+    }
+
+    setIsGoogleSubmitting(true);
+    try {
+      const { error: oauthError } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+      if (oauthError) throw new Error(oauthError.message);
+    } catch (oauthError) {
+      setError(oauthError instanceof Error ? oauthError.message : 'Unable to start Google sign-in.');
+      setIsGoogleSubmitting(false);
     }
   };
 
@@ -110,6 +134,16 @@ export default function Login() {
           </Button>
         </form>
 
+        <button
+          type="button"
+          onClick={() => void handleGoogleSignIn()}
+          disabled={isSubmitting || isGoogleSubmitting}
+          className="relative mt-4 flex min-h-11 w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          <GoogleLogo />
+          <span>{isGoogleSubmitting ? 'Redirecting...' : 'Continue with Google'}</span>
+        </button>
+
         <div className="mt-8 border-t border-slate-200 pt-6">
           <h2 className="text-sm font-bold text-slate-800">Use the mobile app</h2>
           <p className="mt-2 text-sm text-slate-600">Students, parents, and tutors use the Klastra app to sign in.</p>
@@ -131,5 +165,16 @@ export default function Login() {
         </div>
       </div>
     </main>
+  );
+}
+
+function GoogleLogo() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 48 48" className="absolute left-4 h-5 w-5">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.93c-.58 2.96-2.25 5.48-4.72 7.18l7.62 5.9c4.45-4.12 7.15-10.2 7.15-17.55z" />
+      <path fill="#34A853" d="M10.54 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.75-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.87.93 7.53 2.56 10.78l7.98-6.19z" />
+      <path fill="#FBBC05" d="M24 48c6.48 0 11.93-2.13 15.9-5.9l-7.62-5.9c-2.12 1.42-4.84 2.3-8.28 2.3-6.26 0-11.57-4.22-13.46-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+    </svg>
   );
 }

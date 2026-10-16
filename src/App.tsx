@@ -23,6 +23,7 @@ import SchoolAdminClasses from './pages/SchoolAdminClasses';
 import SchoolAdminClassDetail from './pages/SchoolAdminClassDetail';
 import Join from './pages/Join';
 import JoinSuccess from './pages/JoinSuccess';
+import AuthCallback from './pages/AuthCallback';
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="/terms" element={<Layout><Terms /></Layout>} />
         <Route path="/support" element={<Layout><Support /></Layout>} />
         <Route path="/login" element={<Layout><Login /></Layout>} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/register" element={<Layout><Register /></Layout>} />
         <Route path="/register/pending" element={<Layout><RegisterPending /></Layout>} />
         <Route path="/register/documents" element={<Layout><RegisterDocuments /></Layout>} />

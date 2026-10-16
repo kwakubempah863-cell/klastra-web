@@ -16,6 +16,7 @@ type Profile = {
 type AuthContextType = {
   profile: Profile | null;
   loading: boolean;
+  authError: string | null;
   refresh: () => Promise<Profile | null>;
   signOut: () => Promise<void>;
 };
@@ -23,6 +24,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType>({
   profile: null,
   loading: true,
+  authError: null,
   refresh: async () => null,
   signOut: async () => {},
 });
@@ -30,26 +32,29 @@ const AuthContext = createContext<AuthContextType>({
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [authError, setAuthError] = useState<string | null>(null);
 
   const load = async () => {
     try {
       const currentProfile = await getCurrentProfile() as Profile | null;
       setProfile(currentProfile);
+      setAuthError(null);
       return currentProfile;
-    } catch {
-      setProfile(null);
-      return null;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unable to load your profile.';
+      setAuthError(message);
+      throw error;
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    void load();
+    void load().catch(() => undefined);
     if (!supabase) return;
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
-      window.setTimeout(() => void load(), 0);
+      window.setTimeout(() => void load().catch(() => undefined), 0);
     });
     return () => subscription.unsubscribe();
   }, []);
@@ -57,10 +62,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const handleSignOut = async () => {
     await signOutService();
     setProfile(null);
+    setAuthError(null);
   };
 
   return (
-    <AuthContext.Provider value={{ profile, loading, refresh: load, signOut: handleSignOut }}>
+    <AuthContext.Provider value={{ profile, loading, authError, refresh: load, signOut: handleSignOut }}>
       {children}
     </AuthContext.Provider>
   );
