@@ -61,12 +61,15 @@ async function getAdminSchoolId(): Promise<string> {
     .select('school_id')
     .eq('user_id', user.id)
     .eq('role', 'admin')
-    .is('deactivated_at', null)
-    .maybeSingle();
+    .is('deactivated_at', null);
 
   if (error) throw new Error(error.message);
-  if (!data) throw new Error('No active school administrator membership was found.');
-  return data.school_id;
+  const schoolIds = [...new Set((data ?? []).map((membership) => membership.school_id))];
+  if (schoolIds.length === 0) throw new Error('No active school administrator membership was found.');
+  if (schoolIds.length > 1) {
+    throw new Error('Multiple active school administrator memberships were found. Select the school you want to manage.');
+  }
+  return schoolIds[0];
 }
 
 async function mapClassRows(records: ClassRecord[]): Promise<ClassRow[]> {
