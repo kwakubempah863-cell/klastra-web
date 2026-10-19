@@ -26,6 +26,7 @@ Created and Developed by BempsX
 - [Project folder structure](#project-folder-structure)
 - [UI/UX design system](#uiux-design-system)
 - [Logo, branding, and assets](#logo-branding-and-assets)
+- [Screenshots and visual documentation](#screenshots-and-visual-documentation)
 - [Installation and local development](#installation-and-local-development)
 - [Environment variables and configuration](#environment-variables-and-configuration)
 - [Running, building, and deploying](#running-building-and-deploying)
@@ -475,6 +476,30 @@ The project also includes hero imagery and splash assets in `src/imports`:
 
 These assets support the product’s educational branding and landing page content.
 
+## Screenshots and visual documentation
+
+There are no screenshot files committed in the repository at the moment. The project does include several design-heavy assets in `src/imports` and a strong marketing UI in the route pages, but no final screenshot gallery has been added yet.
+
+Recommended screenshot checklist for future documentation:
+
+- Landing page hero / headline
+- Feature overview section
+- Registration flow
+- Tutor dashboard
+- Parent dashboard
+- School admin dashboard
+- Super admin request detail
+- Booking flow
+- Messaging experience
+
+Example placeholder section using an existing asset when available:
+
+```md
+![Landing page preview](./public/logo-mark.png)
+```
+
+This is a placeholder-safe example using an existing repository asset until a real app capture is added.
+
 ## Installation and local development
 
 ### Prerequisites
@@ -575,6 +600,30 @@ The repo includes a `vercel.json` file:
 ```
 
 This indicates the app is designed for a Vercel-style SPA deployment with client-side routing support.
+
+### Example deployment notes
+
+#### Vercel deployment example
+
+```bash
+npm install
+npm run build
+```
+
+Then import the repository into Vercel and use the default Vite settings.
+
+Expected Vercel behavior:
+
+- build command: `npm run build`
+- output directory: `dist`
+- SPA rewrite support: handled by `vercel.json`
+
+#### Production environment checklist
+
+- Confirm public environment variables such as `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
+- Ensure the backend/auth provider is up and reachable.
+- Confirm all client-side routes are rewritten correctly for SPA behavior.
+- Verify any API calls from the front end have valid permitted origins and auth policies.
 
 ### Deployment notes
 
